@@ -1,10 +1,11 @@
 package com.epam.service;
 
-import com.codeborne.selenide.Selenide;
+import com.epam.driver.DriverSingleton;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 import java.lang.reflect.Method;
 
@@ -22,7 +23,7 @@ public class ScreenShootOnFailureExtension implements InvocationInterceptor {
         try {
             invocation.proceed();
         } catch (Throwable cause) {
-            byte[] screenshot = Selenide.screenshot(OutputType.BYTES);
+            byte[] screenshot = ((TakesScreenshot) DriverSingleton.getDriver()).getScreenshotAs(OutputType.BYTES);
             LoggingUtils.log(screenshot, "Failure screenshot");
             throw cause;
         }

@@ -41,7 +41,7 @@ public class SampleTests {
     }
     @ParameterizedTest
     @CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
-    void getNumberOfDaysInMonth_ShouldReturnHowManyDaysInMonth(String input, int expected) {
+    void getNumberOfDaysInMonth(String input, int expected) {
         int actualValue = Seasons.getNumberOfDaysInMonth(input);
         assertEquals(expected, actualValue);
     }
