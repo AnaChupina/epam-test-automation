@@ -23,11 +23,6 @@ public class SauceDemoLoginPage {
     private WebElement loginButton;
     @FindBy(xpath = "//h3[@data-test=\"error\"]")
     private WebElement loggingErrorMessage;
-    @FindBy(className = "product_sort_container")
-    private WebElement productSortContainer;
-//select[@class='product_sort_container']
-    @FindBy(xpath = "//option[contains(text(),'low to high')]")
-    private WebElement sortLowToHigh;
 
     public SauceDemoLoginPage(WebDriver driver) {
         this.driver = driver;
@@ -38,11 +33,11 @@ public class SauceDemoLoginPage {
         waitForPresenceOfElement(driver, "//div[@class=\"login_logo\"]");
         return this;
     }
-    public SauceDemoLoginPage login(User user){
+    public SauceDemoInventoryPage login(User user){
         usernameField.sendKeys(user.getUsername());
         passwordField.sendKeys(user.getPassword());
         loginButton.click();
-        return this;
+        return new SauceDemoInventoryPage(driver);
     }
     public String loginWithRandomCredentials() {
         usernameField.sendKeys(Strings.getRandomString());
