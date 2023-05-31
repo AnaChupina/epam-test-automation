@@ -1,7 +1,6 @@
 package com.epam.tests;
 
 import com.epam.reportportal.junit5.ReportPortalExtension;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -9,7 +8,7 @@ import com.epam.util.Numbers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import com.epam.util.Seasons;
-import com.epam.util.Strings;
+import com.epam.utils.Strings;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
