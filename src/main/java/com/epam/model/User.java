@@ -14,6 +14,10 @@ public class User {
         this.lastName = lastName;
         this.zipCode = zipCode;
     }
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

@@ -23,6 +23,12 @@ public class SauceDemoInventoryPage {
     private WebElement shoppingCartLink;
     @FindBy(xpath = "//div[contains(text(),'Sauce Labs Backpack')]")
     private WebElement cart_item;
+    @FindBy(xpath = "//button[contains(@id,'menu')]")
+    private WebElement menuBurgerButton;
+    @FindBy(xpath = "//a[contains(text(),'Logout')]")
+    private WebElement logoutButton;
+    @FindBy(className = "cart_item")
+    private WebElement numberOfItemsInCart;
 
     public SauceDemoInventoryPage(WebDriver driver) {
         this.driver = driver;
@@ -68,6 +74,16 @@ public class SauceDemoInventoryPage {
         WebElement removeFromCartButton = driver.findElement(By.xpath(element));
         removeFromCartButton.click();
         //sauce-labs-bike-light
+        return this;
+    }
+    public SauceDemoInventoryPage logout(){
+        menuBurgerButton.click();
+        waitForClickabilityOfElement(driver,logoutButton);
+        logoutButton.click();
+        return this;
+    }
+    public SauceDemoInventoryPage redirectToCart(){
+        shoppingCartLink.click();
         return this;
     }
 }
