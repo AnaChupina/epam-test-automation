@@ -1,7 +1,6 @@
 package com.epam.pages;
 
 import com.epam.model.User;
-import com.sun.nio.sctp.ShutdownNotification;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -43,8 +42,6 @@ public class SauceDemoCartPage {
     private WebElement burgerMenuButton;
     @FindBy(xpath = "//a[contains(text(),'Logout')]")
     private WebElement logoutButton;
-    @FindBy(className = "shopping_cart_link")
-    private WebElement shoppingCartLink;
 
     public SauceDemoCartPage(WebDriver driver) {
         this.driver = driver;
@@ -57,7 +54,6 @@ public class SauceDemoCartPage {
     public boolean isItCartPage(){
         try {
             waitForPresenceOfElement(driver,"//span[contains(text(), 'Cart')]");
-            //span[contains(text(), 'Cart')]
         }catch (WebDriverException exp){
             return false;
         }
@@ -117,7 +113,6 @@ public class SauceDemoCartPage {
             try {
                 WebElement cartItem = driver.findElement(By.xpath(cartItemLocator));
                 i++;
-                //div[@class="cart_item"]
             } catch (WebDriverException exp) {
                 break;
             }
