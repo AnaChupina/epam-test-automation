@@ -21,14 +21,10 @@ public class SauceDemoInventoryPage {
     private WebElement productPrice;
     @FindBy(className = "shopping_cart_link")
     private WebElement shoppingCartLink;
-    @FindBy(xpath = "//div[contains(text(),'Sauce Labs Backpack')]")
-    private WebElement cart_item;
     @FindBy(xpath = "//button[contains(@id,'menu')]")
     private WebElement menuBurgerButton;
     @FindBy(xpath = "//a[contains(text(),'Logout')]")
     private WebElement logoutButton;
-    @FindBy(className = "cart_item")
-    private WebElement numberOfItemsInCart;
 
     public SauceDemoInventoryPage(WebDriver driver) {
         this.driver = driver;
