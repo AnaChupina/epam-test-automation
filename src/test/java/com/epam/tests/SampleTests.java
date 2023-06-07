@@ -1,6 +1,7 @@
 package com.epam.tests;
 
 import com.epam.reportportal.junit5.ReportPortalExtension;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,7 +14,7 @@ import com.epam.utils.Strings;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(ReportPortalExtension.class)
+//@ExtendWith(ReportPortalExtension.class)
 public class SampleTests {
     @ParameterizedTest
     @ValueSource(ints = {2, 40, 56, 78})
@@ -43,5 +44,11 @@ public class SampleTests {
     void getNumberOfDaysInMonth(String input, int expected) {
         int actualValue = Seasons.getNumberOfDaysInMonth(input);
         assertEquals(expected, actualValue);
+    }
+    @Test
+    void checkMethodCompareArraysOfString_AreArraysEqual (){
+        String[] first = {"a","b","c"};
+        String[] second = {"a","a","a"};
+        assertTrue(Strings.compareArraysOfString_AreArraysEqual(first,second));
     }
 }

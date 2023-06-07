@@ -19,4 +19,18 @@ public class Strings {
         boolean useNumbers = true;
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
+    public static boolean compareArraysOfString_AreArraysEqual(String[] firstArray, String[] secondArray){
+        int equalStringCounter = 0;
+        if(firstArray.length != secondArray.length){
+            return false;
+        }
+        for (String value : firstArray) {
+            for (String str : secondArray) {
+                if (value.equals(str)) {
+                    equalStringCounter++;
+                }
+            }
+        }
+        return equalStringCounter == firstArray.length;
+    }
 }
