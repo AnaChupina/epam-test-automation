@@ -48,7 +48,7 @@ public class SampleTests {
     @Test
     void checkMethodCompareArraysOfString_AreArraysEqual (){
         String[] first = {"a","b","c"};
-        String[] second = {"a","a","a"};
+        String[] second = {"b","a","c"};
         assertTrue(Strings.compareArraysOfString_AreArraysEqual(first,second));
     }
 }

@@ -2,6 +2,8 @@ package com.epam.utils;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.util.Arrays;
+
 public class Strings {
 
     public static boolean isNumber (String str) {
@@ -20,17 +22,17 @@ public class Strings {
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
     public static boolean compareArraysOfString_AreArraysEqual(String[] firstArray, String[] secondArray){
-        int equalStringCounter = 0;
+        String[] newArray = new String[firstArray.length];
         if(firstArray.length != secondArray.length){
             return false;
         }
-        for (String value : firstArray) {
+        for (int i = 0; i<firstArray.length; i++) {
             for (String str : secondArray) {
-                if (value.equals(str)) {
-                    equalStringCounter++;
+                if (firstArray[i].equals(str)) {
+                    newArray[i] = str;
                 }
             }
         }
-        return equalStringCounter == firstArray.length;
+        return Arrays.equals(newArray, firstArray);
     }
 }
