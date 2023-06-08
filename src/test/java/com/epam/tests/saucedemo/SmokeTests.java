@@ -4,7 +4,6 @@ import com.epam.model.User;
 import com.epam.pages.SauceDemoCartPage;
 import com.epam.pages.SauceDemoInventoryPage;
 import com.epam.pages.SauceDemoLoginPage;
-import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,6 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SmokeTests extends CommonConditions{
+    private String INVENTORY_PAGE_URL = "https://www.saucedemo.com/inventory.html";
+    private String ERROR_MESSAGE_LOGIN_WITH_INVALID_CREDENTIALS = "Epic sadface: Username and password do not match any user in this service";
+    private String CHECKOUT_STEP_ONE_PAGE_URL = "https://www.saucedemo.com/checkout-step-one.html";
+    private String ERROR_MESSAGE_FIRST_NAME = "Error: First Name is required";
+    private String ERROR_MESSAGE_LAST_NAME = "Error: Last Name is required";
+    private String ERROR_MESSAGE_ZIP_CODE = "Error: Postal Code is required";
+    private String COMPLETE_ORDER_MESSAGE= "Thank you for your order!";
+    private String LOGIN_PAGE_URL = "https://www.saucedemo.com/";
 
     @ParameterizedTest(name = "test_1")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
@@ -22,7 +29,7 @@ public class SmokeTests extends CommonConditions{
         SauceDemoInventoryPage page = new SauceDemoLoginPage(driver)
                 .openPage()
                 .login(testUser);
-        assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
+        assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @Test
     @DisplayName("test_2")
@@ -30,7 +37,7 @@ public class SmokeTests extends CommonConditions{
         SauceDemoLoginPage page = new SauceDemoLoginPage(driver)
                 .openPage();
         String actualErrorMessage = page.loginWithRandomCredentials();
-        assertEquals("Epic sadface: Username and password do not match any user in this service",
+        assertEquals(ERROR_MESSAGE_LOGIN_WITH_INVALID_CREDENTIALS,
                 actualErrorMessage);
     }
     @ParameterizedTest(name = "test_3")
@@ -105,7 +112,7 @@ public class SmokeTests extends CommonConditions{
         SauceDemoCartPage cartPage = new SauceDemoCartPage(driver)
                 .openCart()
                 .pushContinueShoppingButton();
-        assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
+        assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "test_10")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
@@ -117,7 +124,7 @@ public class SmokeTests extends CommonConditions{
         SauceDemoCartPage cartPage = new SauceDemoCartPage(driver)
                 .openCart()
                 .pushCheckoutButton();
-        assertEquals("https://www.saucedemo.com/checkout-step-one.html", driver.getCurrentUrl());
+        assertEquals(CHECKOUT_STEP_ONE_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "test_11")
     @CsvFileSource(resources = "/checkoutDataEmptyFirstName.csv", numLinesToSkip = 1)
@@ -132,7 +139,7 @@ public class SmokeTests extends CommonConditions{
                 .openCart()
                 .pushCheckoutButton()
                 .checkoutProcess(testUser);
-        assertEquals("Error: First Name is required", cartPage.getErrorMessageFromCheckoutProcess());
+        assertEquals(ERROR_MESSAGE_FIRST_NAME, cartPage.getErrorMessageFromCheckoutProcess());
     }
     @ParameterizedTest(name = "test_12")
     @CsvFileSource(resources = "/checkoutDataEmptyLastName.csv", numLinesToSkip = 1)
@@ -147,7 +154,7 @@ public class SmokeTests extends CommonConditions{
                 .openCart()
                 .pushCheckoutButton()
                 .checkoutProcess(testUser);
-        assertEquals("Error: Last Name is required", cartPage.getErrorMessageFromCheckoutProcess());
+        assertEquals(ERROR_MESSAGE_LAST_NAME, cartPage.getErrorMessageFromCheckoutProcess());
     }
     @ParameterizedTest(name = "test_13")
     @CsvFileSource(resources = "/checkoutDataEmptyZipCode.csv", numLinesToSkip = 1)
@@ -162,7 +169,7 @@ public class SmokeTests extends CommonConditions{
                 .openCart()
                 .pushCheckoutButton()
                 .checkoutProcess(testUser);
-        assertEquals("Error: Postal Code is required", cartPage.getErrorMessageFromCheckoutProcess());
+        assertEquals(ERROR_MESSAGE_ZIP_CODE, cartPage.getErrorMessageFromCheckoutProcess());
     }
     @ParameterizedTest(name = "test_14")
     @CsvFileSource(resources = "/correctCheckoutData.csv", numLinesToSkip = 1)
@@ -178,7 +185,7 @@ public class SmokeTests extends CommonConditions{
                 .pushCheckoutButton()
                 .checkoutProcess(testUser)
                 .pressCancelButtonOnCheckoutOverviewPage();
-        assertEquals("https://www.saucedemo.com/inventory.html", driver.getCurrentUrl());
+        assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "test_15")
     @CsvFileSource(resources = "/correctCheckoutData.csv", numLinesToSkip = 1)
@@ -194,7 +201,7 @@ public class SmokeTests extends CommonConditions{
                 .pushCheckoutButton()
                 .checkoutProcess(testUser)
                 .completeOrder();
-        assertEquals("Thank you for your order!", cartPage.getCompleteMessage());
+        assertEquals(COMPLETE_ORDER_MESSAGE, cartPage.getCompleteMessage());
     }
     @ParameterizedTest(name = "test_16")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
@@ -204,6 +211,6 @@ public class SmokeTests extends CommonConditions{
                 .openPage()
                 .login(testUser)
                 .logout();
-        assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
+        assertEquals(LOGIN_PAGE_URL, driver.getCurrentUrl());
     }
 }

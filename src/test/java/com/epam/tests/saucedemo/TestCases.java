@@ -1,6 +1,6 @@
 package com.epam.tests.saucedemo;
 
-import com.epam.tests.testdata.TestData;
+import com.epam.tests.saucedemo.testdata.TestData;
 import com.epam.model.User;
 import com.epam.pages.SauceDemoCartPage;
 import com.epam.pages.SauceDemoInventoryPage;
