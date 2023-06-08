@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.time.Duration;
+
 import static com.epam.waits.ExplicitWait.waitForClickabilityOfElement;
 import static com.epam.waits.ExplicitWait.waitForPresenceOfElement;
 
@@ -106,7 +108,7 @@ public class SauceDemoCartPage {
         return this;
     }
     public int getNumberOfItemsInCart(){
-        waitForPresenceOfElement(driver, "//div[@class=\"cart_item\"]");
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(100));
         int i = 1;
         while (i<=6){
             String cartItemLocator = "//div[@class=\"cart_item\"]" + "[" + i + "]";
