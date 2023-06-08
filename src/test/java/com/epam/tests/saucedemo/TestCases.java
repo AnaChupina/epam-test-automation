@@ -13,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestCases extends CommonConditions{
+    private String LOGIN_PAGE_URL = "https://www.saucedemo.com/";
+    private String EXPECTED_TOTAL_WITH_TAX = "Total: $140.34";
+    private int EXPECTED_NUMBER_OF_ITEMS = 6;
     @ParameterizedTest(name = "e2e_1")
     @CsvFileSource(resources = "/correctCheckoutData.csv", numLinesToSkip = 1)
     public void checkTotalPriceWithTax (String username, String password, String firstName, String lastName,
@@ -31,7 +34,7 @@ public class TestCases extends CommonConditions{
                 .openCart()
                 .pushCheckoutButton()
                 .checkoutProcess(testUser);
-        assertEquals("Total: $140.34", cartPage.getTotalPriceWithTax());
+        assertEquals(EXPECTED_TOTAL_WITH_TAX, cartPage.getTotalPriceWithTax());
     }
     @ParameterizedTest(name = "e2e_2")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
@@ -51,7 +54,7 @@ public class TestCases extends CommonConditions{
                 .login(testUser)
                 .redirectToCart();
         SauceDemoCartPage cartPage = new SauceDemoCartPage(driver);
-        assertEquals(6, cartPage.getNumberOfItemsInCart());
+        assertEquals(EXPECTED_NUMBER_OF_ITEMS, cartPage.getNumberOfItemsInCart());
     }
     @ParameterizedTest(name = "e2e_3")
     @CsvFileSource(resources = "/correctCheckoutData.csv", numLinesToSkip = 1)
@@ -73,7 +76,7 @@ public class TestCases extends CommonConditions{
                 .checkoutProcess(testUser)
                 .completeOrder()
                 .logout();
-        assertEquals("https://www.saucedemo.com/", driver.getCurrentUrl());
+        assertEquals(LOGIN_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "e2e_4")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
