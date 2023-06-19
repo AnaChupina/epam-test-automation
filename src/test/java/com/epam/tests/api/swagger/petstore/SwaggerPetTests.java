@@ -1,5 +1,6 @@
 package com.epam.tests.api.swagger.petstore;
 
+import com.epam.utils.api.PetCreator;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -22,24 +23,7 @@ public class SwaggerPetTests {
         RestAssured.basePath = "/v2";
         RequestSpecification requestSpec = given()
                 .contentType(ContentType.JSON)
-                .body("{\n" +
-                "  \"id\": 1,\n" +
-                "  \"category\": {\n" +
-                "    \"id\": 1,\n" +
-                "    \"name\": \"string\"\n" +
-                "  },\n" +
-                "  \"name\": \"doggie\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"string\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"string\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"available\"\n" +
-                "}");
+                .body(PetCreator.createPet());
 
         requestSpec.when()
                         .post("/pet");
@@ -51,24 +35,7 @@ public class SwaggerPetTests {
     public void addNewPetToStoreTest_petId_1(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
         given()
-                .body("{\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"category\": {\n" +
-                        "    \"id\": 1,\n" +
-                        "    \"name\": \"string\"\n" +
-                        "  },\n" +
-                        "  \"name\": \"doggie\",\n" +
-                        "  \"photoUrls\": [\n" +
-                        "    \"string\"\n" +
-                        "  ],\n" +
-                        "  \"tags\": [\n" +
-                        "    {\n" +
-                        "      \"id\": 1,\n" +
-                        "      \"name\": \"string\"\n" +
-                        "    }\n" +
-                        "  ],\n" +
-                        "  \"status\": \"available\"\n" +
-                        "}")
+                .body(PetCreator.createPet())
                 .when()
                 .contentType (ContentType.JSON)
                 .post("/pet")

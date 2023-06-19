@@ -1,5 +1,6 @@
 package com.epam.tests.api.swagger.petstore;
 
+import com.epam.utils.api.OrderCreator;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -21,14 +22,7 @@ public class SwaggerStoreTests {
         LOGGER.info("Inside SwaggerStoreTests beforeEach ");
         RequestSpecification requestSpec = given()
                 .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"petId\": 1,\n" +
-                        "  \"quantity\": 1,\n" +
-                        "  \"shipDate\": \"2023-06-14T11:30:03.006Z\",\n" +
-                        "  \"status\": \"placed\",\n" +
-                        "  \"complete\": true\n" +
-                        "}");
+                .body(OrderCreator.createOrder());
         requestSpec.when()
                 .post("/store/order");
         LOGGER.info("Order with ID=1 was created ");
@@ -38,14 +32,7 @@ public class SwaggerStoreTests {
     public void placeOrderForPetTest(){
         given()
                 .contentType (ContentType.JSON)
-                .body("{\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"petId\": 1,\n" +
-                        "  \"quantity\": 1,\n" +
-                        "  \"shipDate\": \"2023-06-14T11:30:03.006Z\",\n" +
-                        "  \"status\": \"placed\",\n" +
-                        "  \"complete\": true\n" +
-                        "}")
+                .body(OrderCreator.createOrder())
                 .when()
                 .post("/store/order")
                 .then().log().all()

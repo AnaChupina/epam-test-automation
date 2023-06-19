@@ -1,5 +1,6 @@
 package com.epam.tests.api.swagger.petstore;
 
+import com.epam.utils.api.UserCreator;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -21,16 +22,7 @@ public class SwaggerUserTests {
         LOGGER.info("Inside SwaggerUserTests beforeEach ");
         RequestSpecification requestSpec = given()
                 .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"username\": \"user1\",\n" +
-                        "  \"firstName\": \"John\",\n" +
-                        "  \"lastName\": \"Smith\",\n" +
-                        "  \"email\": \"JonhSmith@gmail.com\",\n" +
-                        "  \"password\": \"1234\",\n" +
-                        "  \"phone\": \"12345678\",\n" +
-                        "  \"userStatus\": 0\n" +
-                        "}");
+                .body(UserCreator.createUser());
         requestSpec.when()
                 .post("/user");
         LOGGER.info("User with username = user1 was created ");
