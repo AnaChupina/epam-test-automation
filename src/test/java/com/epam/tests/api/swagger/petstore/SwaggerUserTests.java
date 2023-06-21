@@ -22,7 +22,7 @@ public class SwaggerUserTests {
         LOGGER.info("Inside SwaggerUserTests beforeEach ");
         RequestSpecification requestSpec = given()
                 .contentType(ContentType.JSON)
-                .body(UserCreator.createUser());
+                .body(UserCreator.createJsonUserObject());
         requestSpec.when()
                 .post("/user");
         LOGGER.info("User with username = user1 was created ");
@@ -78,16 +78,7 @@ public class SwaggerUserTests {
     public void updateUserInformationTest_UserId_1(){
         given()
                 .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"username\": \"user1\",\n" +
-                        "  \"firstName\": \"John\",\n" +
-                        "  \"lastName\": \"Smith\",\n" +
-                        "  \"email\": \"JonhSmith@gmail.com\",\n" +
-                        "  \"password\": \"1234\",\n" +
-                        "  \"phone\": \"12345678\",\n" +
-                        "  \"userStatus\": 0\n" +
-                        "}")
+                .body(UserCreator.createJsonUserObject())
                 .when()
                 .put("/user/user1")
                 .then().log().all()
@@ -127,19 +118,10 @@ public class SwaggerUserTests {
     }
     @Test
     @DisplayName("api_test_user_7")
-    public void createUserTest_UserId_2(){
+    public void createUserTest_UserId_1(){
         given()
                 .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "  \"id\": 2,\n" +
-                        "  \"username\": \"user2\",\n" +
-                        "  \"firstName\": \"Ron\",\n" +
-                        "  \"lastName\": \"Wesley\",\n" +
-                        "  \"email\": \"RonWesley@gmail.com\",\n" +
-                        "  \"password\": \"4567\",\n" +
-                        "  \"phone\": \"54947868\",\n" +
-                        "  \"userStatus\": 0\n" +
-                        "}")
+                .body(UserCreator.createJsonUserObject())
                 .when()
                 .post("/user")
                 .then().log().all()

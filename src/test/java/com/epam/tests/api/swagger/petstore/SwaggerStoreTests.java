@@ -22,7 +22,7 @@ public class SwaggerStoreTests {
         LOGGER.info("Inside SwaggerStoreTests beforeEach ");
         RequestSpecification requestSpec = given()
                 .contentType(ContentType.JSON)
-                .body(OrderCreator.createOrder());
+                .body(OrderCreator.createJsonOrderObject());
         requestSpec.when()
                 .post("/store/order");
         LOGGER.info("Order with ID=1 was created ");
@@ -32,7 +32,7 @@ public class SwaggerStoreTests {
     public void placeOrderForPetTest(){
         given()
                 .contentType (ContentType.JSON)
-                .body(OrderCreator.createOrder())
+                .body(OrderCreator.createJsonOrderObject())
                 .when()
                 .post("/store/order")
                 .then().log().all()

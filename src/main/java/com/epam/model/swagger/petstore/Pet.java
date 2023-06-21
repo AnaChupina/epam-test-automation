@@ -68,25 +68,4 @@ public class Pet {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "{\n" +
-                "  \"id\": " + id + ",\n" +
-                "  \"category\": {\n" +
-                "    \"id\": " + category.getId() + ",\n" +
-                "    \"name\": \"" + category.getName() + "\"\n" +
-                "  },\n" +
-                "  \"name\": \"" + name + "\",\n" +
-                "  \"photoUrls\": [\n" +
-                "    \"string\"\n" +
-                "  ],\n" +
-                "  \"tags\": [\n" +
-                "    {\n" +
-                "      \"id\": 1,\n" +
-                "      \"name\": \"string\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"status\": \"" + status + "\"\n" +
-                "}";
-    }
 }

@@ -23,7 +23,7 @@ public class SwaggerPetTests {
         RestAssured.basePath = "/v2";
         RequestSpecification requestSpec = given()
                 .contentType(ContentType.JSON)
-                .body(PetCreator.createPet());
+                .body(PetCreator.createJsonPetObject());
 
         requestSpec.when()
                         .post("/pet");
@@ -35,7 +35,7 @@ public class SwaggerPetTests {
     public void addNewPetToStoreTest_petId_1(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
         given()
-                .body(PetCreator.createPet())
+                .body(PetCreator.createJsonPetObject())
                 .when()
                 .contentType (ContentType.JSON)
                 .post("/pet")
