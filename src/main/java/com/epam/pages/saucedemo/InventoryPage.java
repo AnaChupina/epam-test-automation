@@ -1,4 +1,4 @@
-package com.epam.pages;
+package com.epam.pages.saucedemo;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import static com.epam.waits.ExplicitWait.waitForClickabilityOfElement;
 import static com.epam.waits.ExplicitWait.waitForPresenceOfElement;
 
-public class SauceDemoInventoryPage {
+public class InventoryPage {
     private static final String URL = "https://www.saucedemo.com/inventory.html";
     private final WebDriver driver;
     @FindBy(className = "product_sort_container")
@@ -26,7 +26,7 @@ public class SauceDemoInventoryPage {
     @FindBy(xpath = "//a[contains(text(),'Logout')]")
     private WebElement logoutButton;
 
-    public SauceDemoInventoryPage(WebDriver driver) {
+    public InventoryPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -47,7 +47,7 @@ public class SauceDemoInventoryPage {
         waitForPresenceOfElement(driver, "//div[@class='inventory_details_price']");
         return productPrice.getAttribute("innerText");
     }
-    public SauceDemoInventoryPage addToCart(String productName) {
+    public InventoryPage addToCart(String productName) {
         //The product name should be written in the following format: "sauce-labs-backpack".
         String element = "//button[@id='add-to-cart-" + productName + "']";
         WebElement addToCartButton = driver.findElement(By.xpath(element));
@@ -65,20 +65,20 @@ public class SauceDemoInventoryPage {
         }
         return true;
     }
-    public SauceDemoInventoryPage removeProductFromCart (String productName){
+    public InventoryPage removeProductFromCart (String productName){
         String element = "//button[@id='remove-" + productName + "']";
         WebElement removeFromCartButton = driver.findElement(By.xpath(element));
         removeFromCartButton.click();
         //sauce-labs-bike-light
         return this;
     }
-    public SauceDemoInventoryPage logout(){
+    public InventoryPage logout(){
         menuBurgerButton.click();
         waitForClickabilityOfElement(driver,logoutButton);
         logoutButton.click();
         return this;
     }
-    public SauceDemoInventoryPage redirectToCart(){
+    public InventoryPage redirectToCart(){
         shoppingCartLink.click();
         return this;
     }

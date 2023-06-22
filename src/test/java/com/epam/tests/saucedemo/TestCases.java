@@ -2,17 +2,17 @@ package com.epam.tests.saucedemo;
 
 import com.epam.tests.saucedemo.testdata.TestData;
 import com.epam.model.User;
-import com.epam.pages.SauceDemoCartPage;
-import com.epam.pages.SauceDemoInventoryPage;
-import com.epam.pages.SauceDemoLoginPage;
-import com.epam.utils.Strings;
+import com.epam.pages.saucedemo.CartPage;
+import com.epam.pages.saucedemo.InventoryPage;
+import com.epam.pages.saucedemo.LoginPage;
+import com.epam.utils.StringUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestCases extends CommonConditions{
+public class TestCases extends BaseTest {
     private String LOGIN_PAGE_URL = "https://www.saucedemo.com/";
     private String EXPECTED_TOTAL_WITH_TAX = "Total: $140.34";
     private int EXPECTED_NUMBER_OF_ITEMS = 6;
@@ -21,7 +21,7 @@ public class TestCases extends CommonConditions{
     public void checkTotalPriceWithTax (String username, String password, String firstName, String lastName,
                                                    String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        SauceDemoInventoryPage page = new SauceDemoLoginPage(driver)
+        InventoryPage page = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
                 .addToCart("sauce-labs-backpack")
@@ -30,7 +30,7 @@ public class TestCases extends CommonConditions{
                 .addToCart("sauce-labs-fleece-jacket")
                 .addToCart("sauce-labs-onesie")
                 .addToCart("test.allthethings()-t-shirt-(red)");
-        SauceDemoCartPage cartPage = new SauceDemoCartPage(driver)
+        CartPage cartPage = new CartPage(driver)
                 .openCart()
                 .pushCheckoutButton()
                 .checkoutProcess(testUser);
@@ -40,7 +40,7 @@ public class TestCases extends CommonConditions{
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void checkNumberOfItemsInCartAfterLogout (String username, String password) {
         User testUser = new User(username, password);
-        SauceDemoInventoryPage page = new SauceDemoLoginPage(driver)
+        InventoryPage page = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
                 .addToCart("sauce-labs-backpack")
@@ -50,10 +50,10 @@ public class TestCases extends CommonConditions{
                 .addToCart("sauce-labs-onesie")
                 .addToCart("test.allthethings()-t-shirt-(red)")
                 .logout();
-        SauceDemoInventoryPage newPage = new SauceDemoLoginPage(driver)
+        InventoryPage newPage = new LoginPage(driver)
                 .login(testUser)
                 .redirectToCart();
-        SauceDemoCartPage cartPage = new SauceDemoCartPage(driver);
+        CartPage cartPage = new CartPage(driver);
         assertEquals(EXPECTED_NUMBER_OF_ITEMS, cartPage.getNumberOfItemsInCart());
     }
     @ParameterizedTest(name = "e2e_3")
@@ -61,7 +61,7 @@ public class TestCases extends CommonConditions{
     public void logoutAfterCheckoutTest (String username, String password, String firstName, String lastName,
                                         String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        SauceDemoInventoryPage page = new SauceDemoLoginPage(driver)
+        InventoryPage page = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
                 .addToCart("sauce-labs-backpack")
@@ -70,7 +70,7 @@ public class TestCases extends CommonConditions{
                 .addToCart("sauce-labs-fleece-jacket")
                 .addToCart("sauce-labs-onesie")
                 .addToCart("test.allthethings()-t-shirt-(red)");
-        SauceDemoCartPage cartPage = new SauceDemoCartPage(driver)
+        CartPage cartPage = new CartPage(driver)
                 .openCart()
                 .pushCheckoutButton()
                 .checkoutProcess(testUser)
@@ -82,7 +82,7 @@ public class TestCases extends CommonConditions{
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void checkWhatItemsAreInCartAfterLogout (String username, String password) {
         User testUser = new User(username, password);
-        SauceDemoInventoryPage page = new SauceDemoLoginPage(driver)
+        InventoryPage page = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
                 .addToCart("sauce-labs-backpack")
@@ -92,11 +92,11 @@ public class TestCases extends CommonConditions{
                 .addToCart("sauce-labs-onesie")
                 .addToCart("test.allthethings()-t-shirt-(red)")
                 .logout();
-        SauceDemoInventoryPage newPage = new SauceDemoLoginPage(driver)
+        InventoryPage newPage = new LoginPage(driver)
                 .login(testUser)
                 .redirectToCart();
-        SauceDemoCartPage cartPage = new SauceDemoCartPage(driver);
-        assertTrue(Strings.compareArraysOfString_AreArraysEqual(TestData.getArrayOfAllItemNames(),
+        CartPage cartPage = new CartPage(driver);
+        assertTrue(StringUtils.areArraysEqual(TestData.getArrayOfAllItemNames(),
                 cartPage.getNamesOfItemsInCart(cartPage.getNumberOfItemsInCart())));
     }
 }

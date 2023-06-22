@@ -1,4 +1,4 @@
-package com.epam.pages;
+package com.epam.pages.saucedemo;
 
 import com.epam.model.User;
 import org.openqa.selenium.By;
@@ -13,7 +13,7 @@ import java.time.Duration;
 import static com.epam.waits.ExplicitWait.waitForClickabilityOfElement;
 import static com.epam.waits.ExplicitWait.waitForPresenceOfElement;
 
-public class SauceDemoCartPage {
+public class CartPage {
     private static final String URL = "https://www.saucedemo.com/cart.html";
     private final WebDriver driver;
     @FindBy(className = "shopping_cart_link")
@@ -45,11 +45,11 @@ public class SauceDemoCartPage {
     @FindBy(xpath = "//a[contains(text(),'Logout')]")
     private WebElement logoutButton;
 
-    public SauceDemoCartPage(WebDriver driver) {
+    public CartPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    public SauceDemoCartPage openCart(){
+    public CartPage openCart(){
         cartButton.click();
         return this;
     }
@@ -61,15 +61,15 @@ public class SauceDemoCartPage {
         }
         return true;
     }
-    public SauceDemoCartPage pushContinueShoppingButton(){
+    public CartPage pushContinueShoppingButton(){
         continueShoppingButton.click();
         return this;
     }
-    public SauceDemoCartPage pushCheckoutButton(){
+    public CartPage pushCheckoutButton(){
         checkoutButton.click();
         return this;
     }
-    public SauceDemoCartPage checkoutProcess(User user){
+    public CartPage checkoutProcess(User user){
         waitForClickabilityOfElement(driver,firstNameField);
         if(user.getFirstName() != null){
             firstNameField.sendKeys(user.getFirstName());
@@ -86,11 +86,11 @@ public class SauceDemoCartPage {
     public String getErrorMessageFromCheckoutProcess(){
         return errorMessageFromCheckoutProcess.getText();
     }
-    public SauceDemoCartPage pressCancelButtonOnCheckoutOverviewPage(){
+    public CartPage pressCancelButtonOnCheckoutOverviewPage(){
         cancelButtonOnCheckoutOverviewPage.click();
         return this;
     }
-    public SauceDemoCartPage completeOrder(){
+    public CartPage completeOrder(){
         finishButton.click();
         return this;
     }
@@ -102,7 +102,7 @@ public class SauceDemoCartPage {
         waitForPresenceOfElement(driver,"//div[@class='summary_info_label summary_total_label']");
         return totalPriceWithTax.getText();
     }
-    public SauceDemoCartPage logout(){
+    public CartPage logout(){
         burgerMenuButton.click();
         logoutButton.click();
         return this;

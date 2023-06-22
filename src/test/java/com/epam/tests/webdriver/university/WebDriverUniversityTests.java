@@ -1,13 +1,13 @@
 package com.epam.tests.webdriver.university;
 
 import com.epam.pages.webdriver.university.WebDriverUniversityPage;
-import com.epam.tests.saucedemo.CommonConditions;
+import com.epam.tests.saucedemo.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class WebDriverUniversityTests extends CommonConditions {
+public class WebDriverUniversityTests extends BaseTest {
     private String expectedClassOfDoubleClickButton = "div-double-click double";
     private String expectedMessageClickAndHoldButton = "Well done! keep holding that click now.....";
     private String expectedMessageAfterDragAndDrop = "Dropped!";

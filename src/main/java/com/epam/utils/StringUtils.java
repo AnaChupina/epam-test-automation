@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Arrays;
 
-public class Strings {
+public class StringUtils {
 
     public static boolean isNumber (String str) {
         int i;
@@ -21,7 +21,7 @@ public class Strings {
         boolean useNumbers = true;
         return RandomStringUtils.random(length, useLetters, useNumbers);
     }
-    public static boolean compareArraysOfString_AreArraysEqual(String[] firstArray, String[] secondArray){
+    public static boolean areArraysEqual(String[] firstArray, String[] secondArray){
         String[] newArray = new String[firstArray.length];
         if(firstArray.length != secondArray.length){
             return false;

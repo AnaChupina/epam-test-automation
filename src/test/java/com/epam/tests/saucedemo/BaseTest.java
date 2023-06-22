@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 
 @ExtendWith(ScreenShootOnFailureExtension.class)
-public class CommonConditions {
+public class BaseTest {
     protected WebDriver driver;
     @BeforeEach
     public void setUp()
