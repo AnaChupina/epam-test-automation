@@ -28,4 +28,15 @@ public class ScreenShootOnFailureExtension implements InvocationInterceptor {
             throw cause;
         }
     }
+    @Override
+    public void interceptTestTemplateMethod(Invocation<Void> invocation, ReflectiveInvocationContext<Method> invocationContext,
+                                            ExtensionContext extensionContext) throws Throwable {
+        try {
+            invocation.proceed();
+        } catch (Throwable cause) {
+            byte[] screenshot = ((TakesScreenshot) DriverSingleton.getDriver()).getScreenshotAs(OutputType.BYTES);
+            LoggingUtils.log(screenshot, "Failure screenshot");
+            throw cause;
+        }
+    }
 }
