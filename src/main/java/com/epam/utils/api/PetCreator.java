@@ -2,7 +2,7 @@ package com.epam.utils.api;
 
 import com.epam.model.swagger.petstore.Category;
 import com.epam.model.swagger.petstore.Pet;
-import com.epam.model.swagger.petstore.Tag;
+import com.epam.model.swagger.petstore.TagDto;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
@@ -21,9 +21,9 @@ public class PetCreator {
     public static String createJsonPetObject(){
         Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
 
-        Tag tag1 = new Tag(TAG_ID, TAG_NAME);
+        TagDto tag1 = new TagDto(TAG_ID, TAG_NAME);
 
-        List<Tag> tags = Arrays.asList(tag1);
+        List<TagDto> tags = Arrays.asList(tag1);
 
         List<String> photoUrls = Arrays.asList(PHOTO_URL);
         Pet pet = new Pet(PET_ID, category, PET_NAME, photoUrls, tags, PET_STATUS);

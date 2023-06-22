@@ -1,10 +1,10 @@
 package com.epam.model.swagger.petstore;
 
-public class Tag {
+public class TagDto {
     private Integer id;
     private String name;
 
-    public Tag(Integer id, String name) {
+    public TagDto(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

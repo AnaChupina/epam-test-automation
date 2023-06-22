@@ -8,10 +8,10 @@ public class Pet {
     private Category category;
     private String name;
     private List<String> photoUrls = new ArrayList<>();
-    private List<Tag> tags = new ArrayList<>();
+    private List<TagDto> tags = new ArrayList<>();
     private String status;
 
-    public Pet(Integer id, Category category, String name, List<String> photoUrls, List<Tag> tags, String status) {
+    public Pet(Integer id, Category category, String name, List<String> photoUrls, List<TagDto> tags, String status) {
         this.id = id;
         this.category = category;
         this.name = name;
@@ -52,11 +52,11 @@ public class Pet {
         this.photoUrls = photoUrls;
     }
 
-    public List<Tag> getTags() {
+    public List<TagDto> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<TagDto> tags) {
         this.tags = tags;
     }
 
