@@ -1,6 +1,6 @@
-package com.epam.util;
+package com.epam.utils;
 
-public class Seasons {
+public class SeasonUtils {
     public static boolean isSpring (String str){
         String string = str.toUpperCase();
         return switch (string) {

@@ -12,8 +12,8 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class SwaggerStoreTests {
-    private static final Logger LOGGER = LogManager.getLogger(SwaggerStoreTests.class);
+public class StoreTests {
+    private static final Logger LOGGER = LogManager.getLogger(StoreTests.class);
 
     @BeforeEach
     public void setUp() {

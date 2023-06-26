@@ -1,6 +1,6 @@
-package com.epam.util;
+package com.epam.utils;
 
-public class Numbers {
+public class NumberUtils {
 
     public static boolean isEven(int number) {
         return number % 2 == 0;
