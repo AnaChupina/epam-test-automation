@@ -1,6 +1,6 @@
 package com.epam.tests.api.swagger.petstore;
 
-import com.epam.utils.api.UserCreator;
+import com.epam.api.utils.UserCreator;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
