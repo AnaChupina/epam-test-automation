@@ -21,7 +21,7 @@ public class SeleniumScreenshotLoggingTest {
     @BeforeAll
     public static void setUp()
     {
-        driver = DriverSingleton.getDriver();
+        driver = DriverSingleton.getInstance().getDriver();
     }
 
 
@@ -34,7 +34,7 @@ public class SeleniumScreenshotLoggingTest {
     @AfterEach
     public void stopBrowser()
     {
-        DriverSingleton.closeDriver();
+        DriverSingleton.getInstance().closeDriver();
     }
 
 }

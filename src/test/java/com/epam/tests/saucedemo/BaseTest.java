@@ -13,12 +13,13 @@ public class BaseTest {
     @BeforeEach
     public void setUp()
     {
-        driver = DriverSingleton.getDriver();
+
+        driver = DriverSingleton.getInstance().getDriver();
     }
 
     @AfterEach
     public void stopBrowser()
     {
-        DriverSingleton.closeDriver();
+        DriverSingleton.getInstance().closeDriver();
     }
 }

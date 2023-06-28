@@ -6,20 +6,27 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class DriverSingleton {
-    private static WebDriver driver;
-    private DriverSingleton(){}
+    private static DriverSingleton instance = null;
+    private  WebDriver driver ;
+    private DriverSingleton(){
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+    }
 
-    public static WebDriver getDriver(){
-        if (null == driver){
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
+    public static synchronized DriverSingleton getInstance() {
+        if (instance == null) {
+            instance = new DriverSingleton();
         }
+        return instance;
+    }
+    public WebDriver getDriver() {
         return driver;
     }
 
-    public static void closeDriver(){
+    public void closeDriver(){
         driver.quit();
         driver = null;
     }
 }
+

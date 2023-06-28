@@ -23,7 +23,7 @@ public class ScreenShootOnFailureExtension implements InvocationInterceptor {
         try {
             invocation.proceed();
         } catch (Throwable cause) {
-            byte[] screenshot = ((TakesScreenshot) DriverSingleton.getDriver()).getScreenshotAs(OutputType.BYTES);
+            byte[] screenshot = ((TakesScreenshot) DriverSingleton.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
             LoggingUtils.log(screenshot, "Failure screenshot");
             throw cause;
         }
@@ -34,7 +34,7 @@ public class ScreenShootOnFailureExtension implements InvocationInterceptor {
         try {
             invocation.proceed();
         } catch (Throwable cause) {
-            byte[] screenshot = ((TakesScreenshot) DriverSingleton.getDriver()).getScreenshotAs(OutputType.BYTES);
+            byte[] screenshot = ((TakesScreenshot) DriverSingleton.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
             LoggingUtils.log(screenshot, "Failure screenshot");
             throw cause;
         }
