@@ -13,7 +13,6 @@ public class BaseTest {
     @BeforeEach
     public void setUp()
     {
-
         driver = DriverSingleton.getInstance().getDriver();
     }
 

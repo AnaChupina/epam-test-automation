@@ -2,12 +2,16 @@ package com.epam.tests.ui.saucedemo;
 
 import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.CartPage;
-import com.epam.ui.pages.saucedemo.InventoryPage;
+import com.epam.ui.pages.saucedemo.CheckoutOverviewPage;
+import com.epam.ui.pages.saucedemo.CheckoutPage;
 import com.epam.ui.pages.saucedemo.LoginPage;
+import com.epam.ui.services.saucedemo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +30,7 @@ public class SmokeTests extends BaseTest {
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testLoginWithRightCredentials (String username, String password) {
         User testUser = new User(username,password);
-        InventoryPage page = new LoginPage(driver)
+        InventoryActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser);
         assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
@@ -34,9 +38,12 @@ public class SmokeTests extends BaseTest {
     @Test
     @DisplayName("test_2")
     public void testLoginWithInvalidCredentials (){
-        LoginPage page = new LoginPage(driver)
+        LoginActions actions = new LoginPage(driver)
                 .openPage();
-        String actualErrorMessage = page.loginWithRandomCredentials();
+//        User randomUser = new User(StringDataGenerator.getRandomString(), StringDataGenerator.getRandomString());
+//        actions.login(randomUser);
+        //TODO:replace loginWithRandomCredentials with login(random user)
+        String actualErrorMessage = actions.loginWithRandomCredentials();
         assertEquals(ERROR_MESSAGE_LOGIN_WITH_INVALID_CREDENTIALS,
                 actualErrorMessage);
     }
@@ -44,147 +51,153 @@ public class SmokeTests extends BaseTest {
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testSortingFunctionalityPriceLowToHigh (String username, String password){
         User testUser = new User(username,password);
-        InventoryPage page = new LoginPage(driver)
+        InventoryActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser);
-        String actualNameOfFirstItem = page.sortItems("low to high");
+        String actualNameOfFirstItem = actions.sortItems("low to high");
         assertEquals("Sauce Labs Onesie", actualNameOfFirstItem);
     }
     @ParameterizedTest(name = "test_4")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testSortingFunctionalityPriceHighToLow (String username, String password){
         User testUser = new User(username,password);
-        InventoryPage page = new LoginPage(driver)
+        InventoryActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser);
-        String actualNameOfFirstItem = page.sortItems("high to low");
+        String actualNameOfFirstItem = actions.sortItems("high to low");
         assertEquals("Sauce Labs Fleece Jacket", actualNameOfFirstItem);
     }
     @ParameterizedTest(name = "test_5")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testProductPrice (String username, String password){
         User testUser = new User(username,password);
-        InventoryPage page = new LoginPage(driver)
+        InventoryActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser);
-        String actualProductPrice = page.getProductPrice("Sauce Labs Fleece Jacket");
+        String actualProductPrice = actions.getProductPrice("Sauce Labs Fleece Jacket");
         assertEquals("$49.99", actualProductPrice);
     }
     @ParameterizedTest(name = "test_6")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testCartButton (String username, String password){
         User testUser = new User(username,password);
-        InventoryPage page = new LoginPage(driver)
+        CartActions actions = new LoginPage(driver)
                 .openPage()
-                .login(testUser);
-        CartPage cartPage = new CartPage(driver)
-                .openCart();
-        assertTrue(cartPage.isItCartPage());
+                .login(testUser)
+                .goToShoppingCart();
+        assertTrue(actions.getCartPage().isItCartPage());
     }
     @ParameterizedTest(name = "test_7")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testIsProductAddedToCart (String username, String password) {
         User testUser = new User(username, password);
-        InventoryPage page = new LoginPage(driver)
+        CartActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-backpack");
-        assertTrue(page.isProductInCart("Sauce Labs Backpack"));
+                .addItemToCart("Sauce Labs Backpack")
+                .goToShoppingCart();
+        int nbItems = actions.getNumberOfItemsInCart();
+        String[] items = actions.getNamesOfItemsInCart(nbItems);
+        assertTrue(Arrays.asList(items).contains("Sauce Labs Backpack"));
+//        assertTrue(page.isProductInCart("Sauce Labs Backpack"));
     }
     @ParameterizedTest(name = "test_8")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testRemoveButton (String username, String password) {
         User testUser = new User(username, password);
-        InventoryPage page = new LoginPage(driver)
+        CartActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-bike-light")
-                .removeProductFromCart("sauce-labs-bike-light");
-        assertFalse(page.isProductInCart("Sauce Labs Bike Light"));
+                .addItemToCart("Sauce Labs Bike Light")
+                .removeItemFromCart("Sauce Labs Bike Light")
+                .goToShoppingCart();
+        int nbItems = actions.getNumberOfItemsInCart();
+        String[] items = actions.getNamesOfItemsInCart(nbItems);
+        assertFalse(Arrays.asList(items).contains("Sauce Labs Bike Light"));
+//        assertFalse(page.isProductInCart("Sauce Labs Bike Light"));
     }
+    //TODO: ask about using url in asserts
     @ParameterizedTest(name = "test_9")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testContinueShoppingButton (String username, String password) {
         User testUser = new User(username, password);
-        InventoryPage page = new LoginPage(driver)
+        InventoryActions page = new LoginPage(driver)
                 .openPage()
-                .login(testUser);
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushContinueShoppingButton();
+                .login(testUser)
+                .goToShoppingCart()
+                .continueShopping();
         assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "test_10")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void TestCheckoutButton (String username, String password) {
         User testUser = new User(username, password);
-        InventoryPage page = new LoginPage(driver)
+        CheckoutActions page = new LoginPage(driver)
                 .openPage()
-                .login(testUser);
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushCheckoutButton();
+                .login(testUser)
+                .goToShoppingCart()
+                .goToCheckout();
         assertEquals(CHECKOUT_STEP_ONE_PAGE_URL, driver.getCurrentUrl());
     }
+    //TODO: check test_11. Ask about get error message
     @ParameterizedTest(name = "test_11")
     @CsvFileSource(resources = "/checkoutDataEmptyFirstName.csv", numLinesToSkip = 1)
     public void testCheckoutProcessWithEmptyFirstName  (String username, String password, String firstName, String lastName,
                                     String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        InventoryPage page = new LoginPage(driver)
+        CheckoutOverviewActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-bike-light");
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushCheckoutButton()
-                .checkoutProcess(testUser);
-        assertEquals(ERROR_MESSAGE_FIRST_NAME, cartPage.getErrorMessageFromCheckoutProcess());
+                .addItemToCart("Sauce Labs Bike Light")
+                .goToShoppingCart()
+                .goToCheckout()
+                .fillOutDeliveryInformation(testUser);
+        CheckoutPage page = new CheckoutPage(driver);
+        assertEquals(ERROR_MESSAGE_FIRST_NAME, page.getErrorMessage());
     }
     @ParameterizedTest(name = "test_12")
     @CsvFileSource(resources = "/checkoutDataEmptyLastName.csv", numLinesToSkip = 1)
     public void testCheckoutProcessWithEmptyLastName  (String username, String password, String firstName, String lastName,
                                                      String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        InventoryPage page = new LoginPage(driver)
+        CheckoutOverviewActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-bike-light");
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushCheckoutButton()
-                .checkoutProcess(testUser);
-        assertEquals(ERROR_MESSAGE_LAST_NAME, cartPage.getErrorMessageFromCheckoutProcess());
+                .addItemToCart("Sauce Labs Bike Light")
+                .goToShoppingCart()
+                .goToCheckout()
+                .fillOutDeliveryInformation(testUser);
+        CheckoutPage page = new CheckoutPage(driver);
+        assertEquals(ERROR_MESSAGE_LAST_NAME, page.getErrorMessage());
     }
     @ParameterizedTest(name = "test_13")
     @CsvFileSource(resources = "/checkoutDataEmptyZipCode.csv", numLinesToSkip = 1)
     public void testCheckoutProcessWithEmptyZipCode  (String username, String password, String firstName, String lastName,
                                                     String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        InventoryPage page = new LoginPage(driver)
+        CheckoutOverviewActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-bike-light");
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushCheckoutButton()
-                .checkoutProcess(testUser);
-        assertEquals(ERROR_MESSAGE_ZIP_CODE, cartPage.getErrorMessageFromCheckoutProcess());
+                .addItemToCart("Sauce Labs Bike Light")
+                .goToShoppingCart()
+                .goToCheckout()
+                .fillOutDeliveryInformation(testUser);
+        CheckoutPage page = new CheckoutPage(driver);
+        assertEquals(ERROR_MESSAGE_ZIP_CODE, page.getErrorMessage());
     }
     @ParameterizedTest(name = "test_14")
     @CsvFileSource(resources = "/correctCheckoutData.csv", numLinesToSkip = 1)
     public void testCancelButtonFromCheckoutOverviewPage  (String username, String password, String firstName, String lastName,
                                                    String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        InventoryPage page = new LoginPage(driver)
+        InventoryActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-bike-light");
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushCheckoutButton()
-                .checkoutProcess(testUser)
-                .pressCancelButtonOnCheckoutOverviewPage();
+                .addItemToCart("Sauce Labs Bike Light")
+                .goToShoppingCart()
+                .goToCheckout()
+                .fillOutDeliveryInformation(testUser)
+                .cancelCheckout();
         assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "test_15")
@@ -192,22 +205,21 @@ public class SmokeTests extends BaseTest {
     public void checkMessageAfterCompletingOrder  (String username, String password, String firstName, String lastName,
                                                            String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        InventoryPage page = new LoginPage(driver)
+        CheckoutCompleteActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
-                .addToCart("sauce-labs-bike-light");
-        CartPage cartPage = new CartPage(driver)
-                .openCart()
-                .pushCheckoutButton()
-                .checkoutProcess(testUser)
-                .completeOrder();
-        assertEquals(COMPLETE_ORDER_MESSAGE, cartPage.getCompleteMessage());
+                .addItemToCart("Sauce Labs Bike Light")
+                .goToShoppingCart()
+                .goToCheckout()
+                .fillOutDeliveryInformation(testUser)
+                .finishCheckout();
+        assertEquals(COMPLETE_ORDER_MESSAGE, actions.getCompleteMessage());
     }
     @ParameterizedTest(name = "test_16")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testLogoutProcess  (String username, String password) {
         User testUser = new User(username, password);
-        InventoryPage page = new LoginPage(driver)
+        LoginActions actions = new LoginPage(driver)
                 .openPage()
                 .login(testUser)
                 .logout();

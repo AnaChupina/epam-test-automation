@@ -1,6 +1,7 @@
 package com.epam.ui.pages.saucedemo;
 
 import com.epam.ui.model.User;
+import com.epam.ui.services.saucedemo.LoginActions;
 import com.epam.utils.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,22 +29,41 @@ public class LoginPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    public LoginPage openPage() {
+    public LoginActions openPage() {
         driver.get(URL);
         waitForPresenceOfElement(driver, "//div[@class=\"login_logo\"]");
-        return this;
+        return new LoginActions(this);
+//        return new LoginActions(driver);
     }
-    public InventoryPage login(User user){
+    public void inputUsername(User user){
         usernameField.sendKeys(user.getUsername());
-        passwordField.sendKeys(user.getPassword());
-        loginButton.click();
-        return new InventoryPage(driver);
     }
-    public String loginWithRandomCredentials() {
-        usernameField.sendKeys(StringUtils.getRandomString());
-        passwordField.sendKeys(StringUtils.getRandomString());
+    public void inputPassword(User user){
+        passwordField.sendKeys(user.getPassword());
+    }
+    public  void clickLoginButton(){
         loginButton.click();
-        waitForPresenceOfElement(driver, "//button[@class=\"error-button\"]");
+    }
+//    public InventoryPage login(User user){
+//        usernameField.sendKeys(user.getUsername());
+//        passwordField.sendKeys(user.getPassword());
+//        loginButton.click();
+//        return new InventoryPage(driver);
+//    }
+    public void inputRandomUsername(){
+        usernameField.sendKeys(StringUtils.getRandomString());
+    }
+    public void inputRandomPassword(){
+        passwordField.sendKeys(StringUtils.getRandomString());
+    }
+    public String getLoggingErrorMessage(){
         return loggingErrorMessage.getText();
     }
+//    public String loginWithRandomCredentials() {
+//        usernameField.sendKeys(StringUtils.getRandomString());
+//        passwordField.sendKeys(StringUtils.getRandomString());
+//        loginButton.click();
+//        waitForPresenceOfElement(driver, "//button[@class=\"error-button\"]");
+//        return loggingErrorMessage.getText();
+//    }
 }

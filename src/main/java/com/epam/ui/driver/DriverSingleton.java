@@ -14,7 +14,7 @@ public class DriverSingleton {
         driver.manage().window().maximize();
     }
 
-    public static synchronized DriverSingleton getInstance() {
+    public static DriverSingleton getInstance() {
         if (instance == null) {
             instance = new DriverSingleton();
         }
@@ -26,7 +26,7 @@ public class DriverSingleton {
 
     public void closeDriver(){
         driver.quit();
-        driver = null;
+        instance = null;
     }
 }
 

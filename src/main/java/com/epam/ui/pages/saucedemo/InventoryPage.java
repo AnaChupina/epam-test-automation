@@ -10,9 +10,8 @@ import org.openqa.selenium.support.PageFactory;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForPresenceOfElement;
 
-public class InventoryPage {
+public class InventoryPage extends BasePage{
     private static final String URL = "https://www.saucedemo.com/inventory.html";
-    private final WebDriver driver;
     @FindBy(className = "product_sort_container")
     private WebElement productSortContainer;
     @FindBy(xpath = "//div[@id='inventory_container']//div[@class='inventory_item_name'][1]")
@@ -21,65 +20,42 @@ public class InventoryPage {
     private WebElement productPrice;
     @FindBy(className = "shopping_cart_link")
     private WebElement shoppingCartLink;
-    @FindBy(xpath = "//button[contains(@id,'menu')]")
-    private WebElement menuBurgerButton;
-    @FindBy(xpath = "//a[contains(text(),'Logout')]")
-    private WebElement logoutButton;
 
     public InventoryPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
-    public String sortItems (String sortingRule) {
-        String element = "//option[contains(text(),'" + sortingRule + "')]";
+    public void clickSortContainerButton(){
         waitForClickabilityOfElement(driver, productSortContainer);
         productSortContainer.click();
+    }
+    public void choseSortingOption(String sortingRule){
+        String element = "//option[contains(text(),'" + sortingRule + "')]";
         waitForClickabilityOfElement(driver, element);
         WebElement sortingOption = driver.findElement(By.xpath(element));
         sortingOption.click();
+    }
+    public String getFirstItemOnPage(){
         return firstItemInContainer.getAttribute("innerText");
     }
-    public String getProductPrice(String productName){
+    public void clickProduct(String productName){
         String element = "//div[contains(text(), '" + productName + "')]";
         waitForClickabilityOfElement(driver, element);
         WebElement product = driver.findElement(By.xpath(element));
         product.click();
+    }
+    public String getCurrentProductPrice(){
         waitForPresenceOfElement(driver, "//div[@class='inventory_details_price']");
         return productPrice.getAttribute("innerText");
     }
-    public InventoryPage addToCart(String productName) {
-        //The product name should be written in the following format: "sauce-labs-backpack".
-        String element = "//button[@id='add-to-cart-" + productName + "']";
-        WebElement addToCartButton = driver.findElement(By.xpath(element));
-        addToCartButton.click();
-        return this;
+    //TODO: rename all products to items
+    public InventoryItem findItem(String productName){
+        String elementLocator = "//div[@class='inventory_item_name' and text() = '" + productName + "']//ancestor::div[@class='inventory_item']";
+        WebElement item = driver.findElement(By.xpath(elementLocator));
+        return new InventoryItem(item);
     }
-    public boolean isProductInCart(String productName){
+    public void clickShoppingCartLink(){
+        waitForClickabilityOfElement(driver, shoppingCartLink);
         shoppingCartLink.click();
-        String element = "//div[contains(text(),'" + productName + "')]";
-        //div[contains(text(),'Sauce Labs Backpack')]
-        try{
-            WebElement productInCart = driver.findElement(By.xpath(element));
-        }catch (WebDriverException exp){
-            return false;
-        }
-        return true;
-    }
-    public InventoryPage removeProductFromCart (String productName){
-        String element = "//button[@id='remove-" + productName + "']";
-        WebElement removeFromCartButton = driver.findElement(By.xpath(element));
-        removeFromCartButton.click();
-        //sauce-labs-bike-light
-        return this;
-    }
-    public InventoryPage logout(){
-        menuBurgerButton.click();
-        waitForClickabilityOfElement(driver,logoutButton);
-        logoutButton.click();
-        return this;
-    }
-    public InventoryPage redirectToCart(){
-        shoppingCartLink.click();
-        return this;
     }
 }

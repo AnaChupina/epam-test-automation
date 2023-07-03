@@ -13,40 +13,18 @@ import java.time.Duration;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForPresenceOfElement;
 
-public class CartPage {
+public class CartPage extends BasePage{
     private static final String URL = "https://www.saucedemo.com/cart.html";
-    private final WebDriver driver;
     @FindBy(className = "shopping_cart_link")
     private WebElement cartButton;
     @FindBy(id = "continue-shopping")
     private WebElement continueShoppingButton;
     @FindBy(id="checkout")
     private WebElement checkoutButton;
-    @FindBy(id="first-name")
-    private WebElement firstNameField;
-    @FindBy(id="last-name")
-    private WebElement lastNameField;
-    @FindBy(id="postal-code")
-    private WebElement zipCode;
-    @FindBy(id="continue")
-    private WebElement continueButton;
-    @FindBy(xpath = "//h3[@data-test=\"error\"]")
-    private WebElement errorMessageFromCheckoutProcess;
-    @FindBy(id="cancel")
-    private WebElement cancelButtonOnCheckoutOverviewPage;
-    @FindBy(id="finish")
-    private WebElement finishButton;
-    @FindBy(className = "complete-header")
-    private WebElement completeMessage;
-    @FindBy(xpath = "//div[@class='summary_info_label summary_total_label']")
-    private WebElement totalPriceWithTax;
-    @FindBy(xpath = "//button[contains(@id,'menu')]")
-    private WebElement burgerMenuButton;
-    @FindBy(xpath = "//a[contains(text(),'Logout')]")
-    private WebElement logoutButton;
+
 
     public CartPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
     public CartPage openCart(){
@@ -61,52 +39,17 @@ public class CartPage {
         }
         return true;
     }
-    public CartPage pushContinueShoppingButton(){
+    public CartPage clickContinueShoppingButton(){
         continueShoppingButton.click();
         return this;
     }
-    public CartPage pushCheckoutButton(){
+    public CartPage clickCheckoutButton(){
         checkoutButton.click();
         return this;
     }
-    public CartPage checkoutProcess(User user){
-        waitForClickabilityOfElement(driver,firstNameField);
-        if(user.getFirstName() != null){
-            firstNameField.sendKeys(user.getFirstName());
-        }
-        if(user.getLastName() != null){
-            lastNameField.sendKeys(user.getLastName());
-        }
-        if(user.getZipCode() != null){
-            zipCode.sendKeys(user.getZipCode());
-        }
-        continueButton.click();
-        return this;
-    }
-    public String getErrorMessageFromCheckoutProcess(){
-        return errorMessageFromCheckoutProcess.getText();
-    }
-    public CartPage pressCancelButtonOnCheckoutOverviewPage(){
-        cancelButtonOnCheckoutOverviewPage.click();
-        return this;
-    }
-    public CartPage completeOrder(){
-        finishButton.click();
-        return this;
-    }
-    public String getCompleteMessage(){
-        return completeMessage.getText();
-    }
 
-    public String getTotalPriceWithTax(){
-        waitForPresenceOfElement(driver,"//div[@class='summary_info_label summary_total_label']");
-        return totalPriceWithTax.getText();
-    }
-    public CartPage logout(){
-        burgerMenuButton.click();
-        logoutButton.click();
-        return this;
-    }
+
+    // TODO: Refactor this
     public int getNumberOfItemsInCart(){
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(100));
         int i = 1;
