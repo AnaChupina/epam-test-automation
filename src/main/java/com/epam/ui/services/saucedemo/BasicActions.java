@@ -2,13 +2,12 @@ package com.epam.ui.services.saucedemo;
 
 import com.epam.ui.driver.DriverSingleton;
 import com.epam.ui.pages.saucedemo.BasePage;
-import com.epam.ui.pages.saucedemo.InventoryPage;
 import com.epam.ui.pages.saucedemo.LoginPage;
 
-public class LogoutActions {
+public class BasicActions {
     private final BasePage page;
 
-    public LogoutActions(BasePage page) {
+    public BasicActions(BasePage page) {
         this.page = page;
     }
 

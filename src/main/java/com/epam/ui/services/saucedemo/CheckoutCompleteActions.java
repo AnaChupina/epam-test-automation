@@ -3,7 +3,7 @@ package com.epam.ui.services.saucedemo;
 import com.epam.ui.pages.saucedemo.CheckoutCompletePage;
 
 
-public class CheckoutCompleteActions extends LogoutActions {
+public class CheckoutCompleteActions extends BasicActions {
     private final CheckoutCompletePage page;
 
     public CheckoutCompleteActions(CheckoutCompletePage page) {

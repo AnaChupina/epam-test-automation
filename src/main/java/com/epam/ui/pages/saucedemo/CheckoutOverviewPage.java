@@ -8,9 +8,9 @@ import org.openqa.selenium.support.PageFactory;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForPresenceOfElement;
 
 public class CheckoutOverviewPage extends BasePage{
-    @FindBy(id="cancel")
+    @FindBy(xpath="//button[@id='cancel']")
     private WebElement cancelButton;
-    @FindBy(id="finish")
+    @FindBy(xpath="//button[@id='finish']")
     private WebElement finishButton;
     @FindBy(xpath = "//div[@class='summary_info_label summary_total_label']")
     private WebElement totalPriceWithTax;

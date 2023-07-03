@@ -2,21 +2,26 @@ package com.epam.ui.services.saucedemo;
 
 import com.epam.ui.driver.DriverSingleton;
 import com.epam.ui.pages.saucedemo.CartPage;
+import com.epam.ui.pages.saucedemo.InventoryItem;
 import com.epam.ui.pages.saucedemo.InventoryPage;
 
+import java.util.ArrayList;
 
-public class InventoryActions extends LogoutActions {
+
+public class InventoryActions extends BasicActions {
     private final InventoryPage page;
 
     public InventoryActions(InventoryPage page) {
         super(page);
         this.page = page;
     }
-    //TODO: split into sort method and get first
-    public String sortItems (String sortingRule) {
+    public InventoryActions sortItems (String sortingRule) {
         page.clickSortContainerButton();
         page.choseSortingOption(sortingRule);
-        return page.getFirstItemOnPage();
+        return this;
+    }
+    public ArrayList<InventoryItem> getAllInventoryItems(){
+        return page.getAllItemsOnPage();
     }
     public String getProductPrice(String productName){
         page.clickProduct(productName);

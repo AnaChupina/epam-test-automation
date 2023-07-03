@@ -4,11 +4,10 @@ import com.epam.ui.driver.DriverSingleton;
 import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.CheckoutOverviewPage;
 import com.epam.ui.pages.saucedemo.CheckoutPage;
-import org.openqa.selenium.NotFoundException;
 
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 
-public class CheckoutActions extends LogoutActions {
+public class CheckoutActions extends BasicActions {
     private final CheckoutPage page;
 
     public CheckoutActions(CheckoutPage page) {

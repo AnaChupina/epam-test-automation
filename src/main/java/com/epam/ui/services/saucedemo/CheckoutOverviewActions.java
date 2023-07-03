@@ -5,7 +5,7 @@ import com.epam.ui.pages.saucedemo.CheckoutCompletePage;
 import com.epam.ui.pages.saucedemo.CheckoutOverviewPage;
 import com.epam.ui.pages.saucedemo.InventoryPage;
 
-public class CheckoutOverviewActions extends LogoutActions {
+public class CheckoutOverviewActions extends BasicActions {
     private final CheckoutOverviewPage page;
 
     public CheckoutOverviewActions(CheckoutOverviewPage page) {

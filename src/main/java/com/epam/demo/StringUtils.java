@@ -1,11 +1,8 @@
-package com.epam.utils;
-
-import org.apache.commons.lang3.RandomStringUtils;
+package com.epam.demo;
 
 import java.util.Arrays;
 
 public class StringUtils {
-
     public static boolean isNumber (String str) {
         int i;
         try {
@@ -14,12 +11,6 @@ public class StringUtils {
             return false;
         }
         return true;
-    }
-    public static String getRandomString() {
-        int length = 10;
-        boolean useLetters = true;
-        boolean useNumbers = true;
-        return RandomStringUtils.random(length, useLetters, useNumbers);
     }
     public static boolean areArraysEqual(String[] firstArray, String[] secondArray){
         String[] newArray = new String[firstArray.length];

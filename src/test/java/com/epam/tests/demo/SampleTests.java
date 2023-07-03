@@ -9,7 +9,7 @@ import com.epam.demo.NumberUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import com.epam.demo.SeasonUtils;
-import com.epam.utils.StringUtils;
+import com.epam.demo.StringUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

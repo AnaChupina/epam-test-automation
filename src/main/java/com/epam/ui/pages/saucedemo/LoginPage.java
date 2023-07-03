@@ -2,7 +2,7 @@ package com.epam.ui.pages.saucedemo;
 
 import com.epam.ui.model.User;
 import com.epam.ui.services.saucedemo.LoginActions;
-import com.epam.utils.StringUtils;
+import com.epam.utils.StringGenerator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,7 +18,7 @@ public class LoginPage {
     private WebElement loginLogo;
     @FindBy (xpath = "//input[@id=\"user-name\"]")
     private WebElement usernameField;
-    @FindBy (id = "password")
+    @FindBy (xpath = "//input[@id='password']")
     private WebElement passwordField;
     @FindBy(xpath = "//input[@id='login-button']")
     private WebElement loginButton;
@@ -33,7 +33,6 @@ public class LoginPage {
         driver.get(URL);
         waitForPresenceOfElement(driver, "//div[@class=\"login_logo\"]");
         return new LoginActions(this);
-//        return new LoginActions(driver);
     }
     public void inputUsername(User user){
         usernameField.sendKeys(user.getUsername());
@@ -44,26 +43,15 @@ public class LoginPage {
     public  void clickLoginButton(){
         loginButton.click();
     }
-//    public InventoryPage login(User user){
-//        usernameField.sendKeys(user.getUsername());
-//        passwordField.sendKeys(user.getPassword());
-//        loginButton.click();
-//        return new InventoryPage(driver);
-//    }
+
     public void inputRandomUsername(){
-        usernameField.sendKeys(StringUtils.getRandomString());
+        usernameField.sendKeys(StringGenerator.getRandomString());
     }
     public void inputRandomPassword(){
-        passwordField.sendKeys(StringUtils.getRandomString());
+        passwordField.sendKeys(StringGenerator.getRandomString());
     }
     public String getLoggingErrorMessage(){
         return loggingErrorMessage.getText();
     }
-//    public String loginWithRandomCredentials() {
-//        usernameField.sendKeys(StringUtils.getRandomString());
-//        passwordField.sendKeys(StringUtils.getRandomString());
-//        loginButton.click();
-//        waitForPresenceOfElement(driver, "//button[@class=\"error-button\"]");
-//        return loggingErrorMessage.getText();
-//    }
+
 }

@@ -1,17 +1,14 @@
 package com.epam.tests.ui.saucedemo;
 
 import com.epam.ui.model.User;
-import com.epam.ui.pages.saucedemo.CartPage;
-import com.epam.ui.pages.saucedemo.CheckoutOverviewPage;
-import com.epam.ui.pages.saucedemo.CheckoutPage;
-import com.epam.ui.pages.saucedemo.LoginPage;
+import com.epam.ui.pages.saucedemo.*;
 import com.epam.ui.services.saucedemo.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,9 +37,6 @@ public class SmokeTests extends BaseTest {
     public void testLoginWithInvalidCredentials (){
         LoginActions actions = new LoginPage(driver)
                 .openPage();
-//        User randomUser = new User(StringDataGenerator.getRandomString(), StringDataGenerator.getRandomString());
-//        actions.login(randomUser);
-        //TODO:replace loginWithRandomCredentials with login(random user)
         String actualErrorMessage = actions.loginWithRandomCredentials();
         assertEquals(ERROR_MESSAGE_LOGIN_WITH_INVALID_CREDENTIALS,
                 actualErrorMessage);
@@ -53,8 +47,9 @@ public class SmokeTests extends BaseTest {
         User testUser = new User(username,password);
         InventoryActions actions = new LoginPage(driver)
                 .openPage()
-                .login(testUser);
-        String actualNameOfFirstItem = actions.sortItems("low to high");
+                .login(testUser)
+                .sortItems("low to high");
+        String actualNameOfFirstItem = actions.getAllInventoryItems().get(0).getName();
         assertEquals("Sauce Labs Onesie", actualNameOfFirstItem);
     }
     @ParameterizedTest(name = "test_4")
@@ -63,8 +58,9 @@ public class SmokeTests extends BaseTest {
         User testUser = new User(username,password);
         InventoryActions actions = new LoginPage(driver)
                 .openPage()
-                .login(testUser);
-        String actualNameOfFirstItem = actions.sortItems("high to low");
+                .login(testUser)
+                .sortItems("high to low");
+        String actualNameOfFirstItem = actions.getAllInventoryItems().get(0).getName();
         assertEquals("Sauce Labs Fleece Jacket", actualNameOfFirstItem);
     }
     @ParameterizedTest(name = "test_5")
@@ -96,10 +92,8 @@ public class SmokeTests extends BaseTest {
                 .login(testUser)
                 .addItemToCart("Sauce Labs Backpack")
                 .goToShoppingCart();
-        int nbItems = actions.getNumberOfItemsInCart();
-        String[] items = actions.getNamesOfItemsInCart(nbItems);
-        assertTrue(Arrays.asList(items).contains("Sauce Labs Backpack"));
-//        assertTrue(page.isProductInCart("Sauce Labs Backpack"));
+        ArrayList<CartItem> cartItems = actions.getAllCartItems();
+        assertTrue(cartItems.stream().anyMatch((item) -> item.getName().equals("Sauce Labs Backpack")));
     }
     @ParameterizedTest(name = "test_8")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
@@ -111,12 +105,11 @@ public class SmokeTests extends BaseTest {
                 .addItemToCart("Sauce Labs Bike Light")
                 .removeItemFromCart("Sauce Labs Bike Light")
                 .goToShoppingCart();
-        int nbItems = actions.getNumberOfItemsInCart();
-        String[] items = actions.getNamesOfItemsInCart(nbItems);
-        assertFalse(Arrays.asList(items).contains("Sauce Labs Bike Light"));
-//        assertFalse(page.isProductInCart("Sauce Labs Bike Light"));
+
+        ArrayList<CartItem> cartItems = actions.getAllCartItems();
+        assertTrue(cartItems.stream().anyMatch((item) -> item.getName().equals("Sauce Labs Bike Light")));
+
     }
-    //TODO: ask about using url in asserts
     @ParameterizedTest(name = "test_9")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testContinueShoppingButton (String username, String password) {
@@ -139,7 +132,6 @@ public class SmokeTests extends BaseTest {
                 .goToCheckout();
         assertEquals(CHECKOUT_STEP_ONE_PAGE_URL, driver.getCurrentUrl());
     }
-    //TODO: check test_11. Ask about get error message
     @ParameterizedTest(name = "test_11")
     @CsvFileSource(resources = "/checkoutDataEmptyFirstName.csv", numLinesToSkip = 1)
     public void testCheckoutProcessWithEmptyFirstName  (String username, String password, String firstName, String lastName,

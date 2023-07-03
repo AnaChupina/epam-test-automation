@@ -8,13 +8,13 @@ import org.openqa.selenium.support.PageFactory;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 
 public class CheckoutPage extends BasePage{
-    @FindBy(id="first-name")
+    @FindBy(xpath="//input[@id='first-name']")
     private WebElement firstNameField;
-    @FindBy(id="last-name")
+    @FindBy(xpath="//input[@id='last-name']")
     private WebElement lastNameField;
-    @FindBy(id="postal-code")
+    @FindBy(xpath="//input[@id='postal-code']")
     private WebElement zipCode;
-    @FindBy(id="continue")
+    @FindBy(xpath="//input[@id='continue']")
     private WebElement continueButton;
     @FindBy(xpath = "//h3[@data-test=\"error\"]")
     private WebElement errorMessageFromCheckoutProcess;

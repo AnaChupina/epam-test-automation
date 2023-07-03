@@ -1,19 +1,18 @@
 package com.epam.tests.ui.saucedemo;
 
-import com.epam.tests.ui.saucedemo.testdata.TestData;
+import com.epam.testdata.ui.sausedemo.TestData;
 import com.epam.ui.model.User;
-import com.epam.ui.pages.saucedemo.CartPage;
-import com.epam.ui.pages.saucedemo.InventoryPage;
+import com.epam.ui.pages.saucedemo.CartItem;
 import com.epam.ui.pages.saucedemo.LoginPage;
 import com.epam.ui.services.saucedemo.CartActions;
 import com.epam.ui.services.saucedemo.CheckoutOverviewActions;
 import com.epam.ui.services.saucedemo.LoginActions;
-import com.epam.utils.StringUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCases extends BaseTest {
     private String LOGIN_PAGE_URL = "https://www.saucedemo.com/";
@@ -54,7 +53,7 @@ public class TestCases extends BaseTest {
                 .logout()
                 .login(testUser)
                 .goToShoppingCart();
-        assertEquals(EXPECTED_NUMBER_OF_ITEMS, actions.getNumberOfItemsInCart());
+        assertEquals(EXPECTED_NUMBER_OF_ITEMS, actions.getAllCartItems().size());
     }
     @ParameterizedTest(name = "e2e_3")
     @CsvFileSource(resources = "/correctCheckoutData.csv", numLinesToSkip = 1)
@@ -93,7 +92,16 @@ public class TestCases extends BaseTest {
                 .logout()
                 .login(testUser)
                 .goToShoppingCart();
-        assertTrue(StringUtils.areArraysEqual(TestData.getArrayOfAllItemNames(),
-               actions.getNamesOfItemsInCart(actions.getNumberOfItemsInCart())));
+
+        String[] allNames = actions
+                .getAllCartItems()
+                .stream()
+                .map(CartItem::getName)
+                .sorted()
+                .toArray(String[]::new);
+
+        String[] expected = TestData.getArrayOfAllItemNames();
+        Arrays.sort(expected);
+        assertArrayEquals(expected, allNames);
     }
 }

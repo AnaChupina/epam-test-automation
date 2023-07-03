@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class CheckoutCompletePage extends BasePage{
-    @FindBy(className = "complete-header")
+    @FindBy(xpath = "//h2[@class='complete-header']")
     private WebElement completeMessage;
     public CheckoutCompletePage(WebDriver driver) {
         super(driver);
