@@ -20,8 +20,8 @@ public class StoreTests {
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = BASE_URL;
-        RestAssured.basePath = BASE_PATH;
+        RestAssured.baseURI = BASE_URL_PET_STORE;
+        RestAssured.basePath = BASE_PATH_PET_STORE;
         order = OrderCreator.createJsonOrderObject();
         orderHandle = new OrderHandle();
         response = orderHandle.placeOrderForPet(order);

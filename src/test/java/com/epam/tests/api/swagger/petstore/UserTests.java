@@ -27,8 +27,8 @@ public class UserTests {
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = BASE_URL;
-        RestAssured.basePath = BASE_PATH;
+        RestAssured.baseURI = BASE_URL_PET_STORE;
+        RestAssured.basePath = BASE_PATH_PET_STORE;
         user = UserCreator.createJsonUserObject();
         userHandle = new UserHandle();
         response = userHandle.createUser(user);

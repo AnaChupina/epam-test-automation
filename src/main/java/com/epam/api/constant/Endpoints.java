@@ -11,4 +11,6 @@ public class Endpoints {
     public static final String USER_CREATE_WITH_LIST = "/user/createWithList";
     public static final String USER_LOGIN = "/user/login";
     public static final String USER_LOGOUT = "/user/logout";
+
+    public static final String REPORT_PORTAL_ALL_LAUNCHES = "/v1/anastasia_chupina_personal/launch";
 }

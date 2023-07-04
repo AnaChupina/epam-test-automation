@@ -30,8 +30,8 @@ public class PetTests {
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = BASE_URL;
-        RestAssured.basePath = BASE_PATH;
+        RestAssured.baseURI = BASE_URL_PET_STORE;
+        RestAssured.basePath = BASE_PATH_PET_STORE;
         pet = PetCreator.createJsonPetObject();
         petHandle = new PetHandle();
         response = petHandle.addNewPetToStore(pet, petName);
