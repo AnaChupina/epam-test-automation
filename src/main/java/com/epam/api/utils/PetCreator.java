@@ -29,4 +29,15 @@ public class PetCreator {
         Pet pet = new Pet(PET_ID, category, PET_NAME, photoUrls, tags, PET_STATUS);
         return new Gson().toJson(pet);
     }
+    public static String createJsonPetObject(String name){
+        Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
+
+        TagDto tag1 = new TagDto(TAG_ID, TAG_NAME);
+
+        List<TagDto> tags = Arrays.asList(tag1);
+
+        List<String> photoUrls = Arrays.asList(PHOTO_URL);
+        Pet pet = new Pet(PET_ID, category, name, photoUrls, tags, PET_STATUS);
+        return new Gson().toJson(pet);
+    }
 }

@@ -1,4 +1,4 @@
-package com.epam.utils;
+package com.epam.ui.utils;
 
 import org.apache.commons.lang3.RandomStringUtils;
 

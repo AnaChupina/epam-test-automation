@@ -1,32 +1,40 @@
 package com.epam.tests.api.swagger.petstore;
 
+import com.epam.api.services.PetHandle;
 import com.epam.api.utils.PetCreator;
+import com.epam.api.utils.PetStatus;
+import com.epam.api.utils.TestDataReader;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
+import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static com.epam.api.config.Configuration.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PetTests {
     private static final Logger LOGGER = LogManager.getLogger(PetTests.class);
+    private String pet;
+    private String updatedPet;
+    private static Response response;
+    private PetHandle petHandle;
+    private final int petId = Integer.valueOf(TestDataReader.getTestData("pet.id"));
+    private final String petName = TestDataReader.getTestData("pet.name");
+    private final String updatedPetName = "Doggie";
+    private final String imageLocation = "src/test/resources/sobaka.jpeg";
+    private final String imageFileName = "sobaka.jpeg";
+    private final Integer imageFileSize = 148538;
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = "https://petstore.swagger.io";
-        RestAssured.basePath = "/v2";
-        RequestSpecification requestSpec = given()
-                .contentType(ContentType.JSON)
-                .body(PetCreator.createJsonPetObject());
-
-        requestSpec.when()
-                        .post("/pet");
+        RestAssured.baseURI = BASE_URL;
+        RestAssured.basePath = BASE_PATH;
+        pet = PetCreator.createJsonPetObject();
+        petHandle = new PetHandle();
+        response = petHandle.addNewPetToStore(pet, petName);
         LOGGER.info("Inside SwaggerPetTests beforeEach ");
         LOGGER.info("Pet with petId=1 was created ");
     }
@@ -34,93 +42,48 @@ public class PetTests {
     @DisplayName("api_test_pet_1")
     public void addNewPetToStoreTest_petId_1(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
-        given()
-                .body(PetCreator.createJsonPetObject())
-                .when()
-                .contentType (ContentType.JSON)
-                .post("/pet")
-                .then().log().all()
-                .body("name", equalTo("doggie"))
-                .assertThat().statusCode(200);
+       response = petHandle.addNewPetToStore(pet, petName);
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_2")
     public void updateAnExistingPetTest_petId_1(){
-        given()
-                .body("{\n" +
-                        "  \"id\": 1,\n" +
-                        "  \"category\": {\n" +
-                        "    \"id\": 1,\n" +
-                        "    \"name\": \"string\"\n" +
-                        "  },\n" +
-                        "  \"name\": \"Doggie\",\n" +
-                        "  \"photoUrls\": [\n" +
-                        "    \"string\"\n" +
-                        "  ],\n" +
-                        "  \"tags\": [\n" +
-                        "    {\n" +
-                        "      \"id\": 1,\n" +
-                        "      \"name\": \"string\"\n" +
-                        "    }\n" +
-                        "  ],\n" +
-                        "  \"status\": \"available\"\n" +
-                        "}")
-                .when()
-                .contentType (ContentType.JSON)
-                .put("/pet")
-                .then().log().all()
-                .body("name", equalTo("Doggie"))
-                .assertThat().statusCode(200);
+        updatedPet = PetCreator.createJsonPetObject(updatedPetName);
+        response = petHandle.updateAnExistingPet(updatedPet, updatedPetName);
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_3")
     public void findPetsByStatus_Available(){
-        given()
-                .param("status","available")
-                .when()
-                .get("/pet/findByStatus?status=available")
-                .then().log().all()
-                .assertThat().statusCode(200);
+        response = petHandle.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE));
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_4")
     public void findPetByIDTest_petId_1(){
-        given()
-                .when()
-                .get("/pet/1")
-                .then().log().all()
-                .body("name", equalTo("doggie"))
-                .assertThat().statusCode(200);
+        response = petHandle.findPetById(petId, petName);
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_5")
     public void deletePetTest_petId_1(){
-        given()
-                .when()
-                .delete("/pet/1")
-                .then().log().all()
-                .body("message", equalTo("1"))
-                .assertThat().statusCode(200);
+        response = petHandle.deletePet(petId);
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_6")
     public void uploadsPetImageTest_petId_1(){
-        String location = "src/test/resources/sobaka.jpeg";
-        File petImage = new File(location);
-        given()
-                .contentType("multipart/form-data")
-                .multiPart("additionalMetadata","data")
-                .multiPart("file", petImage)
-                .when()
-                .post("/pet/1/uploadImage")
-                .then().log().all()
-                .body("message", equalTo("additionalMetadata: data\nFile uploaded to ./sobaka.jpeg, 148538 bytes"))
-                .assertThat().statusCode(200);
+        File petImage = new File(imageLocation);
+        response = petHandle.uploadsPetImage(petImage, petId, imageFileName, imageFileSize);
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
 
+    //TODO:  RestAssured.reset() - does it delete pet also? because test_5 doesn't work with deletePet in cleanUp()
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerPetTests afterEach ");
+
+//        response = petHandle.deletePet(petId);
         RestAssured.reset();
     }
 }
