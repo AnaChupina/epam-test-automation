@@ -3,7 +3,7 @@ package com.epam.tests.api.swagger.petstore;
 import com.epam.api.services.UserHandle;
 import com.epam.api.utils.TestDataReader;
 import com.epam.api.utils.UserCreator;
-import io.restassured.RestAssured;
+import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +14,7 @@ import static com.epam.testdata.api.swagger.petstore.UserTestData.ARRAY_TO_CREAT
 import static com.epam.testdata.api.swagger.petstore.UserTestData.LIST_TO_CREATE_USER;
 
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class UserTests {
+public class UserTests extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(UserTests.class);
     private String user;
     private UserHandle userHandle;
@@ -23,12 +22,11 @@ public class UserTests {
     private final String username = TestDataReader.getTestData("username");
     private final String firstName = TestDataReader.getTestData("first.name");
     private final String password = TestDataReader.getTestData("password");
+    private Boolean deleteTestFlag = false;
 
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = BASE_URL_PET_STORE;
-        RestAssured.basePath = BASE_PATH_PET_STORE;
         user = UserCreator.createJsonUserObject();
         userHandle = new UserHandle();
         response = userHandle.createUser(user);
@@ -49,37 +47,38 @@ public class UserTests {
     }
     @Test
     @DisplayName("api_test_user_3")
-    public void updateUserInformationTest_UserId_1(){
+    public void updateUserInformationTest(){
         response = userHandle.updateUserInformation(user, username);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_user_4")
-    public void getUserInformationTest_UserId_1(){
+    public void getUserInformationTest(){
         response = userHandle.getUserInformation(username,firstName);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_user_5")
-    public void loginTest_UserId_1(){
+    public void loginTest(){
         response = userHandle.login(username,password);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_user_6")
-    public void logoutTest_UserId_1(){
+    public void logoutTest(){
         response = userHandle.logout();
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_user_7")
-    public void createUserTest_UserId_1(){
+    public void createUserTest(){
         response = userHandle.createUser(user);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_user_8")
-    public void deleteUserTest_UserId_1(){
+    public void deleteUserTest(){
+        deleteTestFlag = true;
         response = userHandle.deleteUser(username);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
@@ -87,6 +86,8 @@ public class UserTests {
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerUserTests afterEach ");
-        RestAssured.reset();
+        if(!deleteTestFlag){
+            response = userHandle.deleteUser(username);
+        }
     }
 }

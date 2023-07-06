@@ -15,7 +15,8 @@ public class OrderCreator {
     private static final Boolean COMPLETE = Boolean.valueOf(TestDataReader.getTestData("complete"));
 
     public static String createJsonOrderObject(){
-        Order order = new Order(ORDER_ID, PET_ID, QUANTITY, SHIP_DATE, STATUS, COMPLETE);
+        Order order = new Order.OrderBuilder(ORDER_ID, PET_ID, QUANTITY, SHIP_DATE, STATUS, COMPLETE)
+                .build();
         return new Gson().toJson(order);
     }
 }

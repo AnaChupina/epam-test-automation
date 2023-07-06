@@ -1,4 +1,4 @@
-package com.epam.tests.ui.saucedemo;
+package com.epam.tests.base;
 
 import com.epam.ui.driver.DriverSingleton;
 import com.epam.ui.utils.logging.ScreenShootOnFailureExtension;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 
 @ExtendWith(ScreenShootOnFailureExtension.class)
-public class BaseTest {
+public class BaseUITest {
     protected WebDriver driver;
     @BeforeEach
     public void setUp()

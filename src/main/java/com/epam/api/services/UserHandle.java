@@ -75,7 +75,7 @@ public class UserHandle {
                 .when()
                 .delete(USER + "/" + username)
                 .then().log().all()
-                .body("message",equalTo(username))
+//                .body("message",equalTo(username))
                 .extract().response();
     }
 

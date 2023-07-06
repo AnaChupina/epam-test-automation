@@ -26,7 +26,9 @@ public class PetCreator {
         List<TagDto> tags = Arrays.asList(tag1);
 
         List<String> photoUrls = Arrays.asList(PHOTO_URL);
-        Pet pet = new Pet(PET_ID, category, PET_NAME, photoUrls, tags, PET_STATUS);
+        Pet pet = new Pet.PetBuilder(PET_ID, category, photoUrls, tags, PET_STATUS)
+                .setName(PET_NAME)
+                .build();
         return new Gson().toJson(pet);
     }
     public static String createJsonPetObject(String name){
@@ -37,7 +39,9 @@ public class PetCreator {
         List<TagDto> tags = Arrays.asList(tag1);
 
         List<String> photoUrls = Arrays.asList(PHOTO_URL);
-        Pet pet = new Pet(PET_ID, category, name, photoUrls, tags, PET_STATUS);
+        Pet pet = new Pet.PetBuilder(PET_ID, category, photoUrls, tags, PET_STATUS)
+                .setName(name)
+                .build();
         return new Gson().toJson(pet);
     }
 }

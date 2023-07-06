@@ -4,7 +4,7 @@ import com.epam.api.services.PetHandle;
 import com.epam.api.utils.PetCreator;
 import com.epam.api.utils.PetStatus;
 import com.epam.api.utils.TestDataReader;
-import io.restassured.RestAssured;
+import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +14,7 @@ import java.io.File;
 
 import static com.epam.api.config.Configuration.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PetTests {
+public class PetTests extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(PetTests.class);
     private String pet;
     private String updatedPet;
@@ -27,11 +26,10 @@ public class PetTests {
     private final String imageLocation = "src/test/resources/sobaka.jpeg";
     private final String imageFileName = "sobaka.jpeg";
     private final Integer imageFileSize = 148538;
+    private Boolean deleteTestFlag = false;
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = BASE_URL_PET_STORE;
-        RestAssured.basePath = BASE_PATH_PET_STORE;
         pet = PetCreator.createJsonPetObject();
         petHandle = new PetHandle();
         response = petHandle.addNewPetToStore(pet, petName);
@@ -40,50 +38,50 @@ public class PetTests {
     }
     @Test
     @DisplayName("api_test_pet_1")
-    public void addNewPetToStoreTest_petId_1(){
+    public void addNewPetToStoreTest(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
        response = petHandle.addNewPetToStore(pet, petName);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_2")
-    public void updateAnExistingPetTest_petId_1(){
+    public void updateAnExistingPetTest(){
         updatedPet = PetCreator.createJsonPetObject(updatedPetName);
         response = petHandle.updateAnExistingPet(updatedPet, updatedPetName);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_3")
-    public void findPetsByStatus_Available(){
+    public void findPetsByStatusAvailableTest(){
         response = petHandle.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE));
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_4")
-    public void findPetByIDTest_petId_1(){
+    public void findPetByIDTest(){
         response = petHandle.findPetById(petId, petName);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_5")
-    public void deletePetTest_petId_1(){
+    public void deletePetTest(){
+        deleteTestFlag = true;
         response = petHandle.deletePet(petId);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_6")
-    public void uploadsPetImageTest_petId_1(){
+    public void uploadsPetImageTest(){
         File petImage = new File(imageLocation);
         response = petHandle.uploadsPetImage(petImage, petId, imageFileName, imageFileSize);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
 
-    //TODO:  RestAssured.reset() - does it delete pet also? because test_5 doesn't work with deletePet in cleanUp()
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerPetTests afterEach ");
-
-//        response = petHandle.deletePet(petId);
-        RestAssured.reset();
+        if (!deleteTestFlag) {
+            response = petHandle.deletePet(petId);
+        }
     }
 }

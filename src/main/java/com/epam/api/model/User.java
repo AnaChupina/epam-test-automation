@@ -10,80 +10,47 @@ public class User {
     private String phone;
     private Integer userStatus;
 
-    public User(Integer id, String username, String firstName, String lastName, String email, String password,
-                String phone, Integer userStatus) {
-        this.id = id;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.userStatus = userStatus;
+    public User(UserBuilder builder) {
+        this.id = builder.id;
+        this.username = builder.username;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.email = builder.email;
+        this.password = builder.password;
+        this.phone = builder.phone;
+        this.userStatus = builder.userStatus;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public Integer getUserStatus() {
         return userStatus;
-    }
-
-    public void setUserStatus(Integer userStatus) {
-        this.userStatus = userStatus;
     }
 
     @Override
@@ -98,5 +65,69 @@ public class User {
                 "  \"phone\": \"" + phone + "\",\n" +
                 "  \"userStatus\": " + userStatus + "\n" +
                 "}";
+    }
+    public static class UserBuilder{
+        private Integer id;
+        private String username;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String password;
+        private String phone;
+        private Integer userStatus;
+        public UserBuilder (Integer id, String username, String firstName, String lastName, String email, String password,
+                    String phone, Integer userStatus) {
+            this.id = id;
+            this.username = username;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.password = password;
+            this.phone = phone;
+            this.userStatus = userStatus;
+        }
+
+        public UserBuilder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder setPhone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public UserBuilder setUserStatus(Integer userStatus) {
+            this.userStatus = userStatus;
+            return this;
+        }
+        public User build() {
+            return new User(this);
+        }
     }
 }

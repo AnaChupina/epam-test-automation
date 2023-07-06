@@ -1,6 +1,7 @@
 package com.epam.tests.ui.saucedemo;
 
 import com.epam.testdata.ui.sausedemo.TestData;
+import com.epam.tests.base.BaseUITest;
 import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.CartItem;
 import com.epam.ui.pages.saucedemo.LoginPage;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestCases extends BaseTest {
+public class TestCases extends BaseUITest {
     private String LOGIN_PAGE_URL = "https://www.saucedemo.com/";
     private String EXPECTED_TOTAL_WITH_TAX = "Total: $140.34";
     private int EXPECTED_NUMBER_OF_ITEMS = 6;

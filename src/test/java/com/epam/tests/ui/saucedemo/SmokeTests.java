@@ -1,5 +1,6 @@
 package com.epam.tests.ui.saucedemo;
 
+import com.epam.tests.base.BaseUITest;
 import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.*;
 import com.epam.ui.services.saucedemo.*;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class SmokeTests extends BaseTest {
+public class SmokeTests extends BaseUITest {
     private String INVENTORY_PAGE_URL = "https://www.saucedemo.com/inventory.html";
     private String ERROR_MESSAGE_LOGIN_WITH_INVALID_CREDENTIALS = "Epic sadface: Username and password do not match any user in this service";
     private String CHECKOUT_STEP_ONE_PAGE_URL = "https://www.saucedemo.com/checkout-step-one.html";

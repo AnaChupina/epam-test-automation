@@ -1,7 +1,6 @@
 package com.epam.api.utils;
 
 import com.epam.api.model.User;
-import com.epam.api.utils.TestDataReader;
 import com.google.gson.Gson;
 
 public class UserCreator {
@@ -15,7 +14,8 @@ public class UserCreator {
     private static final Integer USER_STATUS = Integer.valueOf(TestDataReader.getTestData("user.status"));
 
     public static String createJsonUserObject(){
-        User user = new User(USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PHONE, USER_STATUS);
+        User user = new User.UserBuilder(USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PHONE, USER_STATUS)
+                .build();
         return new Gson().toJson(user);
     }
 }

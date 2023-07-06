@@ -3,25 +3,23 @@ package com.epam.tests.api.swagger.petstore;
 import com.epam.api.services.OrderHandle;
 import com.epam.api.utils.OrderCreator;
 import com.epam.api.utils.TestDataReader;
-import io.restassured.RestAssured;
+import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 
 import static com.epam.api.config.Configuration.*;
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class StoreTests {
+public class StoreTests extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(StoreTests.class);
     private String order;
     private OrderHandle orderHandle;
     private static Response response;
     private final int orderId = Integer.valueOf(TestDataReader.getTestData("order.id"));
+    private Boolean deleteTestFlag = false;
 
     @BeforeEach
     public void setUp() {
-        RestAssured.baseURI = BASE_URL_PET_STORE;
-        RestAssured.basePath = BASE_PATH_PET_STORE;
         order = OrderCreator.createJsonOrderObject();
         orderHandle = new OrderHandle();
         response = orderHandle.placeOrderForPet(order);
@@ -36,13 +34,14 @@ public class StoreTests {
     }
     @Test
     @DisplayName("api_test_store_2")
-    public void getPurchaseOrderByIDTest_ID_1(){
+    public void getPurchaseOrderByIDTest(){
         response = orderHandle.getPurchaseOrderByID(orderId);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test
     @DisplayName("api_test_store_3")
-    public void deletePurchaseOrderByIDTest_ID_1(){
+    public void deletePurchaseOrderByIDTest(){
+        deleteTestFlag = true;
         response = orderHandle.deletePurchaseOrderByID(orderId);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
@@ -56,6 +55,8 @@ public class StoreTests {
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerStoreTests afterEach ");
-        RestAssured.reset();
+        if (!deleteTestFlag){
+            response = orderHandle.deletePurchaseOrderByID(orderId);
+        }
     }
 }
