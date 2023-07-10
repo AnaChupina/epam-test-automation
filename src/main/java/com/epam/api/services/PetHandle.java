@@ -1,6 +1,5 @@
 package com.epam.api.services;
 
-import com.epam.api.utils.PetCreator;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 

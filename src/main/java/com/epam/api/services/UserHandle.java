@@ -1,5 +1,6 @@
 package com.epam.api.services;
 
+import com.epam.api.utils.TestDataReader;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
@@ -75,7 +76,8 @@ public class UserHandle {
                 .when()
                 .delete(USER + "/" + username)
                 .then().log().all()
-//                .body("message",equalTo(username))
+                .contentType(ContentType.JSON)
+                .body("message",equalTo(username))
                 .extract().response();
     }
 

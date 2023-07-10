@@ -88,6 +88,7 @@ public class UserTests extends BaseAPITest {
         LOGGER.info("Inside SwaggerUserTests afterEach ");
         if(!deleteTestFlag){
             response = userHandle.deleteUser(username);
+            Assertions.assertEquals(STATUS_CODE,response.statusCode());
         }
     }
 }
