@@ -1,20 +1,23 @@
 package com.epam.api.utils;
 
+import com.epam.api.builders.UserBuilder;
 import com.epam.api.model.User;
 import com.google.gson.Gson;
 
+import static com.epam.api.utils.UserDataGenerator.*;
+
 public class UserCreator {
-    private static final Integer USER_ID = Integer.valueOf(TestDataReader.getTestData("user.id"));
-    private static final String USERNAME = TestDataReader.getTestData("username");
-    private static final String FIRST_NAME = TestDataReader.getTestData("first.name");
-    private static final String LAST_NAME = TestDataReader.getTestData("last.name");
-    private static final String EMAIL = TestDataReader.getTestData("email");
-    private static final String PASSWORD = TestDataReader.getTestData("password");
-    private static final String PHONE = TestDataReader.getTestData("phone");
-    private static final Integer USER_STATUS = Integer.valueOf(TestDataReader.getTestData("user.status"));
 
     public static String createJsonUserObject(){
-        User user = new User.UserBuilder(USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, PHONE, USER_STATUS)
+        User user = new UserBuilder()
+                .setId(USER_ID)
+                .setUsername(USERNAME)
+                .setFirstName(FIRST_NAME)
+                .setLastName(LAST_NAME)
+                .setEmail(EMAIL)
+                .setPassword(PASSWORD)
+                .setPhone(PHONE)
+                .setUserStatus(USER_STATUS)
                 .build();
         return new Gson().toJson(user);
     }

@@ -21,7 +21,7 @@ public class OrderHandle {
                 .extract().response();
     }
     public Response getPurchaseOrderByID(int orderId) {
-        return given()
+        return given().log().all()
                 .when()
                 .get(STORE_ORDER + "/"+ orderId)
                 .then().log().all()

@@ -1,4 +1,4 @@
-package com.epam.tests.api.swagger.petstore;
+package com.epam.tests.api.swagger.petstore.user;
 
 import com.epam.api.services.UserHandle;
 import com.epam.api.utils.TestDataReader;
@@ -22,7 +22,6 @@ public class UserTests extends BaseAPITest {
     private final String username = TestDataReader.getTestData("username");
     private final String firstName = TestDataReader.getTestData("first.name");
     private final String password = TestDataReader.getTestData("password");
-    private Boolean deleteTestFlag = false;
 
 
     @BeforeEach
@@ -75,20 +74,12 @@ public class UserTests extends BaseAPITest {
         response = userHandle.createUser(user);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
-    @Test
-    @DisplayName("api_test_user_8")
-    public void deleteUserTest(){
-        deleteTestFlag = true;
-        response = userHandle.deleteUser(username);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
-    }
 
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerUserTests afterEach ");
-        if(!deleteTestFlag){
-            response = userHandle.deleteUser(username);
-            Assertions.assertEquals(STATUS_CODE,response.statusCode());
-        }
+        response = userHandle.deleteUser(username);
+        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+
     }
 }

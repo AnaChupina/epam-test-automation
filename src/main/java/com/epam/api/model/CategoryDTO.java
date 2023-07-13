@@ -1,10 +1,10 @@
 package com.epam.api.model;
 
-public class Category {
+public class CategoryDTO {
     private Integer id;
     private String name;
 
-    public Category(Integer id, String name) {
+    public CategoryDTO(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

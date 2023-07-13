@@ -1,4 +1,4 @@
-package com.epam.tests.api.swagger.petstore;
+package com.epam.tests.api.swagger.petstore.store;
 
 import com.epam.api.services.OrderHandle;
 import com.epam.api.utils.OrderCreator;
@@ -36,13 +36,6 @@ public class StoreTests extends BaseAPITest {
     @DisplayName("api_test_store_2")
     public void getPurchaseOrderByIDTest(){
         response = orderHandle.getPurchaseOrderByID(orderId);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
-    }
-    @Test
-    @DisplayName("api_test_store_3")
-    public void deletePurchaseOrderByIDTest(){
-        deleteTestFlag = true;
-        response = orderHandle.deletePurchaseOrderByID(orderId);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
     @Test

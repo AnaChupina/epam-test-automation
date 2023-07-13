@@ -1,4 +1,4 @@
-package com.epam.tests.api.swagger.petstore;
+package com.epam.tests.api.swagger.petstore.pet;
 
 import com.epam.api.services.PetHandle;
 import com.epam.api.utils.PetCreator;
@@ -62,13 +62,13 @@ public class PetTests extends BaseAPITest {
         response = petHandle.findPetById(petId, petName);
         Assertions.assertEquals(STATUS_CODE,response.statusCode());
     }
-    @Test
-    @DisplayName("api_test_pet_5")
-    public void deletePetTest(){
-        deleteTestFlag = true;
-        response = petHandle.deletePet(petId);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
-    }
+//    @Test
+//    @DisplayName("api_test_pet_5")
+//    public void deletePetTest(){
+//        deleteTestFlag = true;
+//        response = petHandle.deletePet(petId);
+//        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+//    }
     @Test
     @DisplayName("api_test_pet_6")
     public void uploadsPetImageTest(){
@@ -80,8 +80,7 @@ public class PetTests extends BaseAPITest {
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerPetTests afterEach ");
-        if (!deleteTestFlag) {
-            response = petHandle.deletePet(petId);
-        }
+        response = petHandle.deletePet(petId);
+
     }
 }

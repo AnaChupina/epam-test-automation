@@ -1,6 +1,7 @@
 package com.epam.api.utils;
 
-import com.epam.api.model.Category;
+import com.epam.api.builders.PetBuilder;
+import com.epam.api.model.CategoryDTO;
 import com.epam.api.model.Pet;
 import com.epam.api.model.TagDto;
 import com.google.gson.Gson;
@@ -8,39 +9,43 @@ import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.epam.api.utils.PetDataGenerator.*;
+
 public class PetCreator {
-    private static final Integer PET_ID = Integer.valueOf(TestDataReader.getTestData("pet.id"));
-    private static final Integer CATEGORY_ID = Integer.valueOf(TestDataReader.getTestData("category.id"));
-    private static final String CATEGORY_NAME = TestDataReader.getTestData("category.name");
-    private static final String PET_NAME = TestDataReader.getTestData("pet.name");
-    private static final String PHOTO_URL = TestDataReader.getTestData("pet.photoUrl");
-    private static final Integer TAG_ID = Integer.valueOf(TestDataReader.getTestData("tag.id"));
-    private static final String TAG_NAME = TestDataReader.getTestData("tag.name");
-    private static final String PET_STATUS = TestDataReader.getTestData("pet.status");
 
     public static String createJsonPetObject(){
-        Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
+        CategoryDTO category = new CategoryDTO(CATEGORY_ID, CATEGORY_NAME);
 
         TagDto tag1 = new TagDto(TAG_ID, TAG_NAME);
 
         List<TagDto> tags = Arrays.asList(tag1);
 
         List<String> photoUrls = Arrays.asList(PHOTO_URL);
-        Pet pet = new Pet.PetBuilder(PET_ID, category, photoUrls, tags, PET_STATUS)
+        Pet pet = new PetBuilder()
+                .setId(PET_ID)
+                .setCategory(category)
                 .setName(PET_NAME)
+                .setPhotoUrls(photoUrls)
+                .setTags(tags)
+                .setStatus(PET_STATUS)
                 .build();
         return new Gson().toJson(pet);
     }
     public static String createJsonPetObject(String name){
-        Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
+        CategoryDTO category = new CategoryDTO(CATEGORY_ID, CATEGORY_NAME);
 
         TagDto tag1 = new TagDto(TAG_ID, TAG_NAME);
 
         List<TagDto> tags = Arrays.asList(tag1);
 
         List<String> photoUrls = Arrays.asList(PHOTO_URL);
-        Pet pet = new Pet.PetBuilder(PET_ID, category, photoUrls, tags, PET_STATUS)
+        Pet pet = new PetBuilder()
+                .setId(PET_ID)
+                .setCategory(category)
                 .setName(name)
+                .setPhotoUrls(photoUrls)
+                .setTags(tags)
+                .setStatus(PET_STATUS)
                 .build();
         return new Gson().toJson(pet);
     }
