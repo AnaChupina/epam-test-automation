@@ -3,6 +3,7 @@ package com.epam.tests.api;
 import com.epam.api.services.ReportPortalHandler;
 import com.epam.api.utils.FileHandler;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.*;
 
 import static com.epam.api.config.Configuration.BASE_PATH_REPORT_PORTAL;
 import static com.epam.api.config.Configuration.BASE_URL_REPORT_PORTAL;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -36,7 +38,10 @@ public class ReportPortalTests {
     @DisplayName("rp_test_1")
     public void getAllLaunchesTest(){
         LOGGER.info("Inside ReportPortalTests test ");
-        response = reportPortalHandle.getAllLaunches(bearerToken);
+        response = reportPortalHandle.getAllLaunches(bearerToken)
+                .contentType(ContentType.JSON)
+                .body("content[0].owner", equalTo("anastasia_chupina"))
+                .extract().response();
         String status = response
                 .path("content[0].status");
         assertEquals(status, "PASSED");
