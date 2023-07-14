@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pet {
-    private Integer id;
-    private CategoryDTO category;
-    private String name;
-    private List<String> photoUrls = new ArrayList<>();
-    private List<TagDto> tags = new ArrayList<>();
-    private String status;
+    private final Integer id;
+    private final CategoryDTO category;
+    private final String name;
+    private final List<String> photoUrls;
+    private final List<TagDto> tags ;
+    private final String status;
 
     public Pet(Integer id, CategoryDTO category, String name, List<String> photoUrls, List<TagDto> tags, String status) {
         this.id = id;

@@ -1,9 +1,9 @@
 package com.epam.tests.api.swagger.petstore.pet;
 
-import com.epam.api.services.PetHandle;
+import com.epam.api.services.PetHandler;
 import com.epam.api.utils.PetCreator;
 import com.epam.api.utils.PetStatus;
-import com.epam.api.utils.TestDataReader;
+import com.epam.api.utils.FileHandler;
 import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -11,28 +11,29 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
+import java.net.HttpURLConnection;
 
-import static com.epam.api.config.Configuration.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class PetTests extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(PetTests.class);
     private String pet;
     private String updatedPet;
     private static Response response;
-    private PetHandle petHandle;
-    private final int petId = Integer.valueOf(TestDataReader.getTestData("pet.id"));
-    private final String petName = TestDataReader.getTestData("pet.name");
+    private PetHandler petHandle;
+    private final int petId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","pet.id"));
+    private final String petName = FileHandler.getDataFromProperties("petstoretestdata.properties","pet.name");
     private final String updatedPetName = "Doggie";
     private final String imageLocation = "src/test/resources/sobaka.jpeg";
     private final String imageFileName = "sobaka.jpeg";
     private final Integer imageFileSize = 148538;
-    private Boolean deleteTestFlag = false;
 
     @BeforeEach
     public void setUp() {
         pet = PetCreator.createJsonPetObject();
-        petHandle = new PetHandle();
-        response = petHandle.addNewPetToStore(pet, petName);
+        petHandle = new PetHandler();
+        response = petHandle.addNewPetToStore(pet)
+                .extract().response();
         LOGGER.info("Inside SwaggerPetTests beforeEach ");
         LOGGER.info("Pet with petId=1 was created ");
     }
@@ -40,47 +41,53 @@ public class PetTests extends BaseAPITest {
     @DisplayName("api_test_pet_1")
     public void addNewPetToStoreTest(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
-       response = petHandle.addNewPetToStore(pet, petName);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+       response = petHandle.addNewPetToStore(pet)
+               .body("name", equalTo(petName))
+               .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_2")
     public void updateAnExistingPetTest(){
         updatedPet = PetCreator.createJsonPetObject(updatedPetName);
-        response = petHandle.updateAnExistingPet(updatedPet, updatedPetName);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+        response = petHandle.updateAnExistingPet(updatedPet)
+                .body("name", equalTo(updatedPetName))
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_3")
     public void findPetsByStatusAvailableTest(){
-        response = petHandle.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE));
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+        response = petHandle.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE))
+//                .body("status", equalTo("available"))
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
     @DisplayName("api_test_pet_4")
     public void findPetByIDTest(){
-        response = petHandle.findPetById(petId, petName);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+        response = petHandle.findPetById(petId)
+                .body("name", equalTo(petName))
+                .extract().response();;
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
-//    @Test
-//    @DisplayName("api_test_pet_5")
-//    public void deletePetTest(){
-//        deleteTestFlag = true;
-//        response = petHandle.deletePet(petId);
-//        Assertions.assertEquals(STATUS_CODE,response.statusCode());
-//    }
     @Test
     @DisplayName("api_test_pet_6")
     public void uploadsPetImageTest(){
         File petImage = new File(imageLocation);
-        response = petHandle.uploadsPetImage(petImage, petId, imageFileName, imageFileSize);
-        Assertions.assertEquals(STATUS_CODE,response.statusCode());
+        response = petHandle.uploadsPetImage(petImage, petId)
+                .body("message", equalTo("additionalMetadata: data\nFile uploaded to " + "./" +
+                        imageFileName + ", " + imageFileSize + " bytes"))
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
 
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerPetTests afterEach ");
-        response = petHandle.deletePet(petId);
+        response = petHandle.deletePet(petId)
+                .body("message", equalTo("1"))
+                .extract().response();;
 
     }
 }

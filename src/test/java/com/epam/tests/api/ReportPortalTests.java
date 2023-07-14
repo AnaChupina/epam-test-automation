@@ -1,7 +1,7 @@
 package com.epam.tests.api;
 
-import com.epam.api.services.ReportPortalHandle;
-import com.epam.api.utils.TestDataReader;
+import com.epam.api.services.ReportPortalHandler;
+import com.epam.api.utils.FileHandler;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ReportPortalTests {
     private static final Logger LOGGER = LogManager.getLogger(ReportPortalTests.class);
     private static Response response;
-    private static ReportPortalHandle reportPortalHandle;
-    private final String bearerToken = TestDataReader.getTestData("bearer.token.report.portal");
+    private static ReportPortalHandler reportPortalHandle;
+    private final String bearerToken = FileHandler.getDataFromProperties("reportportalconnection.properties", "bearer.token.report.portal");
     @BeforeAll
     public static void setBaseParam()throws InterruptedException{
         RestAssured.baseURI = BASE_URL_REPORT_PORTAL;
         RestAssured.basePath = BASE_PATH_REPORT_PORTAL;
-        reportPortalHandle = new ReportPortalHandle();
+        reportPortalHandle = new ReportPortalHandler();
         LOGGER.info("Inside ReportPortalTests beforeAll ");
     }
     @BeforeEach
