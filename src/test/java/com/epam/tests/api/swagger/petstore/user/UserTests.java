@@ -2,7 +2,8 @@ package com.epam.tests.api.swagger.petstore.user;
 
 import com.epam.api.services.UserHandler;
 import com.epam.api.utils.FileHandler;
-import com.epam.api.utils.UserCreator;
+import com.epam.api.utils.ObjectToJsonConvertor;
+import com.epam.api.utils.UserDataGenerator;
 import com.epam.tests.base.BaseAPITest;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -30,7 +31,7 @@ public class UserTests extends BaseAPITest {
 
     @BeforeEach
     public void setUp() {
-        user = UserCreator.createJsonUserObject();
+        user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
         userHandle = new UserHandler();
         response = userHandle.createUser(user);
         LOGGER.info("Inside SwaggerUserTests beforeEach ");

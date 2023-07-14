@@ -1,9 +1,7 @@
 package com.epam.tests.api.swagger.petstore.pet;
 
 import com.epam.api.services.PetHandler;
-import com.epam.api.utils.PetCreator;
-import com.epam.api.utils.PetStatus;
-import com.epam.api.utils.FileHandler;
+import com.epam.api.utils.*;
 import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +28,7 @@ public class PetTests extends BaseAPITest {
 
     @BeforeEach
     public void setUp() {
-        pet = PetCreator.createJsonPetObject();
+        pet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet());
         petHandle = new PetHandler();
         response = petHandle.addNewPetToStore(pet)
                 .extract().response();
@@ -49,7 +47,7 @@ public class PetTests extends BaseAPITest {
     @Test
     @DisplayName("api_test_pet_2")
     public void updateAnExistingPetTest(){
-        updatedPet = PetCreator.createJsonPetObject(updatedPetName);
+        updatedPet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet(updatedPetName));
         response = petHandle.updateAnExistingPet(updatedPet)
                 .body("name", equalTo(updatedPetName))
                 .extract().response();

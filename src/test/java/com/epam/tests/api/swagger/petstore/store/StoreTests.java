@@ -1,8 +1,9 @@
 package com.epam.tests.api.swagger.petstore.store;
 
 import com.epam.api.services.OrderHandler;
-import com.epam.api.utils.OrderCreator;
+import com.epam.api.utils.ObjectToJsonConvertor;
 import com.epam.api.utils.FileHandler;
+import com.epam.api.utils.OrderDataGenerator;
 import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,7 @@ public class StoreTests extends BaseAPITest {
 
     @BeforeEach
     public void setUp() {
-        order = OrderCreator.createJsonOrderObject();
+        order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
         orderHandle = new OrderHandler();
         response = orderHandle.placeOrderForPet(order)
                 .body("complete", equalTo(true))

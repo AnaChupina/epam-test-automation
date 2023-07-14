@@ -1,8 +1,9 @@
 package com.epam.tests.api.swagger.petstore.pet;
 
 import com.epam.api.services.PetHandler;
-import com.epam.api.utils.PetCreator;
+import com.epam.api.utils.ObjectToJsonConvertor;
 import com.epam.api.utils.FileHandler;
+import com.epam.api.utils.PetDataGenerator;
 import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ public class DeletePetTest extends BaseAPITest {
 
     @BeforeEach
     public void setUp() {
-        String pet = PetCreator.createJsonPetObject();
+        String pet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet());
         petHandle = new PetHandler();
         response = petHandle.addNewPetToStore(pet)
                 .body("name", equalTo(petName))
