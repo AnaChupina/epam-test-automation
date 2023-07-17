@@ -14,8 +14,8 @@ import java.net.HttpURLConnection;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class StoreTests extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(StoreTests.class);
+public class StoreTest extends BaseAPITest {
+    private static final Logger LOGGER = LogManager.getLogger(StoreTest.class);
     private String order;
     private OrderHandler orderHandle;
     private static Response response;
@@ -33,7 +33,7 @@ public class StoreTests extends BaseAPITest {
         LOGGER.info("Order with ID = 1 was created ");
     }
     @Test
-    @DisplayName("api_test_store_1")
+    @DisplayName("Place an order for pet")
     public void placeOrderForPetTest(){
         response = orderHandle.placeOrderForPet(order)
                 .body("complete", equalTo(true))
@@ -42,7 +42,7 @@ public class StoreTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_store_2")
+    @DisplayName("Find purchase order by ID")
     public void getPurchaseOrderByIDTest(){
         response = orderHandle.getPurchaseOrderByID(orderId)
                 .body("complete", equalTo(true))
@@ -51,7 +51,7 @@ public class StoreTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_store_4")
+    @DisplayName("Returns pet inventories by status")
     public void returnsPetInventoriesByStatus(){
         response = orderHandle.returnsPetInventoriesByStatus()
                 .extract().response();;

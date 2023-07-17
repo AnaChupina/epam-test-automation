@@ -19,8 +19,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 
-public class UserTests extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(UserTests.class);
+public class UserTest extends BaseAPITest {
+    private static final Logger LOGGER = LogManager.getLogger(UserTest.class);
     private String user;
     private UserHandler userHandle;
     private static Response response;
@@ -38,7 +38,7 @@ public class UserTests extends BaseAPITest {
         LOGGER.info("User with username = user1 was created ");
     }
     @Test
-    @DisplayName("api_test_user_1")
+    @DisplayName("Creates list of users with given input array")
     public void createUsersWithArrayTest(){
         response = userHandle.createUsersWithArray(ARRAY_TO_CREATE_USER)
                 .body("message", equalTo("ok"))
@@ -46,7 +46,7 @@ public class UserTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_user_2")
+    @DisplayName("Creates list of users with input array list")
     public void createUsersWithListTest(){
         response = userHandle.createUsersWithList(LIST_TO_CREATE_USER)
                 .body("message", equalTo("ok"))
@@ -54,13 +54,13 @@ public class UserTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_user_3")
+    @DisplayName("Updated user")
     public void updateUserInformationTest(){
         response = userHandle.updateUserInformation(user, username);
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_user_4")
+    @DisplayName("Get user information by username")
     public void getUserInformationTest(){
         response = userHandle.getUserInformation(username)
                 .body("username", equalTo(username))
@@ -68,7 +68,7 @@ public class UserTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_user_5")
+    @DisplayName("logs user into the system")
     public void loginTest(){
         response = userHandle.login(username,password)
                 .body("message", containsString("logged in user session:"))
@@ -76,7 +76,7 @@ public class UserTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_user_6")
+    @DisplayName("Logs out current logged in user session")
     public void logoutTest(){
         response = userHandle.logout()
                 .body("message",equalTo("ok"))
@@ -84,7 +84,7 @@ public class UserTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_user_7")
+    @DisplayName("Create user with username = user1")
     public void createUserTest(){
         response = userHandle.createUser(user);
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());

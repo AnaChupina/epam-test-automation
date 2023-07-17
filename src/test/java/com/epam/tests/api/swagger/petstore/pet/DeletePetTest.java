@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class DeletePetTest extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(PetTests.class);
+    private static final Logger LOGGER = LogManager.getLogger(PetTest.class);
     private static Response response;
     private PetHandler petHandle;
     private final int petId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","pet.id"));
@@ -36,7 +36,7 @@ public class DeletePetTest extends BaseAPITest {
         LOGGER.info("Pet with petId=1 was created ");
     }
     @Test
-    @DisplayName("api_test_pet_5")
+    @DisplayName("Delete a user by their ID")
     public void deletePetTest(){
         response = petHandle.deletePet(petId)
                 .body("message", equalTo("1"))

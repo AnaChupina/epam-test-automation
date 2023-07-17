@@ -1,12 +1,11 @@
 package com.epam.api.utils;
 
-import com.epam.api.model.BaseObject;
 import com.google.gson.Gson;
 
 
 public class ObjectToJsonConvertor {
 
-    public static String convertObjectToJson (BaseObject object){
+    public static String convertObjectToJson (Object object){
         return new Gson().toJson(object);
     }
 }

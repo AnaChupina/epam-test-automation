@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class DeleteUserTest extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(UserTests.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserTest.class);
     private UserHandler userHandle;
     private static Response response;
     private final String username = FileHandler.getDataFromProperties("petstoretestdata.properties","username");
@@ -35,7 +35,7 @@ public class DeleteUserTest extends BaseAPITest {
         LOGGER.info("User with username = user1 was created ");
     }
     @Test
-    @DisplayName("api_test_user_8")
+    @DisplayName("Delete user by username = user1")
     public void deleteUserTest(){
         response = userHandle.deleteUser(username)
                 .contentType(ContentType.JSON)

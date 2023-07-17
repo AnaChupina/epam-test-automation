@@ -19,15 +19,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class DeleteOrderTest extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(StoreTests.class);
+    private static final Logger LOGGER = LogManager.getLogger(StoreTest.class);
     private OrderHandler orderHandle;
     private static Response response;
     private final int orderId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","order.id"));
 
     @BeforeEach
     public void setUp() {
-//        String order = OrderCreator.createJsonOrderObject();
-//        orderHandle = new OrderHandler();
         String order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
         orderHandle = new OrderHandler();
         response = orderHandle.placeOrderForPet(order)
@@ -38,8 +36,8 @@ public class DeleteOrderTest extends BaseAPITest {
         LOGGER.info("Order with ID = 1 was created ");
     }
     @Test
-    @DisplayName("api_test_store_3")
-    public void deletePurchaseOrderByIDTest(){
+    @DisplayName("Delete purchase order by order ID=1")
+    public void deletePurchaseOrderByIdTest(){
         response = orderHandle.deletePurchaseOrderByID(orderId)
                 .body("message", equalTo("1"))
                 .extract().response();;

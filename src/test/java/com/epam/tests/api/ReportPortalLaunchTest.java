@@ -15,8 +15,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ReportPortalTests {
-    private static final Logger LOGGER = LogManager.getLogger(ReportPortalTests.class);
+public class ReportPortalLaunchTest {
+    private static final Logger LOGGER = LogManager.getLogger(ReportPortalLaunchTest.class);
     private static Response response;
     private static ReportPortalHandler reportPortalHandle;
     private final String bearerToken = FileHandler.getDataFromProperties("reportportalconnection.properties", "bearer.token.report.portal");
@@ -31,9 +31,6 @@ public class ReportPortalTests {
     public void beforeEach() {
         LOGGER.info("Inside ReportPortalTests beforeEach ");
     }
-
-    /** Не знаю как проверить, что все ланчи на месте, кроме как сверить количество totalElements, но оно постоянно меняется
-     */
     @Test
     @DisplayName("rp_test_1")
     public void getAllLaunchesTest(){

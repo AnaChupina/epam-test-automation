@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class PetTests extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(PetTests.class);
+public class PetTest extends BaseAPITest {
+    private static final Logger LOGGER = LogManager.getLogger(PetTest.class);
     private String pet;
     private String updatedPet;
     private static Response response;
@@ -36,7 +36,7 @@ public class PetTests extends BaseAPITest {
         LOGGER.info("Pet with petId=1 was created ");
     }
     @Test
-    @DisplayName("api_test_pet_1")
+    @DisplayName("Add a new pet to the store")
     public void addNewPetToStoreTest(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
        response = petHandle.addNewPetToStore(pet)
@@ -45,7 +45,7 @@ public class PetTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_pet_2")
+    @DisplayName("Updates a pet in the store with form data")
     public void updateAnExistingPetTest(){
         updatedPet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet(updatedPetName));
         response = petHandle.updateAnExistingPet(updatedPet)
@@ -54,7 +54,7 @@ public class PetTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_pet_3")
+    @DisplayName("Find a pet by status = available")
     public void findPetsByStatusAvailableTest(){
         response = petHandle.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE))
 //                .body("status", equalTo("available"))
@@ -62,7 +62,7 @@ public class PetTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_pet_4")
+    @DisplayName("Find pet by ID = 1")
     public void findPetByIDTest(){
         response = petHandle.findPetById(petId)
                 .body("name", equalTo(petName))
@@ -70,7 +70,7 @@ public class PetTests extends BaseAPITest {
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
-    @DisplayName("api_test_pet_6")
+    @DisplayName("Uploads  image of pet")
     public void uploadsPetImageTest(){
         File petImage = new File(imageLocation);
         response = petHandle.uploadsPetImage(petImage, petId)

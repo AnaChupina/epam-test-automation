@@ -2,7 +2,7 @@ package com.epam.ui.pages.saucedemo;
 
 import com.epam.ui.model.User;
 import com.epam.ui.services.saucedemo.LoginActions;
-import com.epam.ui.utils.StringGenerator;
+import com.epam.utils.StringGenerator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
