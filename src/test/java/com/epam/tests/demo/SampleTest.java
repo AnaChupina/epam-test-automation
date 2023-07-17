@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ReportPortalExtension.class)
-public class SampleTests {
+public class SampleTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 40, 56, 78})
     void isEven (int number) {

@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class UserTest extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(UserTest.class);
     private String user;
-    private UserHandler userHandle;
+    private UserHandler userHandler;
     private static Response response;
     private final String username = FileHandler.getDataFromProperties("petstoretestdata.properties","username");
     private final String firstName = FileHandler.getDataFromProperties("petstoretestdata.properties","first.name");
@@ -32,15 +32,15 @@ public class UserTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
-        userHandle = new UserHandler();
-        response = userHandle.createUser(user);
+        userHandler = new UserHandler();
+        response = userHandler.createUser(user);
         LOGGER.info("Inside SwaggerUserTests beforeEach ");
         LOGGER.info("User with username = user1 was created ");
     }
     @Test
     @DisplayName("Creates list of users with given input array")
     public void createUsersWithArrayTest(){
-        response = userHandle.createUsersWithArray(ARRAY_TO_CREATE_USER)
+        response = userHandler.createUsersWithArray(ARRAY_TO_CREATE_USER)
                 .body("message", equalTo("ok"))
                 .extract().response();;
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -48,7 +48,7 @@ public class UserTest extends BaseAPITest {
     @Test
     @DisplayName("Creates list of users with input array list")
     public void createUsersWithListTest(){
-        response = userHandle.createUsersWithList(LIST_TO_CREATE_USER)
+        response = userHandler.createUsersWithList(LIST_TO_CREATE_USER)
                 .body("message", equalTo("ok"))
                 .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -56,13 +56,13 @@ public class UserTest extends BaseAPITest {
     @Test
     @DisplayName("Updated user")
     public void updateUserInformationTest(){
-        response = userHandle.updateUserInformation(user, username);
+        response = userHandler.updateUserInformation(user, username);
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
     @DisplayName("Get user information by username")
     public void getUserInformationTest(){
-        response = userHandle.getUserInformation(username)
+        response = userHandler.getUserInformation(username)
                 .body("username", equalTo(username))
                 .extract().response();;
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -70,7 +70,7 @@ public class UserTest extends BaseAPITest {
     @Test
     @DisplayName("logs user into the system")
     public void loginTest(){
-        response = userHandle.login(username,password)
+        response = userHandler.login(username,password)
                 .body("message", containsString("logged in user session:"))
                 .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -78,7 +78,10 @@ public class UserTest extends BaseAPITest {
     @Test
     @DisplayName("Logs out current logged in user session")
     public void logoutTest(){
-        response = userHandle.logout()
+        response = userHandler.login(username,password)
+                .body("message", containsString("logged in user session:"))
+                .extract().response();
+        response = userHandler.logout()
                 .body("message",equalTo("ok"))
                 .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -86,14 +89,14 @@ public class UserTest extends BaseAPITest {
     @Test
     @DisplayName("Create user with username = user1")
     public void createUserTest(){
-        response = userHandle.createUser(user);
+        response = userHandler.createUser(user);
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
 
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerUserTests afterEach ");
-        response = userHandle.deleteUser(username)
+        response = userHandler.deleteUser(username)
                 .contentType(ContentType.JSON)
                 .body("message",equalTo(username))
                 .extract().response();

@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestCases extends BaseUITest {
+public class TestCase extends BaseUITest {
     private String LOGIN_PAGE_URL = "https://www.saucedemo.com/";
     private String EXPECTED_TOTAL_WITH_TAX = "Total: $140.34";
     private int EXPECTED_NUMBER_OF_ITEMS = 6;

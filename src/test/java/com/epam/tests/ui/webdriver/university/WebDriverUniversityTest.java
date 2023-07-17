@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class WebDriverUniversityTests extends BaseUITest {
+public class WebDriverUniversityTest extends BaseUITest {
     private String expectedClassOfDoubleClickButton = "div-double-click double";
     private String expectedMessageClickAndHoldButton = "Well done! keep holding that click now.....";
     private String expectedMessageAfterDragAndDrop = "Dropped!";
