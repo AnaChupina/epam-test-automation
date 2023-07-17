@@ -7,13 +7,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class WebDriverUniversityTest extends BaseUITest {
+/**
+ * This class was developed to try different methods from Actions
+ */
+public class ActionsMethodsTest extends BaseUITest {
     private String expectedClassOfDoubleClickButton = "div-double-click double";
     private String expectedMessageClickAndHoldButton = "Well done! keep holding that click now.....";
     private String expectedMessageAfterDragAndDrop = "Dropped!";
     private String expectedAlertMessage = "Well done you clicked on the link!";
     @Test
-    @DisplayName("uni_test_1")
+    @DisplayName("Try methods doubleClick")
     public void checkDoubleClickButton (){
         WebDriverUniversityPage page = new WebDriverUniversityPage(driver)
                 .openPage()
@@ -21,7 +24,7 @@ public class WebDriverUniversityTest extends BaseUITest {
         assertEquals(expectedClassOfDoubleClickButton, page.getClassOfDoubleClickButton());
     }
     @Test
-    @DisplayName("uni_test_2")
+    @DisplayName("Try method clickAndHold")
     public void checkClickAndHoldButton(){
         WebDriverUniversityPage page = new WebDriverUniversityPage(driver)
                 .openPage()
@@ -29,7 +32,7 @@ public class WebDriverUniversityTest extends BaseUITest {
         assertEquals(expectedMessageClickAndHoldButton, page.getMessageClickAndHoldButton());
     }
     @Test
-    @DisplayName("uni_test_3")
+    @DisplayName("Try method dragAndDrop")
     public void checkDragAndDropMethod(){
         WebDriverUniversityPage page = new WebDriverUniversityPage(driver)
                 .openPage()
@@ -37,7 +40,7 @@ public class WebDriverUniversityTest extends BaseUITest {
         assertEquals(expectedMessageAfterDragAndDrop, page.getMassageAfterDropElementToTarget());
     }
     @Test
-    @DisplayName("uni_test_4")
+    @DisplayName("Try method moveToElement")
     public void checkAlertMessage(){
         WebDriverUniversityPage page = new WebDriverUniversityPage(driver)
                 .openPage()
