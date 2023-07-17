@@ -1,6 +1,5 @@
 package com.epam.tests.api.swagger.petstore.store;
 
-import com.epam.api.services.OrderHandler;
 import com.epam.api.utils.ObjectToJsonConvertor;
 import com.epam.api.utils.FileHandler;
 import com.epam.api.utils.OrderDataGenerator;
@@ -17,15 +16,13 @@ import static org.hamcrest.Matchers.equalTo;
 public class StoreTest extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(StoreTest.class);
     private String order;
-    private OrderHandler orderHandle;
     private static Response response;
     private final int orderId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","order.id"));
 
     @BeforeEach
     public void setUp() {
         order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
-        orderHandle = new OrderHandler();
-        response = orderHandle.placeOrderForPet(order)
+        response = orderHandler.placeOrderForPet(order)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
                 .extract().response();
@@ -35,7 +32,7 @@ public class StoreTest extends BaseAPITest {
     @Test
     @DisplayName("Place an order for pet")
     public void placeOrderForPetTest(){
-        response = orderHandle.placeOrderForPet(order)
+        response = orderHandler.placeOrderForPet(order)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
                 .extract().response();
@@ -44,7 +41,7 @@ public class StoreTest extends BaseAPITest {
     @Test
     @DisplayName("Find purchase order by ID")
     public void getPurchaseOrderByIDTest(){
-        response = orderHandle.getPurchaseOrderByID(orderId)
+        response = orderHandler.getPurchaseOrderByID(orderId)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
                 .extract().response();;
@@ -53,7 +50,7 @@ public class StoreTest extends BaseAPITest {
     @Test
     @DisplayName("Returns pet inventories by status")
     public void returnsPetInventoriesByStatus(){
-        response = orderHandle.returnsPetInventoriesByStatus()
+        response = orderHandler.returnsPetInventoriesByStatus()
                 .extract().response();;
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
@@ -61,7 +58,7 @@ public class StoreTest extends BaseAPITest {
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerStoreTests afterEach ");
-        response = orderHandle.deletePurchaseOrderByID(orderId)
+        response = orderHandler.deletePurchaseOrderByID(orderId)
                 .body("message", equalTo("1"))
                 .extract().response();;
 

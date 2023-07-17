@@ -6,7 +6,6 @@ import io.restassured.response.ValidatableResponse;
 
 import static com.epam.api.constant.Endpoint.*;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 
 public class UserHandler {
     public ValidatableResponse createUsersWithArray(String array){
@@ -16,8 +15,6 @@ public class UserHandler {
                 .when()
                 .post(USER_CREATE_WITH_ARRAY_PATH)
                 .then().log().all();
-//                .body("message", equalTo("ok"))
-//                .extract().response();
     }
     public Response createUser(String user){
         return given()
@@ -35,8 +32,6 @@ public class UserHandler {
                 .when()
                 .post(USER_CREATE_WITH_LIST_PATH)
                 .then().log().all();
-//                .body("message", equalTo("ok"))
-//                .extract().response();
     }
     public Response updateUserInformation(String updatedUser, String username){
         return given()

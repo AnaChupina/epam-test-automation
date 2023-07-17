@@ -1,6 +1,5 @@
 package com.epam.tests.api.swagger.petstore.store;
 
-import com.epam.api.services.OrderHandler;
 import com.epam.api.utils.ObjectToJsonConvertor;
 import com.epam.api.utils.FileHandler;
 import com.epam.api.utils.OrderDataGenerator;
@@ -20,15 +19,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class DeleteOrderTest extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(StoreTest.class);
-    private OrderHandler orderHandle;
     private static Response response;
     private final int orderId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","order.id"));
 
     @BeforeEach
     public void setUp() {
         String order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
-        orderHandle = new OrderHandler();
-        response = orderHandle.placeOrderForPet(order)
+        response = orderHandler.placeOrderForPet(order)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
                 .extract().response();;
@@ -38,7 +35,7 @@ public class DeleteOrderTest extends BaseAPITest {
     @Test
     @DisplayName("Delete purchase order by order ID=1")
     public void deletePurchaseOrderByIdTest(){
-        response = orderHandle.deletePurchaseOrderByID(orderId)
+        response = orderHandler.deletePurchaseOrderByID(orderId)
                 .body("message", equalTo("1"))
                 .extract().response();;
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());

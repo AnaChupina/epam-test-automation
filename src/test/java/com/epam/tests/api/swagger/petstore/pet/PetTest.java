@@ -1,6 +1,5 @@
 package com.epam.tests.api.swagger.petstore.pet;
 
-import com.epam.api.services.PetHandler;
 import com.epam.api.utils.*;
 import com.epam.tests.base.BaseAPITest;
 import io.restassured.response.Response;
@@ -18,7 +17,6 @@ public class PetTest extends BaseAPITest {
     private String pet;
     private String updatedPet;
     private static Response response;
-    private PetHandler petHandle;
     private final int petId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","pet.id"));
     private final String petName = FileHandler.getDataFromProperties("petstoretestdata.properties","pet.name");
     private final String updatedPetName = "Doggie";
@@ -29,8 +27,7 @@ public class PetTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         pet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet());
-        petHandle = new PetHandler();
-        response = petHandle.addNewPetToStore(pet)
+        response = petHandler.addNewPetToStore(pet)
                 .extract().response();
         LOGGER.info("Inside SwaggerPetTests beforeEach ");
         LOGGER.info("Pet with petId=1 was created ");
@@ -39,7 +36,7 @@ public class PetTest extends BaseAPITest {
     @DisplayName("Add a new pet to the store")
     public void addNewPetToStoreTest(){
         LOGGER.info("Inside addNewPetToStoreTest test ");
-       response = petHandle.addNewPetToStore(pet)
+       response = petHandler.addNewPetToStore(pet)
                .body("name", equalTo(petName))
                .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -48,7 +45,7 @@ public class PetTest extends BaseAPITest {
     @DisplayName("Updates a pet in the store with form data")
     public void updateAnExistingPetTest(){
         updatedPet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet(updatedPetName));
-        response = petHandle.updateAnExistingPet(updatedPet)
+        response = petHandler.updateAnExistingPet(updatedPet)
                 .body("name", equalTo(updatedPetName))
                 .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -56,7 +53,7 @@ public class PetTest extends BaseAPITest {
     @Test
     @DisplayName("Find a pet by status = available")
     public void findPetsByStatusAvailableTest(){
-        response = petHandle.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE))
+        response = petHandler.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE))
 //                .body("status", equalTo("available"))
                 .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -64,7 +61,7 @@ public class PetTest extends BaseAPITest {
     @Test
     @DisplayName("Find pet by ID = 1")
     public void findPetByIDTest(){
-        response = petHandle.findPetById(petId)
+        response = petHandler.findPetById(petId)
                 .body("name", equalTo(petName))
                 .extract().response();;
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
@@ -73,7 +70,7 @@ public class PetTest extends BaseAPITest {
     @DisplayName("Uploads  image of pet")
     public void uploadsPetImageTest(){
         File petImage = new File(imageLocation);
-        response = petHandle.uploadsPetImage(petImage, petId)
+        response = petHandler.uploadsPetImage(petImage, petId)
                 .body("message", equalTo("additionalMetadata: data\nFile uploaded to " + "./" +
                         imageFileName + ", " + imageFileSize + " bytes"))
                 .extract().response();
@@ -83,7 +80,7 @@ public class PetTest extends BaseAPITest {
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerPetTests afterEach ");
-        response = petHandle.deletePet(petId)
+        response = petHandler.deletePet(petId)
                 .body("message", equalTo("1"))
                 .extract().response();;
 

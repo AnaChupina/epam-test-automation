@@ -1,6 +1,5 @@
 package com.epam.tests.api.swagger.petstore.user;
 
-import com.epam.api.services.UserHandler;
 import com.epam.api.utils.FileHandler;
 import com.epam.api.utils.ObjectToJsonConvertor;
 import com.epam.api.utils.UserDataGenerator;
@@ -20,8 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class DeleteUserTest extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(UserTest.class);
-    private UserHandler userHandle;
+    private static final Logger LOGGER = LogManager.getLogger(UserInteractionTest.class);
     private static Response response;
     private final String username = FileHandler.getDataFromProperties("petstoretestdata.properties","username");
 
@@ -29,15 +27,14 @@ public class DeleteUserTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         String user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
-        userHandle = new UserHandler();
-        response = userHandle.createUser(user);
+        response = userHandler.createUser(user);
         LOGGER.info("Inside SwaggerUserTests beforeEach ");
         LOGGER.info("User with username = user1 was created ");
     }
     @Test
     @DisplayName("Delete user by username = user1")
     public void deleteUserTest(){
-        response = userHandle.deleteUser(username)
+        response = userHandler.deleteUser(username)
                 .contentType(ContentType.JSON)
                 .body("message",equalTo(username))
                 .extract().response();
