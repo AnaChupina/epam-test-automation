@@ -7,7 +7,7 @@ import com.epam.ui.pages.saucedemo.CartItem;
 import com.epam.ui.pages.saucedemo.CartPage;
 import com.epam.ui.pages.saucedemo.InventoryPage;
 import com.epam.ui.pages.saucedemo.LoginPage;
-import com.epam.ui.services.saucedemo.InventoryActions;
+import com.epam.ui.services.saucedemo.InventoryAction;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -28,7 +28,7 @@ public class ShoppingCartTest extends BaseUITest {
                 .inputUsername(testUser)
                 .inputPassword(testUser)
                 .clickLoginButton();
-        InventoryActions actions = new InventoryActions(page)
+        InventoryAction actions = new InventoryAction(page)
                 .addItemToCart("Sauce Labs Backpack")
                 .addItemToCart("Sauce Labs Bike Light")
                 .addItemToCart("Sauce Labs Bolt T-Shirt")
@@ -54,7 +54,7 @@ public class ShoppingCartTest extends BaseUITest {
                 .inputUsername(testUser)
                 .inputPassword(testUser)
                 .clickLoginButton();
-        InventoryActions actions = new InventoryActions(page)
+        InventoryAction actions = new InventoryAction(page)
                 .addItemToCart("Sauce Labs Backpack")
                 .addItemToCart("Sauce Labs Bike Light")
                 .addItemToCart("Sauce Labs Bolt T-Shirt")

@@ -6,8 +6,8 @@ import com.epam.ui.pages.saucedemo.CheckoutOverviewPage;
 import com.epam.ui.pages.saucedemo.CheckoutPage;
 import com.epam.ui.pages.saucedemo.InventoryPage;
 import com.epam.ui.pages.saucedemo.LoginPage;
-import com.epam.ui.services.saucedemo.CheckoutActions;
-import com.epam.ui.services.saucedemo.InventoryActions;
+import com.epam.ui.services.saucedemo.CheckoutAction;
+import com.epam.ui.services.saucedemo.InventoryAction;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -26,7 +26,7 @@ public class LoginAddToCartAndCheckoutTest extends BaseUITest {
                 .inputUsername(testUser)
                 .inputPassword(testUser)
                 .clickLoginButton();
-        InventoryActions actions = new InventoryActions(page)
+        InventoryAction actions = new InventoryAction(page)
                 .addItemToCart("Sauce Labs Backpack")
                 .addItemToCart("Sauce Labs Bike Light")
                 .addItemToCart("Sauce Labs Bolt T-Shirt")
@@ -35,7 +35,7 @@ public class LoginAddToCartAndCheckoutTest extends BaseUITest {
                 .addItemToCart("Test.allTheThings() T-Shirt (Red)");
         page.clickShoppingCartLink()
                 .clickCheckoutButton();
-        CheckoutOverviewPage newPage = new CheckoutActions(new CheckoutPage(driver))
+        CheckoutOverviewPage newPage = new CheckoutAction(new CheckoutPage(driver))
                 .fillOutDeliveryInformation(testUser);
         assertEquals(EXPECTED_TOTAL_WITH_TAX, newPage.getTotalPriceWithTax());
     }

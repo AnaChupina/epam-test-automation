@@ -7,10 +7,10 @@ import com.epam.ui.pages.saucedemo.CheckoutPage;
 
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 
-public class CheckoutActions {
+public class CheckoutAction {
     private final CheckoutPage page;
 
-    public CheckoutActions(CheckoutPage page) {
+    public CheckoutAction(CheckoutPage page) {
         this.page = page;
     }
     public CheckoutOverviewPage fillOutDeliveryInformation(User user){

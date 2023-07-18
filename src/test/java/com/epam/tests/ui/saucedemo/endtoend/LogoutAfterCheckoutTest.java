@@ -23,7 +23,7 @@ public class LogoutAfterCheckoutTest extends BaseUITest {
                 .inputUsername(testUser)
                 .inputPassword(testUser)
                 .clickLoginButton();
-        InventoryActions actions = new InventoryActions(page)
+        InventoryAction actions = new InventoryAction(page)
                 .addItemToCart("Sauce Labs Backpack")
                 .addItemToCart("Sauce Labs Bike Light")
                 .addItemToCart("Sauce Labs Bolt T-Shirt")
@@ -32,7 +32,7 @@ public class LogoutAfterCheckoutTest extends BaseUITest {
                 .addItemToCart("Test.allTheThings() T-Shirt (Red)");
         page.clickShoppingCartLink()
                 .clickCheckoutButton();
-        LoginPage newPage = new CheckoutActions(new CheckoutPage(driver))
+        LoginPage newPage = new CheckoutAction(new CheckoutPage(driver))
                 .fillOutDeliveryInformation(testUser)
                 .clickFinishButton()
                 .clickBurgerMenuButton()

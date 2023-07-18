@@ -3,7 +3,7 @@ package com.epam.tests.ui.saucedemo;
 import com.epam.tests.base.BaseUITest;
 import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.*;
-import com.epam.ui.services.saucedemo.CheckoutActions;
+import com.epam.ui.services.saucedemo.CheckoutAction;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -45,7 +45,7 @@ public class CheckoutTest extends BaseUITest {
                 .clickAddToCart()
                 .clickShoppingCartLink()
                 .clickCheckoutButton();
-        CheckoutOverviewPage checkoutOverviewPage = new CheckoutActions(page)
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutAction(page)
                 .fillOutDeliveryInformation(testUser);
         CheckoutPage newPage = new CheckoutPage(driver);
         assertEquals(ERROR_MESSAGE_FIRST_NAME, page.getErrorMessage());
@@ -64,7 +64,7 @@ public class CheckoutTest extends BaseUITest {
                 .clickAddToCart()
                 .clickShoppingCartLink()
                 .clickCheckoutButton();
-        CheckoutOverviewPage checkoutOverviewPage = new CheckoutActions(page)
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutAction(page)
                 .fillOutDeliveryInformation(testUser);
         CheckoutPage newPage = new CheckoutPage(driver);
         assertEquals(ERROR_MESSAGE_LAST_NAME, page.getErrorMessage());
@@ -83,7 +83,7 @@ public class CheckoutTest extends BaseUITest {
                 .clickAddToCart()
                 .clickShoppingCartLink()
                 .clickCheckoutButton();
-        CheckoutOverviewPage checkoutOverviewPage = new CheckoutActions(page)
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutAction(page)
                 .fillOutDeliveryInformation(testUser);
         CheckoutPage newPage = new CheckoutPage(driver);
         assertEquals(ERROR_MESSAGE_ZIP_CODE, page.getErrorMessage());
@@ -102,7 +102,7 @@ public class CheckoutTest extends BaseUITest {
                 .clickAddToCart()
                 .clickShoppingCartLink()
                 .clickCheckoutButton();
-        InventoryPage newPage = new CheckoutActions(page)
+        InventoryPage newPage = new CheckoutAction(page)
                 .fillOutDeliveryInformation(testUser)
                 .clickCancelButton();
         assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
@@ -121,7 +121,7 @@ public class CheckoutTest extends BaseUITest {
                 .clickAddToCart()
                 .clickShoppingCartLink()
                 .clickCheckoutButton();
-        CheckoutCompletePage newPage = new CheckoutActions(page)
+        CheckoutCompletePage newPage = new CheckoutAction(page)
                 .fillOutDeliveryInformation(testUser)
                 .clickFinishButton();
         assertEquals(COMPLETE_ORDER_MESSAGE, newPage.getCompleteMessage());
