@@ -1,6 +1,6 @@
 package com.epam.api.model;
 
-public class User extends BaseObject{
+public class User {
     private final Integer id;
     private final String username;
     private final String firstName;

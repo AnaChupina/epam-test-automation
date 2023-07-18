@@ -1,6 +1,6 @@
 package com.epam.api.model;
 
-public class Order extends BaseObject {
+public class Order {
     private final Integer id;
     private final Integer petId;
     private final Integer quantity;

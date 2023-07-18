@@ -3,7 +3,7 @@ package com.epam.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pet extends BaseObject{
+public class Pet {
     private final Integer id;
     private final CategoryDTO category;
     private final String name;
