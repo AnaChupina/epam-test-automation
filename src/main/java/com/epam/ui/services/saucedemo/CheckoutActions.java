@@ -7,14 +7,13 @@ import com.epam.ui.pages.saucedemo.CheckoutPage;
 
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 
-public class CheckoutActions extends BasicActions {
+public class CheckoutActions {
     private final CheckoutPage page;
 
     public CheckoutActions(CheckoutPage page) {
-        super(page);
         this.page = page;
     }
-    public CheckoutOverviewActions fillOutDeliveryInformation(User user){
+    public CheckoutOverviewPage fillOutDeliveryInformation(User user){
         if(user.getFirstName() != null){
             page.inputFirstName(user.getFirstName());
         }
@@ -33,11 +32,6 @@ public class CheckoutActions extends BasicActions {
 //            CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(DriverSingleton.getInstance().getDriver());
 //            return new CheckoutOverviewActions(overviewPage);
 //        }
-        CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(DriverSingleton.getInstance().getDriver());
-        return new CheckoutOverviewActions(overviewPage);
+        return new CheckoutOverviewPage(DriverSingleton.getInstance().getDriver());
     }
-    public String getErrorMessage(){
-        return page.getErrorMessage();
-    }
-
 }

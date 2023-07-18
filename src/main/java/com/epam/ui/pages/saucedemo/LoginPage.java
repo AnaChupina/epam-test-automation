@@ -1,8 +1,6 @@
 package com.epam.ui.pages.saucedemo;
 
 import com.epam.ui.model.User;
-import com.epam.ui.services.saucedemo.LoginActions;
-import com.epam.utils.StringGenerator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,29 +27,33 @@ public class LoginPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
-    public LoginActions openPage() {
+    public LoginPage openPage() {
         driver.get(URL);
         waitForPresenceOfElement(driver, "//div[@class=\"login_logo\"]");
-        return new LoginActions(this);
+        return this;
     }
-    public void inputUsername(User user){
+    public LoginPage inputUsername(User user){
         usernameField.sendKeys(user.getUsername());
+        return this;
     }
-    public void inputPassword(User user){
+    public LoginPage inputUsername(String username){
+        usernameField.sendKeys(username);
+        return this;
+    }
+    public LoginPage inputPassword(User user){
         passwordField.sendKeys(user.getPassword());
+        return this;
     }
-    public  void clickLoginButton(){
+    public LoginPage inputPassword(String password){
+        passwordField.sendKeys(password);
+        return this;
+    }
+    public  InventoryPage clickLoginButton(){
         loginButton.click();
-    }
-
-    public void inputRandomUsername(){
-        usernameField.sendKeys(StringGenerator.getRandomString());
-    }
-    public void inputRandomPassword(){
-        passwordField.sendKeys(StringGenerator.getRandomString());
+        return new InventoryPage(driver);
     }
     public String getLoggingErrorMessage(){
+        loginButton.click();
         return loggingErrorMessage.getText();
     }
-
 }

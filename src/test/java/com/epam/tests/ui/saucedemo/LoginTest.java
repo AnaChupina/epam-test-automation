@@ -2,9 +2,9 @@ package com.epam.tests.ui.saucedemo;
 
 import com.epam.tests.base.BaseUITest;
 import com.epam.ui.model.User;
+import com.epam.ui.pages.saucedemo.InventoryPage;
 import com.epam.ui.pages.saucedemo.LoginPage;
-import com.epam.ui.services.saucedemo.InventoryActions;
-import com.epam.ui.services.saucedemo.LoginActions;
+import com.epam.utils.StringGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,17 +20,21 @@ public class LoginTest extends BaseUITest {
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testLoginWithRightCredentials (String username, String password) {
         User testUser = new User(username,password);
-        InventoryActions actions = new LoginPage(driver)
+        InventoryPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser);
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton();
         assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @Test
     @DisplayName("Login with invalid random credentials")
     public void testLoginWithInvalidCredentials (){
-        LoginActions actions = new LoginPage(driver)
-                .openPage();
-        String actualErrorMessage = actions.loginWithRandomCredentials();
+        LoginPage page = new LoginPage(driver)
+                .openPage()
+                .inputUsername(StringGenerator.getRandomString())
+                .inputPassword(StringGenerator.getRandomString());
+        String actualErrorMessage = page.getLoggingErrorMessage();
         assertEquals(ERROR_MESSAGE_LOGIN_WITH_INVALID_CREDENTIALS,
                 actualErrorMessage);
     }

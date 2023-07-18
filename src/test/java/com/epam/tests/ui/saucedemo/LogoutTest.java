@@ -3,7 +3,6 @@ package com.epam.tests.ui.saucedemo;
 import com.epam.tests.base.BaseUITest;
 import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.LoginPage;
-import com.epam.ui.services.saucedemo.LoginActions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -16,10 +15,13 @@ public class LogoutTest extends BaseUITest {
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void testLogoutProcess  (String username, String password) {
         User testUser = new User(username, password);
-        LoginActions actions = new LoginPage(driver)
+        LoginPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .logout();
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .clickBurgerMenuButton()
+                .clickLogoutButton();
         assertEquals(LOGIN_PAGE_URL, driver.getCurrentUrl());
     }
 }

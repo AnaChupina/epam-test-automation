@@ -2,12 +2,8 @@ package com.epam.tests.ui.saucedemo;
 
 import com.epam.tests.base.BaseUITest;
 import com.epam.ui.model.User;
-import com.epam.ui.pages.saucedemo.CheckoutPage;
-import com.epam.ui.pages.saucedemo.LoginPage;
+import com.epam.ui.pages.saucedemo.*;
 import com.epam.ui.services.saucedemo.CheckoutActions;
-import com.epam.ui.services.saucedemo.CheckoutCompleteActions;
-import com.epam.ui.services.saucedemo.CheckoutOverviewActions;
-import com.epam.ui.services.saucedemo.InventoryActions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -26,11 +22,13 @@ public class CheckoutTest extends BaseUITest {
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
     public void TestCheckoutButton (String username, String password) {
         User testUser = new User(username, password);
-        CheckoutActions page = new LoginPage(driver)
+        CheckoutPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .goToShoppingCart()
-                .goToCheckout();
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .clickShoppingCartLink()
+                .clickCheckoutButton();
         assertEquals(CHECKOUT_STEP_ONE_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "Verify correct error message after checkout with empty first name")
@@ -38,14 +36,18 @@ public class CheckoutTest extends BaseUITest {
     public void testCheckoutProcessWithEmptyFirstName  (String username, String password, String firstName, String lastName,
                                                         String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        CheckoutOverviewActions actions = new LoginPage(driver)
+        CheckoutPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .addItemToCart("Sauce Labs Bike Light")
-                .goToShoppingCart()
-                .goToCheckout()
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .findItem("Sauce Labs Bike Light")
+                .clickAddToCart()
+                .clickShoppingCartLink()
+                .clickCheckoutButton();
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutActions(page)
                 .fillOutDeliveryInformation(testUser);
-        CheckoutPage page = new CheckoutPage(driver);
+        CheckoutPage newPage = new CheckoutPage(driver);
         assertEquals(ERROR_MESSAGE_FIRST_NAME, page.getErrorMessage());
     }
     @ParameterizedTest(name = "Verify correct error message after checkout with empty last name")
@@ -53,14 +55,18 @@ public class CheckoutTest extends BaseUITest {
     public void testCheckoutProcessWithEmptyLastName  (String username, String password, String firstName, String lastName,
                                                        String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        CheckoutOverviewActions actions = new LoginPage(driver)
+        CheckoutPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .addItemToCart("Sauce Labs Bike Light")
-                .goToShoppingCart()
-                .goToCheckout()
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .findItem("Sauce Labs Bike Light")
+                .clickAddToCart()
+                .clickShoppingCartLink()
+                .clickCheckoutButton();
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutActions(page)
                 .fillOutDeliveryInformation(testUser);
-        CheckoutPage page = new CheckoutPage(driver);
+        CheckoutPage newPage = new CheckoutPage(driver);
         assertEquals(ERROR_MESSAGE_LAST_NAME, page.getErrorMessage());
     }
     @ParameterizedTest(name = "Verify correct error message after checkout with empty zipcode")
@@ -68,14 +74,18 @@ public class CheckoutTest extends BaseUITest {
     public void testCheckoutProcessWithEmptyZipCode  (String username, String password, String firstName, String lastName,
                                                       String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        CheckoutOverviewActions actions = new LoginPage(driver)
+        CheckoutPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .addItemToCart("Sauce Labs Bike Light")
-                .goToShoppingCart()
-                .goToCheckout()
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .findItem("Sauce Labs Bike Light")
+                .clickAddToCart()
+                .clickShoppingCartLink()
+                .clickCheckoutButton();
+        CheckoutOverviewPage checkoutOverviewPage = new CheckoutActions(page)
                 .fillOutDeliveryInformation(testUser);
-        CheckoutPage page = new CheckoutPage(driver);
+        CheckoutPage newPage = new CheckoutPage(driver);
         assertEquals(ERROR_MESSAGE_ZIP_CODE, page.getErrorMessage());
     }
     @ParameterizedTest(name = "Check cancel button on checkout step one page")
@@ -83,14 +93,18 @@ public class CheckoutTest extends BaseUITest {
     public void testCancelButtonFromCheckoutOverviewPage  (String username, String password, String firstName, String lastName,
                                                            String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        InventoryActions actions = new LoginPage(driver)
+        CheckoutPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .addItemToCart("Sauce Labs Bike Light")
-                .goToShoppingCart()
-                .goToCheckout()
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .findItem("Sauce Labs Bike Light")
+                .clickAddToCart()
+                .clickShoppingCartLink()
+                .clickCheckoutButton();
+        InventoryPage newPage = new CheckoutActions(page)
                 .fillOutDeliveryInformation(testUser)
-                .cancelCheckout();
+                .clickCancelButton();
         assertEquals(INVENTORY_PAGE_URL, driver.getCurrentUrl());
     }
     @ParameterizedTest(name = "Verify correct success message after completing checkout")
@@ -98,14 +112,18 @@ public class CheckoutTest extends BaseUITest {
     public void checkMessageAfterCompletingOrder  (String username, String password, String firstName, String lastName,
                                                    String zipCode) {
         User testUser = new User(username, password, firstName, lastName, zipCode);
-        CheckoutCompleteActions actions = new LoginPage(driver)
+        CheckoutPage page = new LoginPage(driver)
                 .openPage()
-                .login(testUser)
-                .addItemToCart("Sauce Labs Bike Light")
-                .goToShoppingCart()
-                .goToCheckout()
+                .inputUsername(testUser)
+                .inputPassword(testUser)
+                .clickLoginButton()
+                .findItem("Sauce Labs Bike Light")
+                .clickAddToCart()
+                .clickShoppingCartLink()
+                .clickCheckoutButton();
+        CheckoutCompletePage newPage = new CheckoutActions(page)
                 .fillOutDeliveryInformation(testUser)
-                .finishCheckout();
-        assertEquals(COMPLETE_ORDER_MESSAGE, actions.getCompleteMessage());
+                .clickFinishButton();
+        assertEquals(COMPLETE_ORDER_MESSAGE, newPage.getCompleteMessage());
     }
 }

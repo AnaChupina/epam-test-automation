@@ -1,6 +1,5 @@
 package com.epam.ui.pages.saucedemo;
 
-import com.epam.ui.model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -8,11 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForPresenceOfElement;
 
 public class CartPage extends BasePage{
@@ -21,7 +18,6 @@ public class CartPage extends BasePage{
     private WebElement continueShoppingButton;
     @FindBy(xpath="//button[@id='checkout']")
     private WebElement checkoutButton;
-
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -39,9 +35,9 @@ public class CartPage extends BasePage{
         continueShoppingButton.click();
         return this;
     }
-    public CartPage clickCheckoutButton(){
+    public CheckoutPage clickCheckoutButton(){
         checkoutButton.click();
-        return this;
+        return new CheckoutPage(driver);
     }
     public ArrayList<CartItem> getAllItemsInCart(){
         String elementLocator = "//div[@class='cart_item']";
@@ -53,5 +49,4 @@ public class CartPage extends BasePage{
         }
         return items;
     }
-
 }

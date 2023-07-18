@@ -2,7 +2,6 @@ package com.epam.ui.pages.saucedemo;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -26,15 +25,17 @@ public class InventoryPage extends BasePage{
         super(driver);
         PageFactory.initElements(driver, this);
     }
-    public void clickSortContainerButton(){
+    public InventoryPage clickSortContainerButton(){
         waitForClickabilityOfElement(driver, productSortContainer);
         productSortContainer.click();
+        return this;
     }
-    public void choseSortingOption(String sortingRule){
+    public InventoryPage choseSortingOption(String sortingRule){
         String element = "//option[contains(text(),'" + sortingRule + "')]";
         waitForClickabilityOfElement(driver, element);
         WebElement sortingOption = driver.findElement(By.xpath(element));
         sortingOption.click();
+        return this;
     }
     public ArrayList<InventoryItem> getAllItemsOnPage(){
         String elementLocator = "//div[@class='inventory_item']";
@@ -45,11 +46,13 @@ public class InventoryPage extends BasePage{
         }
         return items;
     }
-    public void clickProduct(String productName){
+    public InventoryPage clickProduct(String productName){
         String element = "//div[contains(text(), '" + productName + "')]";
         waitForClickabilityOfElement(driver, element);
         WebElement product = driver.findElement(By.xpath(element));
         product.click();
+        waitForPresenceOfElement(driver, "//div[@class='inventory_details_price']");
+        return this;
     }
     public String getCurrentProductPrice(){
         waitForPresenceOfElement(driver, "//div[@class='inventory_details_price']");
@@ -60,8 +63,12 @@ public class InventoryPage extends BasePage{
         WebElement item = driver.findElement(By.xpath(elementLocator));
         return new InventoryItem(item);
     }
-    public void clickShoppingCartLink(){
+    public CartPage clickShoppingCartLink(){
         waitForClickabilityOfElement(driver, shoppingCartLink);
         shoppingCartLink.click();
+        return new CartPage(driver);
     }
+//    public InventoryPage addProductToCart(String itemName){
+//
+//    }
 }

@@ -18,11 +18,13 @@ public class CheckoutOverviewPage extends BasePage{
         super(driver);
         PageFactory.initElements(driver,this);
     }
-    public void pressCancelButton(){
+    public InventoryPage clickCancelButton(){
         cancelButton.click();
+        return new InventoryPage(driver);
     }
-    public void clickFinishButton(){
+    public CheckoutCompletePage clickFinishButton(){
         finishButton.click();
+        return new CheckoutCompletePage(driver);
     }
     public String getTotalPriceWithTax(){
         waitForPresenceOfElement(driver,"//div[@class='summary_info_label summary_total_label']");
