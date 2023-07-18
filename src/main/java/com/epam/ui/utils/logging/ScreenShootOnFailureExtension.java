@@ -1,7 +1,6 @@
 package com.epam.ui.utils.logging;
 
 import com.epam.ui.driver.DriverSingleton;
-import com.epam.ui.utils.logging.LoggingUtils;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;

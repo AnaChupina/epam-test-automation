@@ -21,7 +21,6 @@ public class UserInteractionTest extends BaseAPITest {
     private String user;
     private static Response response;
     private final String username = FileHandler.getDataFromProperties("petstoretestdata.properties","username");
-    private final String firstName = FileHandler.getDataFromProperties("petstoretestdata.properties","first.name");
     private final String password = FileHandler.getDataFromProperties("petstoretestdata.properties","password");
 
 

@@ -68,7 +68,4 @@ public class InventoryPage extends BasePage{
         shoppingCartLink.click();
         return new CartPage(driver);
     }
-//    public InventoryPage addProductToCart(String itemName){
-//
-//    }
 }

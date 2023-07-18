@@ -5,7 +5,6 @@ import com.epam.ui.model.User;
 import com.epam.ui.pages.saucedemo.CheckoutOverviewPage;
 import com.epam.ui.pages.saucedemo.CheckoutPage;
 
-import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 
 public class CheckoutAction {
     private final CheckoutPage page;
@@ -24,14 +23,6 @@ public class CheckoutAction {
             page.inputZipCode(user.getZipCode());
         }
         page.clickContinueButton();
-        // TODO: Ask if throwing an exception here is acceptable
-//        try {
-//            String error = page.getErrorMessage();
-//            throw new RuntimeException(error);
-//        } catch (NotFoundException ex) {
-//            CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(DriverSingleton.getInstance().getDriver());
-//            return new CheckoutOverviewActions(overviewPage);
-//        }
         return new CheckoutOverviewPage(DriverSingleton.getInstance().getDriver());
     }
 }

@@ -3,8 +3,6 @@ package com.epam.tests.base;
 import com.epam.api.services.OrderHandler;
 import com.epam.api.services.PetHandler;
 import com.epam.api.services.UserHandler;
-import com.epam.api.utils.ObjectToJsonConvertor;
-import com.epam.api.utils.PetDataGenerator;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

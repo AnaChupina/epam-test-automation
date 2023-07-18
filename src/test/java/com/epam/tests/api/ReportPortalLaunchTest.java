@@ -44,7 +44,6 @@ public class ReportPortalLaunchTest {
         assertEquals(status, "PASSED");
     }
 
-
     @AfterAll
     public void afterAll() throws InterruptedException {
         LOGGER.info("Inside ReportPortalTests afterAll");

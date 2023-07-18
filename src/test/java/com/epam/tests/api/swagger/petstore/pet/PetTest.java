@@ -54,7 +54,6 @@ public class PetTest extends BaseAPITest {
     @DisplayName("Find a pet by status = available")
     public void findPetsByStatusAvailableTest(){
         response = petHandler.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE))
-//                .body("status", equalTo("available"))
                 .extract().response();
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }

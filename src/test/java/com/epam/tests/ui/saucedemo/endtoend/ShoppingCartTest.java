@@ -28,7 +28,7 @@ public class ShoppingCartTest extends BaseUITest {
                 .inputUsername(testUser)
                 .inputPassword(testUser)
                 .clickLoginButton();
-        InventoryAction actions = new InventoryAction(page)
+        InventoryAction action = new InventoryAction(page)
                 .addItemToCart("Sauce Labs Backpack")
                 .addItemToCart("Sauce Labs Bike Light")
                 .addItemToCart("Sauce Labs Bolt T-Shirt")
@@ -54,7 +54,7 @@ public class ShoppingCartTest extends BaseUITest {
                 .inputUsername(testUser)
                 .inputPassword(testUser)
                 .clickLoginButton();
-        InventoryAction actions = new InventoryAction(page)
+        InventoryAction action = new InventoryAction(page)
                 .addItemToCart("Sauce Labs Backpack")
                 .addItemToCart("Sauce Labs Bike Light")
                 .addItemToCart("Sauce Labs Bolt T-Shirt")
