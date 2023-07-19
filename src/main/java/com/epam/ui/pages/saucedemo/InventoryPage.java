@@ -31,7 +31,7 @@ public class InventoryPage extends BasePage{
         return this;
     }
     public InventoryPage choseSortingOption(String sortingRule){
-        String element = "//option[contains(text(),'" + sortingRule + "')]";
+        String element = String.format("//option[contains(text(),'%s')]", sortingRule);
         waitForClickabilityOfElement(driver, element);
         WebElement sortingOption = driver.findElement(By.xpath(element));
         sortingOption.click();
@@ -47,7 +47,7 @@ public class InventoryPage extends BasePage{
         return items;
     }
     public InventoryPage clickProduct(String productName){
-        String element = "//div[contains(text(), '" + productName + "')]";
+        String element = String.format("//div[contains(text(), '%s')]", productName);
         waitForClickabilityOfElement(driver, element);
         WebElement product = driver.findElement(By.xpath(element));
         product.click();
@@ -59,7 +59,7 @@ public class InventoryPage extends BasePage{
         return productPrice.getAttribute("innerText");
     }
     public InventoryItem findItem(String productName){
-        String elementLocator = "//div[@class='inventory_item_name' and text() = '" + productName + "']//ancestor::div[@class='inventory_item']";
+        String elementLocator = String.format("//div[@class='inventory_item_name' and text() = '%s']//ancestor::div[@class='inventory_item']", productName);
         WebElement item = driver.findElement(By.xpath(elementLocator));
         return new InventoryItem(item);
     }
