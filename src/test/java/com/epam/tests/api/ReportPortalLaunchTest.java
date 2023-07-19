@@ -25,31 +25,19 @@ public class ReportPortalLaunchTest {
         RestAssured.baseURI = BASE_URL_REPORT_PORTAL;
         RestAssured.basePath = BASE_PATH_REPORT_PORTAL;
         reportPortalHandle = new ReportPortalHandler();
-        LOGGER.info("Inside ReportPortalTests beforeAll ");
-    }
-    @BeforeEach
-    public void beforeEach() {
-        LOGGER.info("Inside ReportPortalTests beforeEach ");
+        LOGGER.info("Set base parameters: baseURL, basePath");
     }
     @Test
-    @DisplayName("rp_test_1")
+    @DisplayName("Get all launches from ReportPortal")
     public void getAllLaunchesTest(){
-        LOGGER.info("Inside ReportPortalTests test ");
         response = reportPortalHandle.getAllLaunches(bearerToken)
                 .contentType(ContentType.JSON)
                 .body("content[0].owner", equalTo("anastasia_chupina"))
                 .extract().response();
+        LOGGER.info("Request to get all launches was sent to the server");
+        LOGGER.debug(response.asString());
         String status = response
                 .path("content[0].status");
         assertEquals(status, "PASSED");
-    }
-
-    @AfterAll
-    public void afterAll() throws InterruptedException {
-        LOGGER.info("Inside ReportPortalTests afterAll");
-    }
-    @AfterEach
-    public void afterEach() {
-        LOGGER.info("Inside ReportPortalTests afterEach ");
     }
 }

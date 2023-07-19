@@ -22,12 +22,14 @@ public class StoreTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
+        LOGGER.info("JSON request with order was created");
+        LOGGER.info(order);
         response = orderHandler.placeOrderForPet(order)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
                 .extract().response();
-        LOGGER.info("Inside SwaggerStoreTests beforeEach ");
-        LOGGER.info("Order with ID = 1 was created ");
+        LOGGER.info("Request to place the order was sent to the server");
+        LOGGER.debug(response.asString());
     }
     @Test
     @DisplayName("Place an order for pet")
@@ -36,6 +38,8 @@ public class StoreTest extends BaseAPITest {
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
                 .extract().response();
+        LOGGER.info("Request to place the order was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -44,14 +48,18 @@ public class StoreTest extends BaseAPITest {
         response = orderHandler.getPurchaseOrderByID(orderId)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
-                .extract().response();;
+                .extract().response();
+        LOGGER.info("Request to get purchase order by ID was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
     @DisplayName("Returns pet inventories by status")
     public void returnsPetInventoriesByStatus(){
         response = orderHandler.returnsPetInventoriesByStatus()
-                .extract().response();;
+                .extract().response();
+        LOGGER.info("Request to returns pet inventories by status was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
 
@@ -60,7 +68,8 @@ public class StoreTest extends BaseAPITest {
         LOGGER.info("Inside SwaggerStoreTests afterEach ");
         response = orderHandler.deletePurchaseOrderByID(orderId)
                 .body("message", equalTo("1"))
-                .extract().response();;
-
+                .extract().response();
+        LOGGER.info("Request to delete the order was sent and server response was received");
+        LOGGER.debug(response.asString());
     }
 }

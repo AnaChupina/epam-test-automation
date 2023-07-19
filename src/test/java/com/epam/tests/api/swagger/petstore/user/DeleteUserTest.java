@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class DeleteUserTest extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(UserInteractionTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(DeleteUserTest.class);
     private static Response response;
     private final String username = FileHandler.getDataFromProperties("petstoretestdata.properties","username");
 
@@ -27,9 +27,11 @@ public class DeleteUserTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         String user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
+        LOGGER.info("JSON request with user was created");
+        LOGGER.info(user);
         response = userHandler.createUser(user);
-        LOGGER.info("Inside SwaggerUserTests beforeEach ");
-        LOGGER.info("User with username = user1 was created ");
+        LOGGER.info("Request to create user was sent to the server");
+        LOGGER.debug(response.asString());
     }
     @Test
     @DisplayName("Delete user by username = user1")
@@ -38,6 +40,8 @@ public class DeleteUserTest extends BaseAPITest {
                 .contentType(ContentType.JSON)
                 .body("message",equalTo(username))
                 .extract().response();
+        LOGGER.info("Request to delete the user was sent and server response was received");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
 }

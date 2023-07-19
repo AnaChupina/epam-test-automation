@@ -15,22 +15,18 @@ import static com.epam.testdata.api.swagger.petstore.UserTestData.LIST_TO_CREATE
 import static org.hamcrest.Matchers.equalTo;
 
 public class CreateUserTest extends BaseAPITest {
-    private static final Logger LOGGER = LogManager.getLogger(UserInteractionTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(CreateUserTest.class);
     private String user;
     private static Response response;
-
-    @BeforeEach
-    public void setUp() {
-        LOGGER.info("Inside SwaggerUserTests beforeEach ");
-        LOGGER.info("User with username = user1 was created ");
-    }
 
     @Test
     @DisplayName("Creates list of users with given input array")
     public void createUsersWithArrayTest(){
         response = userHandler.createUsersWithArray(ARRAY_TO_CREATE_USER)
                 .body("message", equalTo("ok"))
-                .extract().response();;
+                .extract().response();
+        LOGGER.info("Request to create users with Array was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -39,6 +35,8 @@ public class CreateUserTest extends BaseAPITest {
         response = userHandler.createUsersWithList(LIST_TO_CREATE_USER)
                 .body("message", equalTo("ok"))
                 .extract().response();
+        LOGGER.info("Request to create users with List was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -46,11 +44,8 @@ public class CreateUserTest extends BaseAPITest {
     public void createUserTest(){
         user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
         response = userHandler.createUser(user);
+        LOGGER.info("Request to create user was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
-    }
-
-    @AfterEach
-    public void cleanUp() {
-        LOGGER.info("Inside SwaggerUserTests afterEach ");
     }
 }

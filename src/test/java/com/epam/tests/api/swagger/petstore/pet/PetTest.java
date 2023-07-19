@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.json.Json;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -27,18 +28,21 @@ public class PetTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         pet = ObjectToJsonConvertor.convertObjectToJson(PetDataGenerator.createPet());
+        LOGGER.info("JSON request with pet was created");
+        LOGGER.info(pet);
         response = petHandler.addNewPetToStore(pet)
                 .extract().response();
-        LOGGER.info("Inside SwaggerPetTests beforeEach ");
-        LOGGER.info("Pet with petId=1 was created ");
+        LOGGER.info("Request to create the pet was sent to the server");
+        LOGGER.debug(response.asString());
     }
     @Test
     @DisplayName("Add a new pet to the store")
     public void addNewPetToStoreTest(){
-        LOGGER.info("Inside addNewPetToStoreTest test ");
        response = petHandler.addNewPetToStore(pet)
                .body("name", equalTo(petName))
                .extract().response();
+        LOGGER.info("Request to add new pet to the store was sent and server response was received");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -48,6 +52,8 @@ public class PetTest extends BaseAPITest {
         response = petHandler.updateAnExistingPet(updatedPet)
                 .body("name", equalTo(updatedPetName))
                 .extract().response();
+        LOGGER.info("Request to update the pet was sent and server response was received");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -55,6 +61,7 @@ public class PetTest extends BaseAPITest {
     public void findPetsByStatusAvailableTest(){
         response = petHandler.findPetsByStatus(String.valueOf(PetStatus.AVAILABLE))
                 .extract().response();
+        LOGGER.info("Request to find pets by status was sent and server response was received");
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -62,7 +69,9 @@ public class PetTest extends BaseAPITest {
     public void findPetByIDTest(){
         response = petHandler.findPetById(petId)
                 .body("name", equalTo(petName))
-                .extract().response();;
+                .extract().response();
+        LOGGER.info("Request to find the pet by ID was sent and server response was received");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -73,6 +82,8 @@ public class PetTest extends BaseAPITest {
                 .body("message", equalTo("additionalMetadata: data\nFile uploaded to " + "./" +
                         imageFileName + ", " + imageFileSize + " bytes"))
                 .extract().response();
+        LOGGER.info("Request to upload pet image was sent and server response was received");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
 
@@ -81,7 +92,7 @@ public class PetTest extends BaseAPITest {
         LOGGER.info("Inside SwaggerPetTests afterEach ");
         response = petHandler.deletePet(petId)
                 .body("message", equalTo("1"))
-                .extract().response();;
-
+                .extract().response();
+        LOGGER.debug(response.asString());
     }
 }

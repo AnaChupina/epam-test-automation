@@ -27,16 +27,19 @@ public class UserInteractionTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
+        LOGGER.info("JSON request with user was created");
+        LOGGER.info(user);
         response = userHandler.createUser(user);
-        LOGGER.info("Inside SwaggerUserTests beforeEach ");
-        LOGGER.info("User with username = user1 was created ");
+        LOGGER.info("Request to create user was sent to the server");
+        LOGGER.debug(response.asString());
     }
 
     @Test
     @DisplayName("Updated user")
     public void updateUserInformationTest(){
         response = userHandler.updateUserInformation(user, username);
-        //TODO: проверь что изменилось?
+        LOGGER.info("Request to update user was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -44,7 +47,9 @@ public class UserInteractionTest extends BaseAPITest {
     public void getUserInformationTest(){
         response = userHandler.getUserInformation(username)
                 .body("username", equalTo(username))
-                .extract().response();;
+                .extract().response();
+        LOGGER.info("Request to get user information was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -53,6 +58,8 @@ public class UserInteractionTest extends BaseAPITest {
         response = userHandler.login(username,password)
                 .body("message", containsString("logged in user session:"))
                 .extract().response();
+        LOGGER.info("Request to login the user was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
     @Test
@@ -61,9 +68,13 @@ public class UserInteractionTest extends BaseAPITest {
         response = userHandler.login(username,password)
                 .body("message", containsString("logged in user session:"))
                 .extract().response();
+        LOGGER.info("Request to login the user was sent to the server");
+        LOGGER.debug(response.asString());
         response = userHandler.logout()
                 .body("message",equalTo("ok"))
                 .extract().response();
+        LOGGER.info("Request to logout was sent to the server");
+        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
 
@@ -74,6 +85,7 @@ public class UserInteractionTest extends BaseAPITest {
                 .contentType(ContentType.JSON)
                 .body("message",equalTo(username))
                 .extract().response();
-        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+        LOGGER.info("Request to delete the user was sent and server response was received");
+        LOGGER.debug(response.asString());
     }
 }

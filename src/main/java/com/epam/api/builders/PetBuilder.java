@@ -3,11 +3,15 @@ package com.epam.api.builders;
 import com.epam.api.model.CategoryDTO;
 import com.epam.api.model.Pet;
 import com.epam.api.model.TagDto;
+import com.epam.api.utils.FileHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PetBuilder {
+    private static final Logger LOGGER = LogManager.getLogger(PetBuilder.class);
     private Integer id;
     private CategoryDTO category;
     private String name;

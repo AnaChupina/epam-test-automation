@@ -1,9 +1,13 @@
 package com.epam.api.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.util.Properties;
 
 public class FileHandler {
+    private static final Logger LOGGER = LogManager.getLogger(FileHandler.class);
     private static Properties properties;
 
     private static Properties getProperties(String propertiesFileName){
@@ -12,7 +16,7 @@ public class FileHandler {
             properties = new Properties();
             properties.load(file);
         } catch (IOException e) {
-            System.out.println("Sorry, unable to find api.properties");
+            LOGGER.error(String.format("Sorry, unable to find properties file %s", propertiesFileName), e);
         }
         return properties;
     }
