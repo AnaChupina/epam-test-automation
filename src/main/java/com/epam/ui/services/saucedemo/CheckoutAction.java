@@ -31,6 +31,8 @@ public class CheckoutAction {
             LOGGER.trace("Zipcode is null");
         }
         page.clickContinueButton();
+        LOGGER.info("Delivery information was filled out");
+        LOGGER.debug(user.toString());
         return new CheckoutOverviewPage(DriverSingleton.getInstance().getDriver());
     }
 }

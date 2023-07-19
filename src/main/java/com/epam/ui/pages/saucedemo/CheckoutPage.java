@@ -1,5 +1,7 @@
 package com.epam.ui.pages.saucedemo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import static com.epam.ui.utils.waits.ExplicitWait.waitForClickabilityOfElement;
 
 public class CheckoutPage extends BasePage{
+    private static final Logger LOGGER = LogManager.getLogger(CheckoutPage.class);
     @FindBy(xpath="//input[@id='first-name']")
     private WebElement firstNameField;
     @FindBy(xpath="//input[@id='last-name']")
@@ -38,6 +41,7 @@ public class CheckoutPage extends BasePage{
         continueButton.click();
     }
     public String getErrorMessage(){
+        LOGGER.trace(errorMessageFromCheckoutProcess.getText());
         return errorMessageFromCheckoutProcess.getText();
     }
 
