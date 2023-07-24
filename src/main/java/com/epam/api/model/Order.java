@@ -1,6 +1,6 @@
 package com.epam.api.model;
 
-public class Order {
+public class Order implements Model{
     private final Integer id;
     private final Integer petId;
     private final Integer quantity;
@@ -15,7 +15,7 @@ public class Order {
         this.status = status;
         this.complete = complete;
     }
-
+    @Override
     public Integer getId() {
         return id;
     }

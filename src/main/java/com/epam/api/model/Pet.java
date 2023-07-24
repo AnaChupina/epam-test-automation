@@ -3,7 +3,7 @@ package com.epam.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pet {
+public class Pet implements Model{
     private final Integer id;
     private final CategoryDTO category;
     private final String name;
@@ -19,6 +19,7 @@ public class Pet {
         this.tags = tags;
         this.status = status;
     }
+    @Override
     public Integer getId() {
         return id;
     }

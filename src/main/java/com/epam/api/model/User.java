@@ -1,6 +1,6 @@
 package com.epam.api.model;
 
-public class User {
+public class User implements Model{
     private final Integer id;
     private final String username;
     private final String firstName;
@@ -21,7 +21,7 @@ public class User {
         this.phone = phone;
         this.userStatus = userStatus;
     }
-
+    @Override
     public Integer getId() {
         return id;
     }
