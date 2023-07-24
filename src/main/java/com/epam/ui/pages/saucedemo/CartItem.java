@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-public class CartItem {
+public class CartItem extends Item {
     private static final Logger LOGGER = LogManager.getLogger(CartItem.class);
     private final WebElement element;
     @FindBy(xpath = ".//button[text()='Remove']")
@@ -19,10 +19,15 @@ public class CartItem {
         this.element = element;
         PageFactory.initElements(element, this);
     }
-    public void clickRemoveFromCart(){
+
+    @Override
+    public CartItem clickRemoveFromCart(){
         removeFromCartButton.click();
         LOGGER.info("Cart item was removed");
+        return this;
     }
+
+    @Override
     public String getName(){
         return itemName.getText();
     }

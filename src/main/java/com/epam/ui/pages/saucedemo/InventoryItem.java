@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class InventoryItem {
+public class InventoryItem extends Item {
     private static final Logger LOGGER = LogManager.getLogger(InventoryItem.class);
     private final WebElement element;
     @FindBy(xpath = ".//button[text()='Add to cart']")
@@ -27,6 +27,8 @@ public class InventoryItem {
         addToCartButton.click();
         return this;
     }
+
+    @Override
     public InventoryItem clickRemoveFromCart(){
         removeFromCartButton.click();
         LOGGER.info(String.format("Click remove from cart %s", this.getName()));
@@ -37,6 +39,8 @@ public class InventoryItem {
         LOGGER.info("Click shopping cart link");
         return new CartPage(DriverSingleton.getInstance().getDriver());
     }
+
+    @Override
     public String getName(){
         return itemName.getText();
     }
