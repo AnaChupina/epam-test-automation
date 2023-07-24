@@ -69,7 +69,7 @@ public class InventoryPage extends BasePage{
     public InventoryItem findItem(String productName){
         String elementLocator = String.format("//div[@class='inventory_item_name' and text() = '%s']//ancestor::div[@class='inventory_item']", productName);
         WebElement item = driver.findElement(By.xpath(elementLocator));
-        LOGGER.trace(String.format("Item '%s' was find", productName));
+        LOGGER.trace(String.format("Found item '%s'", productName));
         return new InventoryItem(item);
     }
     public CartPage clickShoppingCartLink(){

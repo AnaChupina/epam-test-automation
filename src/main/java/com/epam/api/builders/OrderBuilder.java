@@ -1,5 +1,6 @@
 package com.epam.api.builders;
 
+import com.epam.api.exception.OrderIsNotReadyToBuildException;
 import com.epam.api.model.Order;
 
 public class OrderBuilder {
@@ -36,25 +37,42 @@ public class OrderBuilder {
         this.complete = complete;
         return this;
     }
-    public Order build() {
-        if (id == null) {
-            throw new IllegalArgumentException("ID must be set");
+
+    @Override
+    public String toString() {
+        return "OrderBuilder{" +
+                "id=" + id +
+                ", petId=" + petId +
+                ", quantity=" + quantity +
+                ", shipDate='" + shipDate + '\'' +
+                ", status='" + status + '\'' +
+                ", complete=" + complete +
+                '}';
+    }
+    public Order build() throws OrderIsNotReadyToBuildException {
+        if(id != null && petId != null && quantity != null &&  status != null && complete != null){
+            return new Order(id, petId, quantity, shipDate, status, complete);
+        } else {
+            throw new OrderIsNotReadyToBuildException("Some data of the order is null! Check testdata!");
         }
-        if(petId == null){
-            throw new IllegalArgumentException("Pet ID must be set");
-        }
-        if(quantity == null){
-            throw new IllegalArgumentException("Quantity must be set");
-        }
-        if(shipDate == null){
-            throw new IllegalArgumentException("ShipDate must be set");
-        }
-        if(status == null){
-            throw new IllegalArgumentException("Status must be set");
-        }
-        if(complete == null){
-            throw new IllegalArgumentException("Complete must be set");
-        }
-        return new Order(id, petId, quantity, shipDate, status, complete);
+//        if (id == null) {
+//            throw new IllegalArgumentException("ID must be set");
+//        }
+//        if(petId == null){
+//            throw new IllegalArgumentException("Pet ID must be set");
+//        }
+//        if(quantity == null){
+//            throw new IllegalArgumentException("Quantity must be set");
+//        }
+//        if(shipDate == null){
+//            throw new IllegalArgumentException("ShipDate must be set");
+//        }
+//        if(status == null){
+//            throw new IllegalArgumentException("Status must be set");
+//        }
+//        if(complete == null){
+//            throw new IllegalArgumentException("Complete must be set");
+//        }
+//        return new Order(id, petId, quantity, shipDate, status, complete);
     }
 }
