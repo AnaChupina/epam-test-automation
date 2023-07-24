@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class DeleteOrderWithInvalidTestdata extends BaseAPITest {
+public class DeleteOrderWithInvalidTestdataTest extends BaseAPITest {
     private static final Logger LOGGER = LogManager.getLogger(DeleteOrderTest.class);
     private static Response response;
     private final int orderId = Integer.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","order.id"));
@@ -34,7 +34,7 @@ public class DeleteOrderWithInvalidTestdata extends BaseAPITest {
         LOGGER.debug(response.asString());
     }
     @Test
-    @DisplayName("Delete purchase order by order ID=1")
+    @DisplayName("Delete order by ID = 1. But this order must be not found because createOrderWithInvalidData(null) was used in setUp()")
     public void deletePurchaseOrderByIdTest(){
         response = orderHandler.deletePurchaseOrderByID(orderId)
                 .extract().response();
