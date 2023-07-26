@@ -2,8 +2,12 @@ package com.epam.api.builders;
 
 import com.epam.api.exception.OrderIsNotReadyToBuildException;
 import com.epam.api.model.Order;
+import com.epam.api.utils.OrderDataGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OrderBuilder {
+    private static final Logger LOGGER = LogManager.getLogger(OrderDataGenerator.class);
     private Integer id;
     private Integer petId;
     private Integer quantity;
@@ -55,24 +59,21 @@ public class OrderBuilder {
         } else {
             throw new OrderIsNotReadyToBuildException("Some data of the order is null! Check testdata!");
         }
-//        if (id == null) {
-//            throw new IllegalArgumentException("ID must be set");
-//        }
-//        if(petId == null){
-//            throw new IllegalArgumentException("Pet ID must be set");
-//        }
-//        if(quantity == null){
-//            throw new IllegalArgumentException("Quantity must be set");
-//        }
-//        if(shipDate == null){
-//            throw new IllegalArgumentException("ShipDate must be set");
-//        }
-//        if(status == null){
-//            throw new IllegalArgumentException("Status must be set");
-//        }
-//        if(complete == null){
-//            throw new IllegalArgumentException("Complete must be set");
-//        }
-//        return new Order(id, petId, quantity, shipDate, status, complete);
+    }
+    public Order buildOrderSafely(Integer orderId, Integer petId, Integer quantity, String shipDate, String status, Boolean complete){
+        Order order = null;
+        try{
+             order = new OrderBuilder()
+                    .setId(orderId)
+                    .setPetId(petId)
+                    .setQuantity(quantity)
+                    .setShipDate(shipDate)
+                    .setStatus(status)
+                    .setComplete(complete)
+                     .build();
+        }catch (OrderIsNotReadyToBuildException exp){
+            LOGGER.fatal(exp);
+        }
+        return order;
     }
 }

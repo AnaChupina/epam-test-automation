@@ -16,38 +16,23 @@ public class OrderDataGenerator {
     protected static final String SHIP_DATE = LocalDateTime.now().toString();
     protected static final String STATUS = FileHandler.getDataFromProperties("petstoretestdata.properties","status");
     protected static final Boolean COMPLETE = Boolean.valueOf(FileHandler.getDataFromProperties("petstoretestdata.properties","complete"));
-    public static Order createOrder(){
-        OrderBuilder builder = new OrderBuilder()
-                .setId(ORDER_ID)
-                .setPetId(PET_ID)
-                .setQuantity(QUANTITY)
-                .setShipDate(SHIP_DATE)
-                .setStatus(STATUS)
-                .setComplete(COMPLETE);
-        try {
-            return builder.build();
-        }catch (OrderIsNotReadyToBuildException exp){
-            LOGGER.fatal(exp);
-        }finally {
-            LOGGER.info(builder.toString());
-        }
-        return null;
+
+    public static Order createOrderWithTestData(){
+        Order order = new OrderBuilder()
+                .buildOrderSafely(ORDER_ID, PET_ID, QUANTITY, SHIP_DATE, STATUS, COMPLETE);
+        return order;
     }
-    public static Order createOrderWithInvalidData(Integer iD){
-        OrderBuilder builder = new OrderBuilder()
-                .setId(iD)
-                .setPetId(PET_ID)
-                .setQuantity(QUANTITY)
-                .setShipDate(SHIP_DATE)
-                .setStatus(STATUS)
-                .setComplete(COMPLETE);
-        try {
-            return builder.build();
-        }catch (OrderIsNotReadyToBuildException exp){
-            LOGGER.fatal(exp);
-        }finally {
-            LOGGER.info(builder.toString());
-        }
-        return null;
+
+    public static Order createOrder(Integer orderId, Integer petId, Integer quantity, String shipDate, String status, Boolean complete) throws OrderIsNotReadyToBuildException {
+        Order order = new OrderBuilder()
+                .setId(orderId)
+                .setPetId(petId)
+                .setQuantity(quantity)
+                .setShipDate(shipDate)
+                .setStatus(status)
+                .setComplete(complete)
+                .build();
+        return order;
     }
+
 }
