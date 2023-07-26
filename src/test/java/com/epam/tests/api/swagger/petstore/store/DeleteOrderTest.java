@@ -35,6 +35,7 @@ public class DeleteOrderTest extends BaseAPITest {
         LOGGER.info("Request to place the order was sent to the server");
         LOGGER.debug(response.asString());
     }
+
     @Test
     @DisplayName("Delete purchase order by order ID=1")
     public void deletePurchaseOrderByIdTest(){
