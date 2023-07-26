@@ -53,4 +53,24 @@ public class StringUtils {
 //        }
         return map;
     }
+    /*
+    Check if a given string is a palindrome:
+        Write a Java method that checks if a given string is a palindrome (a word, phrase, or sequence that reads the same backward as forward).
+        Example:
+        Input: "racecar"
+        Output: true
+     */
+    public static Boolean isItPalindrome(String inputString){
+        int startIndex = 0;
+        int endIndex = inputString.length()-1;
+        while(startIndex < endIndex){
+            if(inputString.charAt(startIndex) == inputString.charAt(endIndex)){
+                startIndex ++;
+                endIndex--;
+            } else{
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -79,4 +79,13 @@ public class SampleTest {
         assertEquals(wordFrequency.get("For"), 1);
         assertEquals(wordFrequency.get("Geeks"), 2);
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"racecar", "abccba", "1234554321", "abc cba"})
+    public void checkIfItIsPalindrome(String input){
+        String inputString = "racecar";
+
+        assertTrue(StringUtils.isItPalindrome(input));
+
+    }
 }
