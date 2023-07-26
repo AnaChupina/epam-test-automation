@@ -83,9 +83,6 @@ public class SampleTest {
     @ParameterizedTest
     @ValueSource(strings = {"racecar", "abccba", "1234554321", "abc cba"})
     public void checkIfItIsPalindrome(String input){
-        String inputString = "racecar";
-
         assertTrue(StringUtils.isItPalindrome(input));
-
     }
 }
