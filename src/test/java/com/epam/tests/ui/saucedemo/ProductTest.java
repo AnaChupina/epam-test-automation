@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest extends BaseUITest {
+    private String expectedProductPrice = "$49.99";
 
     @ParameterizedTest(name = "Sort price low to high and verify result")
     @CsvFileSource(resources = "/loginData.csv", numLinesToSkip = 1)
@@ -49,6 +50,6 @@ public class ProductTest extends BaseUITest {
                 .clickLoginButton()
                 .clickProduct("Sauce Labs Fleece Jacket");
         String actualProductPrice = page.getCurrentProductPrice();
-        assertEquals("$49.99", actualProductPrice);
+        assertEquals(expectedProductPrice, actualProductPrice);
     }
 }

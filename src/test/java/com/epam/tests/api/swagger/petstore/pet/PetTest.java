@@ -32,19 +32,11 @@ public class PetTest extends BaseAPITest {
         LOGGER.info(pet);
         response = petHandler.addNewPetToStore(pet)
                 .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
         LOGGER.info("Request to create the pet was sent to the server");
         LOGGER.debug(response.asString());
     }
-    @Test
-    @DisplayName("Add a new pet to the store")
-    public void addNewPetToStoreTest(){
-       response = petHandler.addNewPetToStore(pet)
-               .body("name", equalTo(petName))
-               .extract().response();
-        LOGGER.info("Request to add new pet to the store was sent and server response was received");
-        LOGGER.debug(response.asString());
-        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
-    }
+
     @Test
     @DisplayName("Updates a pet in the store with form data")
     public void updateAnExistingPetTest(){
@@ -55,7 +47,12 @@ public class PetTest extends BaseAPITest {
         LOGGER.info("Request to update the pet was sent and server response was received");
         LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+        petHandler.findPetById(petId)
+                .body("name", equalTo(updatedPetName))
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
+
     @Test
     @DisplayName("Find a pet by status = available")
     public void findPetsByStatusAvailableTest(){
@@ -64,6 +61,7 @@ public class PetTest extends BaseAPITest {
         LOGGER.info("Request to find pets by status was sent and server response was received");
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
+
     @Test
     @DisplayName("Find pet by ID = 1")
     public void findPetByIDTest(){
@@ -74,6 +72,7 @@ public class PetTest extends BaseAPITest {
         LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
+
     @Test
     @DisplayName("Uploads  image of pet")
     public void uploadsPetImageTest(){
@@ -93,6 +92,7 @@ public class PetTest extends BaseAPITest {
         response = petHandler.deletePet(petId)
                 .body("message", equalTo("1"))
                 .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
         LOGGER.debug(response.asString());
     }
 }

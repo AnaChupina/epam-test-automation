@@ -21,7 +21,7 @@ public class StoreTest extends BaseAPITest {
 
     @BeforeEach
     public void setUp() {
-        order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
+        order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrderWithTestData());
         LOGGER.info("JSON request with order was created");
         LOGGER.info(order);
         response = orderHandler.placeOrderForPet(order)
@@ -30,18 +30,9 @@ public class StoreTest extends BaseAPITest {
                 .extract().response();
         LOGGER.info("Request to place the order was sent to the server");
         LOGGER.debug(response.asString());
-    }
-    @Test
-    @DisplayName("Place an order for pet")
-    public void placeOrderForPetTest(){
-        response = orderHandler.placeOrderForPet(order)
-                .body("complete", equalTo(true))
-                .body("status", equalTo("placed"))
-                .extract().response();
-        LOGGER.info("Request to place the order was sent to the server");
-        LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
+
     @Test
     @DisplayName("Find purchase order by ID")
     public void getPurchaseOrderByIDTest(){
@@ -53,6 +44,7 @@ public class StoreTest extends BaseAPITest {
         LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
     }
+
     @Test
     @DisplayName("Returns pet inventories by status")
     public void returnsPetInventoriesByStatus(){
@@ -69,6 +61,7 @@ public class StoreTest extends BaseAPITest {
         response = orderHandler.deletePurchaseOrderByID(orderId)
                 .body("message", equalTo("1"))
                 .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
         LOGGER.info("Request to delete the order was sent and server response was received");
         LOGGER.debug(response.asString());
     }

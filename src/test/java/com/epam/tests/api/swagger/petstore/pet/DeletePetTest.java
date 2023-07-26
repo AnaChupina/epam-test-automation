@@ -32,11 +32,12 @@ public class DeletePetTest extends BaseAPITest {
         response = petHandler.addNewPetToStore(pet)
                 .body("name", equalTo(petName))
                 .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
         LOGGER.info("Request to create the pet was sent to the server");
         LOGGER.debug(response.asString());
     }
     @Test
-    @DisplayName("Delete a user by their ID")
+    @DisplayName("Delete a pet by their ID")
     public void deletePetTest(){
         response = petHandler.deletePet(petId)
                 .body("message", equalTo("1"))
@@ -44,5 +45,10 @@ public class DeletePetTest extends BaseAPITest {
         LOGGER.info("Request to delete the pet was sent and server response was received");
         LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+        Response newResponse = petHandler.findPetById(petId)
+                .body("message", equalTo("Pet not found"))
+                .body("type", equalTo("error"))
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_NOT_FOUND,newResponse.statusCode());
     }
 }

@@ -24,13 +24,14 @@ public class DeleteOrderTest extends BaseAPITest {
 
     @BeforeEach
     public void setUp() {
-        String order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrder());
+        String order = ObjectToJsonConvertor.convertObjectToJson(OrderDataGenerator.createOrderWithTestData());
         LOGGER.info("JSON request with order was created");
         LOGGER.info(order);
         response = orderHandler.placeOrderForPet(order)
                 .body("complete", equalTo(true))
                 .body("status", equalTo("placed"))
-                .extract().response();;
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
         LOGGER.info("Request to place the order was sent to the server");
         LOGGER.debug(response.asString());
     }
@@ -43,5 +44,9 @@ public class DeleteOrderTest extends BaseAPITest {
         LOGGER.info("Request to delete the order was sent and server response was received");
         LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+        Response newResponse = orderHandler.getPurchaseOrderByID(orderId)
+                .body("message", equalTo("Order not found"))
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_NOT_FOUND,newResponse.statusCode());
     }
 }

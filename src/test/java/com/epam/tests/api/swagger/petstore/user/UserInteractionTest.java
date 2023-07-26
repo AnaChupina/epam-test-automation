@@ -27,9 +27,13 @@ public class UserInteractionTest extends BaseAPITest {
     @BeforeEach
     public void setUp() {
         user = ObjectToJsonConvertor.convertObjectToJson(UserDataGenerator.createUser());
+
         LOGGER.info("JSON request with user was created");
         LOGGER.info(user);
+
         response = userHandler.createUser(user);
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+
         LOGGER.info("Request to create user was sent to the server");
         LOGGER.debug(response.asString());
     }
@@ -81,10 +85,13 @@ public class UserInteractionTest extends BaseAPITest {
     @AfterEach
     public void cleanUp() {
         LOGGER.info("Inside SwaggerUserTests afterEach ");
+
         response = userHandler.deleteUser(username)
                 .contentType(ContentType.JSON)
                 .body("message",equalTo(username))
                 .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+
         LOGGER.info("Request to delete the user was sent and server response was received");
         LOGGER.debug(response.asString());
     }

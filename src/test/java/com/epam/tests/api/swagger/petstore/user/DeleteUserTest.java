@@ -30,6 +30,7 @@ public class DeleteUserTest extends BaseAPITest {
         LOGGER.info("JSON request with user was created");
         LOGGER.info(user);
         response = userHandler.createUser(user);
+        Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
         LOGGER.info("Request to create user was sent to the server");
         LOGGER.debug(response.asString());
     }
@@ -43,5 +44,8 @@ public class DeleteUserTest extends BaseAPITest {
         LOGGER.info("Request to delete the user was sent and server response was received");
         LOGGER.debug(response.asString());
         Assertions.assertEquals(HttpURLConnection.HTTP_OK,response.statusCode());
+        Response newResponse = userHandler.getUserInformation(username)
+                .extract().response();
+        Assertions.assertEquals(HttpURLConnection.HTTP_NOT_FOUND,newResponse.statusCode());
     }
 }
