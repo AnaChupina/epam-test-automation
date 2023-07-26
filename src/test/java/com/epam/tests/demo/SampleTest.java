@@ -15,6 +15,7 @@ import com.epam.demo.StringUtils;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -69,5 +70,13 @@ public class SampleTest {
         ArrayList<Integer> arrayList = new ArrayList<>(List.of(integers));
         String actual = ArrayUtil.removeDuplicates(arrayList).toString();
         assertEquals("[1, 2, 3, 4, 5]", actual);
+    }
+    @Test
+    public void calculateFrequencyOfWordsTest(){
+        String inputString = "Geeks For Geeks";
+        Map<String, Integer> wordFrequency = StringUtils.calculateFrequencyOfWords(inputString);
+
+        assertEquals(wordFrequency.get("For"), 1);
+        assertEquals(wordFrequency.get("Geeks"), 2);
     }
 }
