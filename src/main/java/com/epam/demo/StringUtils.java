@@ -1,8 +1,10 @@
 package com.epam.demo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.*;
 
 public class StringUtils {
     public static boolean isNumber (String str) {
@@ -72,5 +74,19 @@ public class StringUtils {
             }
         }
         return true;
+    }
+    /*
+    Распечатать все числа от 1 до 100, которые делятся на 5 без остатка. Используем цикл do-while.
+     */
+    public static String getAllNumbersDivisibleBy5(int[] numbers){
+        List<Integer> listOfCorrectNumbers = new LinkedList<>();
+        int counter = 0;
+        do {
+            if (NumberUtils.isNumberDivisibleByFive(numbers[counter])){
+                listOfCorrectNumbers.add(numbers[counter]);
+            }
+            counter++;
+        }while (counter < numbers.length);
+        return listOfCorrectNumbers.toString();
     }
 }

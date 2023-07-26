@@ -2,6 +2,7 @@ package com.epam.tests.demo;
 
 import com.epam.demo.ArrayUtil;
 import com.epam.reportportal.junit5.ReportPortalExtension;
+import groovyjarjarantlr4.v4.codegen.model.SrcOp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -12,7 +13,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.epam.demo.SeasonUtils;
 import com.epam.demo.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,5 +84,12 @@ public class SampleTest {
     @ValueSource(strings = {"racecar", "abccba", "1234554321", "abc cba"})
     public void checkIfItIsPalindrome(String input){
         assertTrue(StringUtils.isItPalindrome(input));
+    }
+
+    @Test
+    public void getAllNumbersDivisibleBy5MethodsTest(){
+        int[] arrayFromOneToOneHundred = NumberUtils.getArrayOfNumbersFromOneToN(100);
+        String actual = StringUtils.getAllNumbersDivisibleBy5(arrayFromOneToOneHundred);
+        assertEquals("[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]", actual);
     }
 }
