@@ -35,5 +35,9 @@ dependencies {
 test {
     testLogging.showStandardStreams = true
     useJUnitPlatform()
+
+    //Enable parallel execution for test classes
+    maxParallelForks = 3
+
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
 }

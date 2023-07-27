@@ -6,7 +6,6 @@ import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.json.Json;
 
 import java.io.File;
 import java.net.HttpURLConnection;

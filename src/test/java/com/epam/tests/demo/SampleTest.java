@@ -2,7 +2,6 @@ package com.epam.tests.demo;
 
 import com.epam.demo.ArrayUtil;
 import com.epam.reportportal.junit5.ReportPortalExtension;
-import groovyjarjarantlr4.v4.codegen.model.SrcOp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
